@@ -4,6 +4,18 @@ A simple library for parsing and playing links from YouTube, YouTube Music, Vime
 
 [![Release](https://jitpack.io/v/TalbotGooday/Android-Oembed-Video.svg)](https://jitpack.io/#TalbotGooday/Android-Oembed-Video)
 
+# Supported Video Hostings
+
+* <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1200px-YouTube_full-color_icon_%282017%29.svg.png" width=18px/>    YouTube
+
+* <img src="https://icon-library.net/images/youtube-music-icon/youtube-music-icon-17.jpg" width=18px/> YouTube Music
+
+* <img src="https://icon-library.net/images/vimeo-icon-vector/vimeo-icon-vector-4.jpg" width=18px/> Vimeo
+
+* <img src="https://www.softrew.ru/uploads/posts/2016-12/1482058583_kak-skachat-video-s-rutuba.jpg" width=18px/> Rutube
+
+
+# Screenshots
 
 <img src="/screenshots/video_no_api2.jpg" width=40%/> <img src="/screenshots/video_no_api1.jpg" width=40%/>
 
