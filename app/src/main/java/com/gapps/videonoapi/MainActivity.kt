@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
 		setContentView(R.layout.activity_main)
 
 		initService()
-		text.setOnClickListener { getPreview(it) }
 		youtube.setOnClickListener { getPreview(it) }
 		youtube_music.setOnClickListener { getPreview(it) }
 		vimeo.setOnClickListener { getPreview(it) }

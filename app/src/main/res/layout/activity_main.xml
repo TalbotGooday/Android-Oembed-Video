@@ -5,57 +5,57 @@
 	android:layout_height="match_parent"
 	android:gravity="center"
 	android:orientation="vertical"
-	android:padding="20dp"
+	android:padding="10dp"
 	tools:context=".MainActivity">
 
-	<TextView
-		android:id="@+id/youtube"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:gravity="center"
-		android:text="https://www.youtube.com/watch?v=DjsPqBzxSG4"
-		android:textSize="18sp" />
+	<LinearLayout style="@style/Item">
 
-	<TextView
-		android:id="@+id/youtube_music"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:gravity="center"
-		android:text="https://music.youtube.com/watch?v=lFMOYjVCLUo"
-		android:textSize="18sp" />
+		<androidx.appcompat.widget.AppCompatImageView
+			style="@style/ItemIcon"
+			android:src="@drawable/youtube" />
 
-	<TextView
-		android:id="@+id/vimeo"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:layout_marginTop="10dp"
-		android:gravity="center"
-		android:text="https://vimeo.com/333257472"
-		android:textSize="18sp" />
+		<TextView
+			android:id="@+id/youtube"
+			style="@style/ItemText"
+			android:text="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
 
+	</LinearLayout>
 
-	<TextView
-		android:id="@+id/rutube"
-		android:layout_width="wrap_content"
-		android:gravity="center"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:layout_marginTop="10dp"
-		android:text="http://rutube.ru/video/ca8607cd4f7ef28516e043dde0068564/"
-		android:textSize="18sp" />
+	<LinearLayout style="@style/Item">
 
-	<TextView
-		android:id="@+id/text"
-		android:layout_width="wrap_content"
-		android:gravity="center"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:layout_marginTop="10dp"
-		android:text="Тыць"
-		android:textSize="18sp" />
+		<androidx.appcompat.widget.AppCompatImageView
+			style="@style/ItemIcon"
+			android:src="@drawable/youtube_music" />
+
+		<TextView
+			android:id="@+id/youtube_music"
+			style="@style/ItemText"
+			android:text="https://music.youtube.com/watch?v=lFMOYjVCLUo" />
+	</LinearLayout>
+
+	<LinearLayout style="@style/Item">
+
+		<androidx.appcompat.widget.AppCompatImageView
+			style="@style/ItemIcon"
+			android:src="@drawable/vimeo" />
+
+		<TextView
+			android:id="@+id/vimeo"
+			style="@style/ItemText"
+			android:text="https://vimeo.com/333257472" />
+	</LinearLayout>
+
+	<LinearLayout style="@style/Item">
+
+		<androidx.appcompat.widget.AppCompatImageView
+			style="@style/ItemIcon"
+			android:src="@drawable/rutube" />
+
+		<TextView
+			android:id="@+id/rutube"
+			style="@style/ItemText"
+			android:text="https://rutube.ru/video/d70e62b44b8893e98e3e90a6e2c9fcd4/?pl_type=source&amp;pl_id=18265" />
+	</LinearLayout>
 
 	<ProgressBar
 		android:id="@+id/progress"

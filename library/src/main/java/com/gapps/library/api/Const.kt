@@ -3,7 +3,7 @@ package com.gapps.library.api
 const val YOUTUBE_PATTERN = "(http(s)?:\\/\\/)?((w){3}.)?(m.)?(music.)?youtu(be|.be)?(\\.com)?\\/.+"
 const val YOUTUBE_PATTERN_ID = "(?:(?:\\w*.?://)?\\w*.?\\w*-?.?\\w*/(?:embed|e|v|watch|.*/)?\\??(?:feature=\\w*\\.?\\w*)?&?(?:v=)?/?)([\\w\\d_-]+).*"
 const val VIMEO_PATTERN = "(?:http[s]?:\\/\\/)(?:w{3})?(?:player\\.)?vimeo\\.com\\/(?:[a-z]*\\/)*([0-9]{6,11})[?]?.*"
-const val RUTUBE_PATTERN = "(?:http[s]?:\\/\\/)(?:w{3})?(?:player\\.)?rutube\\.ru\\/video\\/(?:embed\\/)?([A-Za-z0-9]+)\\/?"
+const val RUTUBE_PATTERN = "(?:http[s]?:\\/\\/)(?:w{3})?(?:player\\.)?rutube\\.ru\\/video\\/(?:embed\\/)?([A-Za-z0-9]+)[\\/]?(\\?.+)?"
 const val OEMBED_INFO = "/oembed"
 const val VIMEO_INFO = "/api/v2/video/"
 const val YOUTUBE_BASE_URL = "https://www.youtube.com"
