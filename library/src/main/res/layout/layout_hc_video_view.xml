@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/menu_container"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_gravity="bottom"
+	android:orientation="vertical">
+
+	<FrameLayout
+		android:id="@+id/video_container"
+		android:layout_width="match_parent"
+		android:layout_height="195dp">
+
+		<WebView
+			android:id="@+id/video_view"
+			android:layout_width="match_parent"
+			android:layout_height="195dp" />
+
+		<ProgressBar
+			android:id="@+id/video_progress"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center" />
+	</FrameLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/large_text_space"
+		android:layout_marginTop="@dimen/large_text_space"
+		android:layout_marginEnd="@dimen/large_text_space"
+		android:layout_marginBottom="@dimen/large_text_space"
+		android:orientation="vertical">
+
+		<TextView
+			android:id="@+id/text_url_preview_title"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="end"
+			android:ellipsize="end"
+			android:maxLines="1"
+			android:textColor="@color/color_video_title_text"
+			android:textSize="16sp"
+			android:textStyle="bold"
+			tools:text="Title will be\n here." />
+
+		<TextView
+			android:id="@+id/player_type"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="3dp"
+			android:ellipsize="end"
+			android:maxLines="3"
+			android:textColor="@color/black_p50"
+			android:textSize="14sp"
+			tools:text="Youtube"
+			tools:visibility="visible" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:orientation="vertical">
+
+		<View
+			android:id="@+id/control_panel_outline"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="@color/dialog_divider" />
+
+		<FrameLayout
+			android:id="@+id/control_container"
+			android:layout_width="match_parent"
+			android:layout_height="50dp"
+			android:orientation="horizontal">
+
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/close_video"
+				style="@style/Widget.AppCompat.Button.Borderless"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:background="?selectableItemBackgroundBorderless"
+				android:gravity="start|center_vertical"
+				android:paddingStart="18dp"
+				android:paddingEnd="0dp"
+				android:text="close" />
+
+			<androidx.appcompat.widget.AppCompatImageButton
+				android:id="@+id/copy_video_link"
+				android:layout_width="35dp"
+				android:layout_height="35dp"
+				android:layout_gravity="center"
+				android:layout_marginStart="18dp"
+				android:layout_marginEnd="18dp"
+				android:background="?selectableItemBackgroundBorderless"
+				android:tint="@color/black_p50"
+				app:srcCompat="@drawable/ic_content_copy" />
+
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/open_video_in"
+				style="@style/Widget.AppCompat.Button.Borderless"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_gravity="end"
+				android:background="?selectableItemBackgroundBorderless"
+				android:gravity="end|center_vertical"
+				android:paddingStart="0dp"
+				android:paddingEnd="18dp"
+				android:text="open in..." />
+		</FrameLayout>
+	</LinearLayout>
+</LinearLayout>

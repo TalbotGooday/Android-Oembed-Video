@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="center"
+	android:orientation="vertical"
+	android:padding="20dp"
+	tools:context=".MainActivity">
+
+	<TextView
+		android:id="@+id/youtube"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:gravity="center"
+		android:text="https://www.youtube.com/watch?v=DjsPqBzxSG4"
+		android:textSize="18sp" />
+
+	<TextView
+		android:id="@+id/youtube_music"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:gravity="center"
+		android:text="https://music.youtube.com/watch?v=lFMOYjVCLUo"
+		android:textSize="18sp" />
+
+	<TextView
+		android:id="@+id/vimeo"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:layout_marginTop="10dp"
+		android:gravity="center"
+		android:text="https://vimeo.com/333257472"
+		android:textSize="18sp" />
+
+
+	<TextView
+		android:id="@+id/rutube"
+		android:layout_width="wrap_content"
+		android:gravity="center"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:layout_marginTop="10dp"
+		android:text="http://rutube.ru/video/ca8607cd4f7ef28516e043dde0068564/"
+		android:textSize="18sp" />
+
+	<TextView
+		android:id="@+id/text"
+		android:layout_width="wrap_content"
+		android:gravity="center"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:layout_marginTop="10dp"
+		android:text="Тыць"
+		android:textSize="18sp" />
+
+	<ProgressBar
+		android:id="@+id/progress"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:visibility="invisible" />
+</LinearLayout>
