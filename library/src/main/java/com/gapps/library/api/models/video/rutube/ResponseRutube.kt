@@ -114,12 +114,12 @@ data class ResponseRutube(
 
 	fun toPreview(): VideoPreviewModel {
 		return VideoPreviewModel().apply {
-			this.title = this@ResponseRutube.title
+			this.videoTitle = this@ResponseRutube.title
 			this.thumbnailUrl = this@ResponseRutube.thumbnailUrl
 			this.url = this@ResponseRutube.sourceUrl
-			this.type = VideoPreviewModel.RUTUBE
+			this.videoHosting = VideoPreviewModel.RUTUBE
 			this.videoId = this@ResponseRutube.trackId.toString()
-			this.playLink = "http://rutube.ru/play/embed/${this.videoId}"
+			this.linkToPlay = "http://rutube.ru/play/embed/${this.videoId}"
 		}
 	}
 }

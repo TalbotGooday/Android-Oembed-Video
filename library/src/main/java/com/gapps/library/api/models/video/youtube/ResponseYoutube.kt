@@ -47,16 +47,16 @@ class ResponseYoutube {
 
 	fun toPreview(url: String? = null): VideoPreviewModel {
 		return VideoPreviewModel().apply {
-			this.title = this@ResponseYoutube.title
+			this.videoTitle = this@ResponseYoutube.title
 			this.thumbnailUrl = this@ResponseYoutube.thumbnailUrl
 			this.url = url
-			this.type = if (url?.contains("music.") == true) {
+			this.videoHosting = if (url?.contains("music.") == true) {
 				VideoPreviewModel.YOU_TUBE_MUSIC
 			} else {
 				VideoPreviewModel.YOU_TUBE
 			}
 			this.videoId = extractId(url)
-			this.playLink = "https://www.youtube.com/embed/${this.videoId}?autoplay=1&vq=small"
+			this.linkToPlay = "https://www.youtube.com/embed/${this.videoId}?autoplay=1&vq=small"
 		}
 	}
 

@@ -1,5 +1,7 @@
 package com.gapps.videonoapi
 
+import android.content.*
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -13,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-	private lateinit var videoService : VideoService
+	private lateinit var videoService: VideoService
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -45,21 +47,46 @@ class MainActivity : AppCompatActivity() {
 		progress.visibility = View.VISIBLE
 		val url = (it as TextView).text?.toString() ?: ""
 
-		videoService.loadVideoPreview(url) {
+		videoService.loadVideoPreview(url) { model ->
+			val host = model.videoHosting
+			val linkToPlay = model.linkToPlay
+			val title = model.videoTitle
+			val initUrl = model.url
+
 			BottomVideoController.Builder(this)
 					.setListener(object : BottomVideoController.Listener() {
 						override fun openLinkIn(link: String) {
+							openLink(link)
 						}
 
 						override fun copyLink(link: String) {
+							copyLinkToClipboard(link)
 						}
 					})
-					.setHostText(it.type)
-					.setPlayLink(it.playLink)
-					.setTitle(it.title)
-					.setVideoUrl(it.url)
+					.setHostText(host)
+					.setPlayLink(linkToPlay)
+					.setTitle(title)
+					.setVideoUrl(initUrl)
 					.show()
+
 			progress.visibility = View.INVISIBLE
+		}
+	}
+
+	private fun copyLinkToClipboard(link: String) {
+		val clip = ClipData.newPlainText("VideoUrl", link)
+		(getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager)?.setPrimaryClip(clip)
+	}
+
+	private fun openLink(link: String) {
+		try {
+			val intent = Intent(Intent.ACTION_VIEW).apply {
+				data = Uri.parse(link)
+			}
+
+			startActivity(intent)
+		} catch (e: ActivityNotFoundException) {
+			e.printStackTrace()
 		}
 	}
 }

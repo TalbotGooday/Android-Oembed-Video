@@ -80,11 +80,11 @@ class ResponseVimeo {
 	fun toPreview(url: String? = null): VideoPreviewModel {
 		return VideoPreviewModel().apply {
 			this.thumbnailUrl = this@ResponseVimeo.thumbnailLarge
-			this.title = this@ResponseVimeo.title
+			this.videoTitle = this@ResponseVimeo.title
 			this.url = url
-			this.type = VideoPreviewModel.VIMEO
+			this.videoHosting = VideoPreviewModel.VIMEO
 			this.videoId = extractId(url)
-			this.playLink = "https://player.vimeo.com/video/${this.videoId}"
+			this.linkToPlay = "https://player.vimeo.com/video/${this.videoId}"
 		}
 	}
 
