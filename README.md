@@ -1,5 +1,5 @@
 
-# Android-Oembed-Video
+# Android Oembed Video
 A simple library for parsing and playing links from YouTube, YouTube Music, Vimeo and Rutube is WebView without the need to connect api data services
 
 [![Release](https://jitpack.io/v/TalbotGooday/Android-Oembed-Video.svg)](https://jitpack.io/#TalbotGooday/Android-Oembed-Video)
@@ -35,4 +35,45 @@ dependencies {
         implementation 'com.github.TalbotGooday:Android-Oembed-Video:Tag'
 }
 
+```
+
+# Work Flow
+1. Create your OkHttpClient and add it to the VideoService.Builder
+```kotlin
+val okHttpClient = OkHttpClient.Builder()
+	.connectTimeout(15, TimeUnit.SECONDS)
+	.readTimeout(15, TimeUnit.SECONDS)
+	.build()
+
+val videoService = VideoService.Builder()
+	.httpClient(okHttpClient)
+	.build()
+```
+2. Get VideoPreviewModel
+```kotlin
+videoService.loadVideoPreview(url) { model -> ... }
+```
+# Play Video from VideoPreviewModel
+The BottomVideoController allows to run any oembed video in WebView.
+```kotlin
+val host = model.videoHosting
+val linkToPlay = model.linkToPlay
+val title = model.videoTitle
+val initUrl = model.url
+
+BottomVideoController.Builder(this)
+	.setListener(object : BottomVideoController.Listener() {
+		override fun openLinkIn(link: String) {
+			openLink(link)
+		}
+
+		override fun copyLink(link: String) {
+			copyLinkToClipboard(link)
+		}
+	})
+	.setHostText(host)
+	.setPlayLink(linkToPlay)
+	.setTitle(title)
+	.setVideoUrl(initUrl)
+	.show()
 ```
