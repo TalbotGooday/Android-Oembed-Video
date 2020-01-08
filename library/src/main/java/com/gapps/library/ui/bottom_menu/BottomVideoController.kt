@@ -10,6 +10,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -18,7 +19,8 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import com.gapps.library.R
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.gapps.library.ui.bottom_dialog.BottomSheetDialogFixed
+import kotlin.math.roundToInt
 
 class BottomVideoController private constructor(
 		private val context: Context?,
@@ -29,7 +31,8 @@ class BottomVideoController private constructor(
 		private val url: String?,
 		private val titleText: String?,
 		private val hostText: String?,
-		private val playLink: String?
+		private val playLink: String?,
+		private val size: Pair<Float, Float>?
 ) {
 	companion object {
 		var isVisible = false
@@ -46,7 +49,8 @@ class BottomVideoController private constructor(
 			builder.url,
 			builder.titleText,
 			builder.hostText,
-			builder.playLink
+			builder.playLink,
+			builder.size
 	)
 
 	fun showBottomPopupMenu() {
@@ -54,10 +58,11 @@ class BottomVideoController private constructor(
 
 		val url = url ?: return
 
-		val bottomSheetDialog = BottomSheetDialog(context)
+		val bottomSheetDialog = BottomSheetDialogFixed(context)
 		val menuView = LayoutInflater.from(context).inflate(R.layout.layout_hc_video_view, null)
 		val menuContainer = menuView.findViewById<LinearLayout>(R.id.menu_container)
 		val videoView = menuView.findViewById<WebView>(R.id.video_view)
+		val videoContainer = menuView.findViewById<FrameLayout>(R.id.video_container)
 		val progressBar = menuView.findViewById<ProgressBar>(R.id.video_progress)
 		val title = menuView.findViewById<TextView>(R.id.text_url_preview_title)
 		val videoServiceType = menuView.findViewById<TextView>(R.id.player_type)
@@ -79,20 +84,22 @@ class BottomVideoController private constructor(
 		}
 
 		closeVideo.apply {
-			setOnClickListener {
+			this.setTextColor(textColorInt)
+
+			this.setOnClickListener {
 				bottomSheetDialog.dismiss()
 			}
-			this.setTextColor(textColorInt)
 		}
 
 		openVideoIn.apply {
-			setOnClickListener {
+			this.setTextColor(textColorInt)
+
+			this.setOnClickListener {
 				listener?.openLinkIn(url)
 
 				bottomSheetDialog.dismiss()
 			}
 
-			this.setTextColor(textColorInt)
 		}
 
 		copyLink.apply {
@@ -110,15 +117,22 @@ class BottomVideoController private constructor(
 		val outlineColor = ColorUtils.setAlphaComponent(textColorInt, (255 * .1).toInt())
 		controlPanelOutline.background.colorFilter = PorterDuffColorFilter(outlineColor, PorterDuff.Mode.SRC_IN)
 
+		val widthRes = context.resources.getDimensionPixelSize(R.dimen.bv_dialog_width)
+
+		val videoViewWidth = getWidth(widthRes, context)
+		val videoViewHeight = getHeight(size, videoViewWidth)
+
+		videoContainer.apply {
+			layoutParams.apply {
+				this.width = videoViewWidth
+				this.height = videoViewHeight
+			}
+		}
+
 		videoView.apply {
 			layoutParams.apply {
-				val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-				val display = wm.defaultDisplay
-				val size = Point()
-				display.getSize(size)
-
-				this.width = size.x
-				this.height = size.x / 16 * 9
+				this.width = videoViewWidth
+				this.height = videoViewHeight
 			}
 
 			loadUrl(playLink)
@@ -175,6 +189,26 @@ class BottomVideoController private constructor(
 		}
 	}
 
+	private fun getHeight(size: Pair<Float, Float>?, videoViewWidth: Int): Int {
+		return if (size == null || size.first <= 0 || size.second <= 0) {
+			videoViewWidth / 16 * 9
+		} else {
+			(videoViewWidth / (size.first / size.second)).roundToInt()
+		}
+	}
+
+	private fun getWidth(widthRes: Int, context: Context): Int {
+		return if (widthRes <= 0) {
+			val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+			val display = wm.defaultDisplay
+			val size = Point()
+			display.getSize(size)
+			size.x
+		} else {
+			widthRes
+		}
+	}
+
 	abstract class Listener {
 		open fun openLinkIn(link: String) {}
 		open fun copyLink(link: String) {}
@@ -208,10 +242,14 @@ class BottomVideoController private constructor(
 		var playLink: String? = null
 			private set
 
+		var size: Pair<Float, Float>? = null
+			private set
+
 		fun setVideoUrl(url: String?) = apply { this.url = url }
 		fun setTitle(title: String?) = apply { this.titleText = title }
 		fun setHostText(host: String?) = apply { this.hostText = host }
 		fun setPlayLink(url: String?) = apply { this.playLink = url }
+		fun setSize(width: Int, height: Int) = apply { this.size = width.toFloat() to height.toFloat() }
 
 		fun setListener(listener: Listener) = apply { this.listener = listener }
 		fun setTitleColor(@ColorRes color: Int) = apply { this.titleColor = color }

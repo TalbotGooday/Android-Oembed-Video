@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
 					})
 					.setHostText(host)
 					.setPlayLink(linkToPlay)
+					.setSize(model.width, model.height)
 					.setTitle(title)
 					.setVideoUrl(initUrl)
 					.show()

@@ -6,111 +6,123 @@ import com.google.gson.annotations.SerializedName
 
 data class ResponseRutube(
 		@SerializedName("action_reason")
-    val actionReason: Int = 0,
+		val actionReason: Int = 0,
 		@SerializedName("all_tags")
-    val allTags: List<AllTag> = listOf(),
+		val allTags: List<AllTag> = listOf(),
 		@SerializedName("author")
-    val author: Author = Author(),
+		val author: Author = Author(),
 		@SerializedName("category")
-    val category: Category = Category(),
+		val category: Category = Category(),
 		@SerializedName("club_params")
-    val clubParams: String = "",
+		val clubParams: String = "",
 		@SerializedName("comment_editors")
-    val commentEditors: String = "",
+		val commentEditors: String = "",
 		@SerializedName("comments_count")
-    val commentsCount: Int = 0,
+		val commentsCount: Int = 0,
 		@SerializedName("created_ts")
-    val createdTs: String = "",
+		val createdTs: String = "",
 		@SerializedName("description")
-    val description: String = "",
+		val description: String = "",
 		@SerializedName("duration")
-    val duration: Int = 0,
+		val duration: Int = 0,
 		@SerializedName("embed_url")
-    val embedUrl: String = "",
+		val embedUrl: String = "",
 		@SerializedName("episode")
-    val episode: Any? = Any(),
+		val episode: Any? = Any(),
 		@SerializedName("ext_id")
-    val extId: Any? = Any(),
+		val extId: Any? = Any(),
 		@SerializedName("feed_name")
-    val feedName: String = "",
+		val feedName: String = "",
 		@SerializedName("feed_subscribers_count")
-    val feedSubscribersCount: Int = 0,
+		val feedSubscribersCount: Int = 0,
 		@SerializedName("feed_subscription_url")
-    val feedSubscriptionUrl: String = "",
+		val feedSubscriptionUrl: String = "",
 		@SerializedName("feed_url")
-    val feedUrl: String = "",
+		val feedUrl: String = "",
 		@SerializedName("for_linked")
-    val forLinked: Boolean = false,
+		val forLinked: Boolean = false,
 		@SerializedName("for_registered")
-    val forRegistered: Boolean = false,
+		val forRegistered: Boolean = false,
 		@SerializedName("genres")
-    val genres: String = "",
+		val genres: String = "",
 		@SerializedName("has_high_quality")
-    val hasHighQuality: Boolean = false,
+		val hasHighQuality: Boolean = false,
 		@SerializedName("hashtags")
-    val hashtags: List<Any> = listOf(),
+		val hashtags: List<Any> = listOf(),
 		@SerializedName("hits")
-    val hits: Int = 0,
+		val hits: Int = 0,
 		@SerializedName("html")
-    val html: String = "",
+		val html: String = "",
 		@SerializedName("id")
-    val id: String = "",
+		val id: String = "",
 		@SerializedName("is_adult")
-    val isAdult: Boolean = false,
+		val isAdult: Boolean = false,
 		@SerializedName("is_classic")
-    val isClassic: Boolean = false,
+		val isClassic: Boolean = false,
 		@SerializedName("is_club")
-    val isClub: Boolean = false,
+		val isClub: Boolean = false,
 		@SerializedName("is_deleted")
-    val isDeleted: Boolean = false,
+		val isDeleted: Boolean = false,
 		@SerializedName("is_external")
-    val isExternal: Boolean = false,
+		val isExternal: Boolean = false,
 		@SerializedName("is_hidden")
-    val isHidden: Boolean = false,
+		val isHidden: Boolean = false,
 		@SerializedName("is_livestream")
-    val isLivestream: Boolean = false,
+		val isLivestream: Boolean = false,
 		@SerializedName("is_official")
-    val isOfficial: Boolean = false,
+		val isOfficial: Boolean = false,
 		@SerializedName("is_serial")
-    val isSerial: Boolean = false,
+		val isSerial: Boolean = false,
 		@SerializedName("last_update_ts")
-    val lastUpdateTs: String = "",
+		val lastUpdateTs: String = "",
 		@SerializedName("music")
-    val music: Any? = Any(),
+		val music: Any? = Any(),
 		@SerializedName("pepper")
-    val pepper: Any? = Any(),
+		val pepper: Any? = Any(),
 		@SerializedName("persons")
-    val persons: String = "",
+		val persons: String = "",
 		@SerializedName("pg_rating")
-    val pgRating: PgRating = PgRating(),
+		val pgRating: PgRating = PgRating(),
 		@SerializedName("picture_url")
-    val pictureUrl: String = "",
+		val pictureUrl: String = "",
 		@SerializedName("publication_ts")
-    val publicationTs: String = "",
+		val publicationTs: String = "",
 		@SerializedName("restrictions")
-    val restrictions: Restrictions = Restrictions(),
+		val restrictions: Restrictions = Restrictions(),
 		@SerializedName("rutube_poster")
-    val rutubePoster: Any? = Any(),
+		val rutubePoster: Any? = Any(),
 		@SerializedName("season")
-    val season: Any? = Any(),
+		val season: Any? = Any(),
 		@SerializedName("short_description")
-    val shortDescription: String = "",
+		val shortDescription: String = "",
 		@SerializedName("show")
-    val show: Any? = Any(),
+		val show: Any? = Any(),
 		@SerializedName("source_url")
-    val sourceUrl: String = "",
+		val sourceUrl: String = "",
 		@SerializedName("thumbnail_url")
-    val thumbnailUrl: String = "",
+		val thumbnailUrl: String = "",
 		@SerializedName("title")
-    val title: String = "",
+		val title: String = "",
 		@SerializedName("track_id")
-    val trackId: Int = 0,
+		val trackId: Int = 0,
 		@SerializedName("tv_show_id")
-    val tvShowId: Any? = Any(),
+		val tvShowId: Any? = Any(),
 		@SerializedName("video_url")
-    val videoUrl: String = ""
+		val videoUrl: String = ""
 
 ) {
+
+	private fun width() = try {
+		"(?:width=\"(\\d+)\")".toRegex().find(html)?.groups?.get(1)?.value?.toIntOrNull() ?: 0
+	} catch (e: Exception) {
+		0
+	}
+
+	private fun height() = try {
+		"(?:height=\"(\\d+)\")".toRegex().find(html)?.groups?.get(1)?.value?.toIntOrNull() ?: 0
+	} catch (e: Exception) {
+		0
+	}
 
 	fun toPreview(): VideoPreviewModel {
 		return VideoPreviewModel().apply {
@@ -120,6 +132,8 @@ data class ResponseRutube(
 			this.videoHosting = VideoPreviewModel.RUTUBE
 			this.videoId = this@ResponseRutube.trackId.toString()
 			this.linkToPlay = "http://rutube.ru/play/embed/${this.videoId}"
+			this.width = this@ResponseRutube.width()
+			this.height = this@ResponseRutube.height()
 		}
 	}
 }

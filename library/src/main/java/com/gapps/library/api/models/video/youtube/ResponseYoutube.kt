@@ -57,6 +57,8 @@ class ResponseYoutube {
 			}
 			this.videoId = extractId(url)
 			this.linkToPlay = "https://www.youtube.com/embed/${this.videoId}?autoplay=1&vq=small"
+			this.width = this@ResponseYoutube.width
+			this.height = this@ResponseYoutube.height
 		}
 	}
 

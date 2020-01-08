@@ -85,6 +85,8 @@ class ResponseVimeo {
 			this.videoHosting = VideoPreviewModel.VIMEO
 			this.videoId = extractId(url)
 			this.linkToPlay = "https://player.vimeo.com/video/${this.videoId}"
+			this.width = this@ResponseVimeo.width ?: 0
+			this.height = this@ResponseVimeo.height ?: 0
 		}
 	}
 

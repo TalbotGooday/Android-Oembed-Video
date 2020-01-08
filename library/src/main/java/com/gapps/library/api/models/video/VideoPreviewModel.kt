@@ -7,6 +7,8 @@ class VideoPreviewModel {
     var videoHosting: String? = null
     var videoId: String? = null
     var linkToPlay: String? = null
+    var width = 0
+    var height = 0
 
     companion object {
         const val ERROR_404 = "Not found"
