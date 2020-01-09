@@ -1,6 +1,7 @@
 package com.gapps.library.api
 
 import com.gapps.library.api.models.video.VideoPreviewModel
+import com.gapps.library.api.models.video.facebook.FacebookResponse
 import com.gapps.library.api.models.video.rutube.ResponseRutube
 import com.gapps.library.api.models.video.vimeo.ResponseVimeo
 import com.gapps.library.api.models.video.youtube.ResponseYoutube
@@ -12,12 +13,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 
 class VideoService(
-		internal val client: OkHttpClient
+		client: OkHttpClient
 ) {
 
 	constructor(builder: Builder) : this(
@@ -45,7 +45,7 @@ class VideoService(
 					callback.invoke(VideoPreviewModel.error())
 				}
 			}
-		}catch (e: Exception){
+		} catch (e: Exception) {
 			callback.invoke(VideoPreviewModel.error())
 		}
 	}
@@ -55,78 +55,105 @@ class VideoService(
 			get() = Dispatchers.Main
 
 		fun getFacebookInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			launch(coroutineContext) {
-				val result = withContext(Dispatchers.IO) {
-					val response = client.newCall(Request.Builder().url(url.getFacebookInfoUrl()).build()).execute()
-					return@withContext if (response.isSuccessful) {
-						val stringBody = response.body()?.string()
+			try {
+				launch(coroutineContext) {
+					val result = withContext(Dispatchers.IO) {
+						val response = client.newCall(Request.Builder().url(url.getFacebookInfoUrl()).build()).execute()
+						return@withContext if (response.isSuccessful) {
+							val stringBody = response.body()?.string()
 
-						val responseModel = Gson().fromJson<ResponseRutube>(stringBody, ResponseRutube::class.java)
-
-						responseModel.toPreview()
-					} else {
-						VideoPreviewModel.error()
+							val responseModel = Gson().fromJson<FacebookResponse>(stringBody, FacebookResponse::class.java)
+							responseModel.toPreview()
+						} else {
+							VideoPreviewModel.error()
+						}
 					}
-				}
 
-				callback.invoke(result)
+					callback.invoke(result)
+				}
+			} catch (e: Exception) {
+				e.printStackTrace()
+				callback.invoke(VideoPreviewModel.error())
 			}
 		}
 
 		fun getRutubeInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			launch(coroutineContext) {
-				val result = withContext(Dispatchers.IO) {
-					val response = client.newCall(Request.Builder().url(url.getRutubeInfoUrl()).build()).execute()
-					return@withContext if (response.isSuccessful) {
-						val stringBody = response.body()?.string()
+			try {
+				launch(coroutineContext) {
+					val result = withContext(Dispatchers.IO) {
+						val response = client.newCall(Request.Builder().url(url.getRutubeInfoUrl()).build()).execute()
+						return@withContext if (response.isSuccessful) {
+							val stringBody = response.body()?.string()
+							val responseModel = Gson().fromJson<ResponseRutube>(stringBody, ResponseRutube::class.java)
 
-						val responseModel = Gson().fromJson<ResponseRutube>(stringBody, ResponseRutube::class.java)
+							responseModel.toPreview()
+						} else {
+							VideoPreviewModel.error()
+						}
 
-						responseModel.toPreview()
-					} else {
-						VideoPreviewModel.error()
 					}
-				}
 
-				callback.invoke(result)
+					callback.invoke(result)
+				}
+			} catch (e: Exception) {
+				callback.invoke(VideoPreviewModel.error())
 			}
 		}
 
 		fun getVimeoInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			launch(coroutineContext) {
-				val result = withContext(Dispatchers.IO) {
-					val response = client.newCall(Request.Builder().url(url.getVimeoInfoUrl()).build()).execute()
-					return@withContext if (response.isSuccessful) {
-						val stringBody = response.body()?.string()
+			try {
+				launch(coroutineContext) {
+					val result = withContext(Dispatchers.IO) {
+						val response = client.newCall(Request.Builder().url(url.getVimeoInfoUrl()).build()).execute()
+						return@withContext if (response.isSuccessful) {
+							val stringBody = response.body()?.string()
 
-						val responseModel = Gson().fromJson<List<ResponseVimeo>>(stringBody, object : TypeToken<List<ResponseVimeo>>() {}.type)
+							try {
+								val responseModel = Gson().fromJson<List<ResponseVimeo>>(stringBody, object : TypeToken<List<ResponseVimeo>>() {}.type)
 
-						responseModel.firstOrNull()?.toPreview(url) ?: VideoPreviewModel.error()
-					} else {
-						VideoPreviewModel.error()
+								responseModel.firstOrNull()?.toPreview(url)
+										?: VideoPreviewModel.error()
+							} catch (e: Exception) {
+								VideoPreviewModel.error()
+							}
+						} else {
+							VideoPreviewModel.error()
+						}
 					}
-				}
 
-				callback.invoke(result)
+					callback.invoke(result)
+				}
+			} catch (e: Exception) {
+				e.printStackTrace()
+				callback.invoke(VideoPreviewModel.error())
 			}
 		}
 
 		fun getYoutubeInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			launch(coroutineContext) {
-				val result = withContext(Dispatchers.IO) {
-					val response = client.newCall(Request.Builder().url(url.getYoutubeInfoUrl()).build()).execute()
-					return@withContext if (response.isSuccessful) {
-						val stringBody = response.body()?.string()
+			try {
+				launch(coroutineContext) {
+					val result = withContext(Dispatchers.IO) {
+						val response = client.newCall(Request.Builder().url(url.getYoutubeInfoUrl()).build()).execute()
+						return@withContext if (response.isSuccessful) {
+							val stringBody = response.body()?.string()
 
-						val responseModel = Gson().fromJson(stringBody, ResponseYoutube::class.java)
+							try {
+								val responseModel = Gson().fromJson(stringBody, ResponseYoutube::class.java)
 
-						responseModel.toPreview(url)
-					} else {
-						VideoPreviewModel.error()
+								responseModel.toPreview(url)
+							} catch (e: Exception) {
+								VideoPreviewModel.error()
+							}
+						} else {
+							VideoPreviewModel.error()
+						}
 					}
-				}
 
-				callback.invoke(result)
+					callback.invoke(result)
+				}
+			} catch (e: Exception) {
+				e.printStackTrace()
+				callback.invoke(VideoPreviewModel.error())
 			}
 		}
 	}

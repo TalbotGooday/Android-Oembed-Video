@@ -11,7 +11,7 @@ const val FACEBOOK_INFO = "/plugins/video/oembed"
 const val FACEBOOK_VIDEOS = "?url=https://www.facebook.com/facebook/videos/"
 const val YOUTUBE_BASE_URL = "https://www.youtube.com"
 const val VIMEO_BASE_URL = "http://vimeo.com"
-const val FACEBOOK_BASE_URL = "https://www.facebook.com"
+const val FACEBOOK_BASE_URL = "https://apps.facebook.com"
 const val RUTUBE_BASE_URL = "http://rutube.ru/api"
 const val FORMAT = "format"
 const val FORMAT_JSON = "json"
@@ -31,7 +31,7 @@ fun String.getVimeoInfoUrl(): String {
 
 fun String.getFacebookInfoUrl(): String {
 	val id = FACEBOOK_PATTERN.toRegex().find(this)?.groups?.get(1)?.value
-	return "$FACEBOOK_BASE_URL$FACEBOOK_INFO$FORMAT_JSON$FACEBOOK_VIDEOS$id"
+	return "$FACEBOOK_BASE_URL$FACEBOOK_INFO.$FORMAT_JSON$FACEBOOK_VIDEOS$id"
 }
 
 

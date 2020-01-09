@@ -51,9 +51,9 @@ class ResponseYoutube {
 			this.thumbnailUrl = this@ResponseYoutube.thumbnailUrl
 			this.url = url
 			this.videoHosting = if (url?.contains("music.") == true) {
-				VideoPreviewModel.YOU_TUBE_MUSIC
+				VideoPreviewModel.YOUTUBE_MUSIC
 			} else {
-				VideoPreviewModel.YOU_TUBE
+				VideoPreviewModel.YOUTUBE
 			}
 			this.videoId = extractId(url)
 			this.linkToPlay = "https://www.youtube.com/embed/${this.videoId}?autoplay=1&vq=small"

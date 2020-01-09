@@ -3,6 +3,7 @@ package com.gapps.library.ui.bottom_menu
 import android.content.Context
 import android.graphics.*
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -57,6 +58,8 @@ class BottomVideoController private constructor(
 		context ?: return
 
 		val url = url ?: return
+
+		Log.i("Player link", playLink ?: "none")
 
 		val bottomSheetDialog = BottomSheetDialogFixed(context)
 		val menuView = LayoutInflater.from(context).inflate(R.layout.layout_hc_video_view, null)
@@ -134,8 +137,6 @@ class BottomVideoController private constructor(
 				this.height = videoViewHeight
 			}
 
-			loadUrl(playLink)
-
 			webViewClient = object : WebViewClient() {
 				override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
 					return true
@@ -172,6 +173,8 @@ class BottomVideoController private constructor(
 			}
 		}
 
+		videoView.loadUrl(playLink)
+
 		bottomSheetDialog.apply {
 			setContentView(menuView)
 
@@ -188,14 +191,6 @@ class BottomVideoController private constructor(
 		}
 	}
 
-	private fun getHeight(size: Pair<Float, Float>?, videoViewWidth: Int): Int {
-		return if (size == null || size.first <= 0 || size.second <= 0) {
-			videoViewWidth / 16 * 9
-		} else {
-			(videoViewWidth / (size.first / size.second)).roundToInt()
-		}
-	}
-
 	private fun getWidth(widthRes: Int, context: Context): Int {
 		return if (widthRes <= 0) {
 			val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -205,6 +200,15 @@ class BottomVideoController private constructor(
 			size.x
 		} else {
 			widthRes
+		}
+	}
+
+	private fun getHeight(size: Pair<Float, Float>?, videoViewWidth: Int): Int {
+		return if (size == null || size.first <= 0 || size.second <= 0) {
+			videoViewWidth / 16 * 9
+		} else {
+			val aspectRatio = size.first / size.second
+			(videoViewWidth / aspectRatio).roundToInt()
 		}
 	}
 

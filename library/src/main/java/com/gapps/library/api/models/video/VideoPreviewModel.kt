@@ -13,10 +13,11 @@ class VideoPreviewModel {
     companion object {
         const val ERROR_404 = "Not found"
 
-        const val YOU_TUBE = "YouTube"
-        const val YOU_TUBE_MUSIC = "YouTube Music"
+        const val YOUTUBE = "YouTube"
+        const val YOUTUBE_MUSIC = "YouTube Music"
         const val VIMEO = "Vimeo"
         const val RUTUBE = "Rutube"
+        const val FACEBOOK = "Facebook"
 
         fun error() = VideoPreviewModel().apply {
             this.videoTitle = ERROR_404
