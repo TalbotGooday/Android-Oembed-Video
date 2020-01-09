@@ -6,9 +6,13 @@ import com.gapps.library.api.models.video.vimeo.ResponseVimeo
 import com.gapps.library.api.models.video.youtube.ResponseYoutube
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
 
@@ -23,25 +27,51 @@ class VideoService(
 	private val videoHelper = Helper(client)
 
 	fun loadVideoPreview(url: String, callback: (VideoPreviewModel) -> Unit) {
-		when {
-			url.matches(YOUTUBE_PATTERN.toRegex()) -> {
-				videoHelper.getYoutubeInfo(url, callback)
+		try {
+			when {
+				url.matches(YOUTUBE_PATTERN.toRegex()) -> {
+					videoHelper.getYoutubeInfo(url, callback)
+				}
+				url.matches(VIMEO_PATTERN.toRegex()) -> {
+					videoHelper.getVimeoInfo(url, callback)
+				}
+				url.matches(RUTUBE_PATTERN.toRegex()) -> {
+					videoHelper.getRutubeInfo(url, callback)
+				}
+				url.matches(FACEBOOK_PATTERN.toRegex()) -> {
+					videoHelper.getFacebookInfo(url, callback)
+				}
+				else -> {
+					callback.invoke(VideoPreviewModel.error())
+				}
 			}
-			url.matches(VIMEO_PATTERN.toRegex()) -> {
-				videoHelper.getVimeoInfo(url, callback)
-			}
-			url.matches(RUTUBE_PATTERN.toRegex()) -> {
-				videoHelper.getRutubeInfo(url, callback)
-			}
-			else -> {
-				callback.invoke(VideoPreviewModel.error())
-			}
+		}catch (e: Exception){
+			callback.invoke(VideoPreviewModel.error())
 		}
 	}
 
 	inner class Helper(private val client: OkHttpClient) : CoroutineScope {
 		override val coroutineContext: CoroutineContext
 			get() = Dispatchers.Main
+
+		fun getFacebookInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
+			launch(coroutineContext) {
+				val result = withContext(Dispatchers.IO) {
+					val response = client.newCall(Request.Builder().url(url.getFacebookInfoUrl()).build()).execute()
+					return@withContext if (response.isSuccessful) {
+						val stringBody = response.body()?.string()
+
+						val responseModel = Gson().fromJson<ResponseRutube>(stringBody, ResponseRutube::class.java)
+
+						responseModel.toPreview()
+					} else {
+						VideoPreviewModel.error()
+					}
+				}
+
+				callback.invoke(result)
+			}
+		}
 
 		fun getRutubeInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
 			launch(coroutineContext) {

@@ -22,10 +22,12 @@ class MainActivity : AppCompatActivity() {
 		setContentView(R.layout.activity_main)
 
 		initService()
+
 		youtube.setOnClickListener { getPreview(it) }
 		youtube_music.setOnClickListener { getPreview(it) }
 		vimeo.setOnClickListener { getPreview(it) }
 		rutube.setOnClickListener { getPreview(it) }
+		facebook.setOnClickListener { getPreview(it) }
 	}
 
 	private fun initService() {

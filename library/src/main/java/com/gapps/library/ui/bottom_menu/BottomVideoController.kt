@@ -99,7 +99,6 @@ class BottomVideoController private constructor(
 
 				bottomSheetDialog.dismiss()
 			}
-
 		}
 
 		copyLink.apply {

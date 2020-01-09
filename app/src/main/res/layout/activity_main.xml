@@ -57,6 +57,18 @@
 			android:text="https://rutube.ru/video/d70e62b44b8893e98e3e90a6e2c9fcd4/?pl_type=source&amp;pl_id=18265" />
 	</LinearLayout>
 
+	<LinearLayout style="@style/Item">
+
+		<androidx.appcompat.widget.AppCompatImageView
+			style="@style/ItemIcon"
+			android:src="@drawable/ic_fb" />
+
+		<TextView
+			android:id="@+id/facebook"
+			style="@style/ItemText"
+			android:text="https://www.facebook.com/watch/?v=674658469369755" />
+	</LinearLayout>
+
 	<ProgressBar
 		android:id="@+id/progress"
 		android:layout_width="wrap_content"
