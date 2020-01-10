@@ -20,6 +20,7 @@ class VideoPreviewModel {
         const val FACEBOOK = "Facebook"
         const val DAILYMOTION = "Dailymotion"
         const val WISTIA = "Wistia"
+        const val VZAAR = "Vzaar"
 
         fun error() = VideoPreviewModel().apply {
             this.videoTitle = ERROR_404

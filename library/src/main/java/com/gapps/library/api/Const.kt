@@ -7,11 +7,13 @@ const val RUTUBE_PATTERN = "(?:http[s]?:\\/\\/)(?:w{3})?(?:player\\.)?rutube\\.r
 const val FACEBOOK_PATTERN = "(?:http[s]?:\\/\\/)?(?:www.|web.|m.)?(?:facebook|fb)?.com\\/(?:(?:video.php|watch?\\/)?\\?v=|.+\\/videos(?:\\/.+)?\\/)(\\d+)\\S*"
 const val DAILYMOTION_PATTERN = "(?:http[s]?:\\/\\/)?(?:\\/\\/)?(?:www\\.)?(?:(?:dailymotion\\.com(?:\\/embed)?\\/video)|dai\\.ly)\\/([a-zA-Z0-9]+)(?:_[\\w_-]+)?"
 const val WISTIA_PATTERN = "(?:http[s]?:\\/\\/)?(?:.+)?(?:wistia\\.(?:com|net)|wi\\.st)\\/(?:medias|embed|series)\\/(?:iframe\\/?)?(?:\\S+\\?\\S*wvideoid=)?([a-zA-Z0-9]+)\\S*"
+const val VZAAR_PATTERN = "(?:http[s]?:\\/\\/)?(?:.+)?vzaar.com\\/?(?:videos\\/)?([a-zA-Z0-9]+)\\S*"
 const val OEMBED_INFO = "/oembed"
 const val VIMEO_INFO = "/api/v2/video/"
 const val FACEBOOK_INFO = "/plugins/video/oembed"
 const val DAILYMOTION_INFO = "/services/oembed/?url=https://www.dailymotion.com/video/"
 const val WISTIA_INFO = "/oembed?url="
+const val VZAAR_INFO = "/videos/"
 const val FACEBOOK_VIDEOS = "?url=https://www.facebook.com/facebook/videos/"
 const val YOUTUBE_BASE_URL = "https://www.youtube.com"
 const val VIMEO_BASE_URL = "http://vimeo.com"
@@ -19,6 +21,7 @@ const val FACEBOOK_BASE_URL = "https://apps.facebook.com"
 const val DAILYMOTION_BASE_URL = "https://www.dailymotion.com"
 const val WISTIA_BASE_URL = "https://fast.wistia.net"
 const val RUTUBE_BASE_URL = "http://rutube.ru/api"
+const val VZAAR_BASE_URL = "https://app.vzaar.com/"
 const val FORMAT = "format"
 const val FORMAT_JSON = "json"
 const val URL = "url"
@@ -49,6 +52,12 @@ fun String.getDailymotionInfoUrl(): String {
 
 fun String.getWistiaInfoUrl(): String {
 	return "$WISTIA_BASE_URL$WISTIA_INFO$this"
+}
+
+fun String.getVzaarInfoUrl(): String {
+	val id = VZAAR_PATTERN.toRegex().find(this)?.groups?.get(1)?.value
+
+	return "$VZAAR_BASE_URL$VZAAR_INFO$id.$FORMAT_JSON"
 }
 
 

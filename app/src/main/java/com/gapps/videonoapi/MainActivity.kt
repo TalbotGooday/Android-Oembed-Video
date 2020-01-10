@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.gapps.library.api.VideoService
+import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.ui.bottom_menu.BottomVideoController
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 		facebook_container.setOnClickListener { getPreview(it) }
 		dailymotion_container.setOnClickListener { getPreview(it) }
 		wistia_container.setOnClickListener { getPreview(it) }
+		vzaar_container.setOnClickListener { getPreview(it) }
 	}
 
 	private fun initService() {
@@ -53,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 		val textView = getTextView(it) ?: return
 		val url = textView.text?.toString() ?: return
 
-		videoService.loadVideoPreview(url) { model ->
+		videoService.loadVideoPreview(url) { model: VideoPreviewModel ->
 			val host = model.videoHosting
 			val linkToPlay = model.linkToPlay
 			val title = model.videoTitle
@@ -96,6 +99,7 @@ class MainActivity : AppCompatActivity() {
 	private fun copyLinkToClipboard(link: String) {
 		val clip = ClipData.newPlainText("VideoUrl", link)
 		(getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager)?.setPrimaryClip(clip)
+		Toast.makeText(this, "Copied: $link", Toast.LENGTH_SHORT).show()
 	}
 
 	private fun openLink(link: String) {

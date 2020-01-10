@@ -91,15 +91,10 @@ class ResponseVimeo {
 	}
 
 
-	fun extractId(url: String?): String? {
+	private fun extractId(url: String?): String? {
 		url ?: return null
 
-		val matcher = Pattern.compile(VIMEO_PATTERN, Pattern.CASE_INSENSITIVE).matcher(url)
-		if (matcher.find()) {
-			return matcher.group(1)
-		}
-
-		return null
+		return VIMEO_PATTERN.toRegex().find(url)?.groups?.get(1)?.value
 	}
 
 }

@@ -99,6 +99,19 @@
 			android:text="https://dave.wistia.com/medias/0k5h1g1chs/" />
 	</LinearLayout>
 
+	<LinearLayout
+		android:id="@+id/vzaar_container"
+		style="@style/Item">
+
+		<androidx.appcompat.widget.AppCompatImageView
+			style="@style/ItemIcon"
+			android:src="@drawable/ic_vzaar" />
+
+		<TextView
+			style="@style/ItemText"
+			android:text="https://vzaar.com/videos/401431" />
+	</LinearLayout>
+
 	<ProgressBar
 		android:id="@+id/progress"
 		android:layout_width="wrap_content"
