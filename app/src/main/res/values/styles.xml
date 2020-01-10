@@ -22,6 +22,8 @@
 		<item name="android:gravity">center_vertical</item>
 		<item name="background">?selectableItemBackground</item>
 		<item name="android:orientation">horizontal</item>
+		<item name="android:paddingStart">10dp</item>
+		<item name="android:paddingEnd">10dp</item>
 	</style>
 	<style name="ItemText">
 		<item name="android:textSize">14sp</item>

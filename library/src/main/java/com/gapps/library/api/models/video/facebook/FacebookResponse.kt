@@ -31,7 +31,6 @@ data class FacebookResponse(
 ) {
 	fun toPreview(): VideoPreviewModel {
 		return VideoPreviewModel().apply {
-			this.thumbnailUrl = this@FacebookResponse.authorName
 			this.videoTitle = this@FacebookResponse.authorName
 			this.url = this@FacebookResponse.url
 			this.videoHosting = VideoPreviewModel.FACEBOOK

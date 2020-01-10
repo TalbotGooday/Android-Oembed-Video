@@ -1,6 +1,7 @@
 package com.gapps.library.api
 
 import com.gapps.library.api.models.video.VideoPreviewModel
+import com.gapps.library.api.models.video.dailymotion.DailymotionResponse
 import com.gapps.library.api.models.video.facebook.FacebookResponse
 import com.gapps.library.api.models.video.rutube.ResponseRutube
 import com.gapps.library.api.models.video.vimeo.ResponseVimeo
@@ -41,6 +42,9 @@ class VideoService(
 				url.matches(FACEBOOK_PATTERN.toRegex()) -> {
 					videoHelper.getFacebookInfo(url, callback)
 				}
+				url.matches(DAILYMOTION_PATTERN.toRegex()) -> {
+					videoHelper.getDailymotionInfo(url, callback)
+				}
 				else -> {
 					callback.invoke(VideoPreviewModel.error())
 				}
@@ -64,6 +68,29 @@ class VideoService(
 
 							val responseModel = Gson().fromJson<FacebookResponse>(stringBody, FacebookResponse::class.java)
 							responseModel.toPreview()
+						} else {
+							VideoPreviewModel.error()
+						}
+					}
+
+					callback.invoke(result)
+				}
+			} catch (e: Exception) {
+				e.printStackTrace()
+				callback.invoke(VideoPreviewModel.error())
+			}
+		}
+
+		fun getDailymotionInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
+			try {
+				launch(coroutineContext) {
+					val result = withContext(Dispatchers.IO) {
+						val response = client.newCall(Request.Builder().url(url.getDailymotionInfoUrl()).build()).execute()
+						return@withContext if (response.isSuccessful) {
+							val stringBody = response.body()?.string()
+
+							val responseModel = Gson().fromJson<DailymotionResponse>(stringBody, DailymotionResponse::class.java)
+							responseModel.toPreview(url)
 						} else {
 							VideoPreviewModel.error()
 						}

@@ -4,6 +4,7 @@ import android.content.*
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.gapps.library.api.VideoService
@@ -23,11 +24,12 @@ class MainActivity : AppCompatActivity() {
 
 		initService()
 
-		youtube.setOnClickListener { getPreview(it) }
-		youtube_music.setOnClickListener { getPreview(it) }
-		vimeo.setOnClickListener { getPreview(it) }
-		rutube.setOnClickListener { getPreview(it) }
-		facebook.setOnClickListener { getPreview(it) }
+		youtube_container.setOnClickListener { getPreview(it) }
+		youtube_music_container.setOnClickListener { getPreview(it) }
+		vimeo_container.setOnClickListener { getPreview(it) }
+		rutube_container.setOnClickListener { getPreview(it) }
+		facebook_container.setOnClickListener { getPreview(it) }
+		dailymotion_container.setOnClickListener { getPreview(it) }
 	}
 
 	private fun initService() {
@@ -47,7 +49,8 @@ class MainActivity : AppCompatActivity() {
 
 	private fun getPreview(it: View?) {
 		progress.visibility = View.VISIBLE
-		val url = (it as TextView).text?.toString() ?: ""
+		val textView = getTextView(it) ?: return
+		val url = textView.text?.toString() ?: return
 
 		videoService.loadVideoPreview(url) { model ->
 			val host = model.videoHosting
@@ -74,6 +77,19 @@ class MainActivity : AppCompatActivity() {
 
 			progress.visibility = View.INVISIBLE
 		}
+	}
+
+	private fun getTextView(it: View?): TextView? {
+		it ?: return null
+
+		if (it !is ViewGroup) return null
+
+		for (i: Int in 0 until it.childCount) {
+			val childAt = it.getChildAt(i)
+			if (childAt is TextView) return childAt
+		}
+
+		return null
 	}
 
 	private fun copyLinkToClipboard(link: String) {

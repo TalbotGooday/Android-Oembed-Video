@@ -5,13 +5,16 @@ const val YOUTUBE_PATTERN_ID = "(?:(?:\\w*.?://)?\\w*.?\\w*-?.?\\w*/(?:embed|e|v
 const val VIMEO_PATTERN = "(?:http[s]?:\\/\\/)(?:w{3})?(?:player\\.)?vimeo\\.com\\/(?:[a-z]*\\/)*([0-9]{6,11})[?]?.*"
 const val RUTUBE_PATTERN = "(?:http[s]?:\\/\\/)(?:w{3})?(?:player\\.)?rutube\\.ru\\/video\\/(?:embed\\/)?([A-Za-z0-9]+)[\\/]?(\\?.+)?"
 const val FACEBOOK_PATTERN = "(?:http[s]?:\\/\\/)?(?:www.|web.|m.)?(?:facebook|fb)?.com\\/(?:(?:video.php|watch?\\/)?\\?v=|.+\\/videos(?:\\/.+)?\\/)(\\d+)\\S*"
+const val DAILYMOTION_PATTERN = "(?:(?:https?):)?(?:\\/\\/)?(?:www\\.)?(?:(?:dailymotion\\.com(?:\\/embed)?\\/video)|dai\\.ly)\\/([a-zA-Z0-9]+)(?:_[\\w_-]+)?"
 const val OEMBED_INFO = "/oembed"
 const val VIMEO_INFO = "/api/v2/video/"
 const val FACEBOOK_INFO = "/plugins/video/oembed"
+const val DAILYMOTION_INFO = "/services/oembed/?url=https://www.dailymotion.com/video/"
 const val FACEBOOK_VIDEOS = "?url=https://www.facebook.com/facebook/videos/"
 const val YOUTUBE_BASE_URL = "https://www.youtube.com"
 const val VIMEO_BASE_URL = "http://vimeo.com"
 const val FACEBOOK_BASE_URL = "https://apps.facebook.com"
+const val DAILYMOTION_BASE_URL = "https://www.dailymotion.com"
 const val RUTUBE_BASE_URL = "http://rutube.ru/api"
 const val FORMAT = "format"
 const val FORMAT_JSON = "json"
@@ -32,6 +35,12 @@ fun String.getVimeoInfoUrl(): String {
 fun String.getFacebookInfoUrl(): String {
 	val id = FACEBOOK_PATTERN.toRegex().find(this)?.groups?.get(1)?.value
 	return "$FACEBOOK_BASE_URL$FACEBOOK_INFO.$FORMAT_JSON$FACEBOOK_VIDEOS$id"
+}
+
+
+fun String.getDailymotionInfoUrl(): String {
+	val id = DAILYMOTION_PATTERN.toRegex().find(this)?.groups?.get(1)?.value
+	return "$DAILYMOTION_BASE_URL$DAILYMOTION_INFO$id"
 }
 
 

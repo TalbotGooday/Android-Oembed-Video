@@ -5,68 +5,85 @@
 	android:layout_height="match_parent"
 	android:gravity="center"
 	android:orientation="vertical"
-	android:padding="10dp"
 	tools:context=".MainActivity">
 
-	<LinearLayout style="@style/Item">
+	<LinearLayout
+		android:id="@+id/youtube_container"
+		style="@style/Item">
 
 		<androidx.appcompat.widget.AppCompatImageView
 			style="@style/ItemIcon"
 			android:src="@drawable/youtube" />
 
 		<TextView
-			android:id="@+id/youtube"
 			style="@style/ItemText"
 			android:text="https://www.youtube.com/watch?v=M4BSGZ07NNA" />
 
 	</LinearLayout>
 
-	<LinearLayout style="@style/Item">
+	<LinearLayout
+		android:id="@+id/youtube_music_container"
+		style="@style/Item">
 
 		<androidx.appcompat.widget.AppCompatImageView
 			style="@style/ItemIcon"
 			android:src="@drawable/youtube_music" />
 
 		<TextView
-			android:id="@+id/youtube_music"
 			style="@style/ItemText"
 			android:text="https://music.youtube.com/watch?v=lFMOYjVCLUo" />
 	</LinearLayout>
 
-	<LinearLayout style="@style/Item">
+	<LinearLayout
+		android:id="@+id/vimeo_container"
+		style="@style/Item">
 
 		<androidx.appcompat.widget.AppCompatImageView
 			style="@style/ItemIcon"
 			android:src="@drawable/vimeo" />
 
 		<TextView
-			android:id="@+id/vimeo"
 			style="@style/ItemText"
 			android:text="https://vimeo.com/333257472" />
 	</LinearLayout>
 
-	<LinearLayout style="@style/Item">
+	<LinearLayout
+		android:id="@+id/rutube_container"
+		style="@style/Item">
 
 		<androidx.appcompat.widget.AppCompatImageView
 			style="@style/ItemIcon"
 			android:src="@drawable/rutube" />
 
 		<TextView
-			android:id="@+id/rutube"
 			style="@style/ItemText"
 			android:text="https://rutube.ru/video/d70e62b44b8893e98e3e90a6e2c9fcd4/?pl_type=source&amp;pl_id=18265" />
 	</LinearLayout>
 
-	<LinearLayout style="@style/Item">
+	<LinearLayout
+		android:id="@+id/facebook_container"
+		style="@style/Item">
 
 		<androidx.appcompat.widget.AppCompatImageView
 			style="@style/ItemIcon"
 			android:src="@drawable/ic_fb" />
 
 		<TextView
-			android:id="@+id/facebook"
 			style="@style/ItemText"
 			android:text="https://www.facebook.com/HowAboutBeirut/videos/1013788008958789/" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/dailymotion_container"
+		style="@style/Item">
+
+		<androidx.appcompat.widget.AppCompatImageView
+			style="@style/ItemIcon"
+			android:src="@drawable/ic_dailymotion" />
+
+		<TextView
+			style="@style/ItemText"
+			android:text="https://www.dailymotion.com/video/x5sxbmb" />
 	</LinearLayout>
 
 	<ProgressBar
