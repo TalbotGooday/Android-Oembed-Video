@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 		rutube_container.setOnClickListener { getPreview(it) }
 		facebook_container.setOnClickListener { getPreview(it) }
 		dailymotion_container.setOnClickListener { getPreview(it) }
+		wistia_container.setOnClickListener { getPreview(it) }
 	}
 
 	private fun initService() {

@@ -86,6 +86,19 @@
 			android:text="https://www.dailymotion.com/video/x5sxbmb" />
 	</LinearLayout>
 
+	<LinearLayout
+		android:id="@+id/wistia_container"
+		style="@style/Item">
+
+		<androidx.appcompat.widget.AppCompatImageView
+			style="@style/ItemIcon"
+			android:src="@drawable/ic_wistia" />
+
+		<TextView
+			style="@style/ItemText"
+			android:text="https://dave.wistia.com/medias/0k5h1g1chs/" />
+	</LinearLayout>
+
 	<ProgressBar
 		android:id="@+id/progress"
 		android:layout_width="wrap_content"

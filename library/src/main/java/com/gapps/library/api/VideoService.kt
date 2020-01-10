@@ -5,6 +5,7 @@ import com.gapps.library.api.models.video.dailymotion.DailymotionResponse
 import com.gapps.library.api.models.video.facebook.FacebookResponse
 import com.gapps.library.api.models.video.rutube.ResponseRutube
 import com.gapps.library.api.models.video.vimeo.ResponseVimeo
+import com.gapps.library.api.models.video.wistia.WistiaResponse
 import com.gapps.library.api.models.video.youtube.ResponseYoutube
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -44,6 +45,9 @@ class VideoService(
 				}
 				url.matches(DAILYMOTION_PATTERN.toRegex()) -> {
 					videoHelper.getDailymotionInfo(url, callback)
+				}
+				url.matches(WISTIA_PATTERN.toRegex()) -> {
+					videoHelper.getWistiaInfo(url, callback)
 				}
 				else -> {
 					callback.invoke(VideoPreviewModel.error())
@@ -90,6 +94,29 @@ class VideoService(
 							val stringBody = response.body()?.string()
 
 							val responseModel = Gson().fromJson<DailymotionResponse>(stringBody, DailymotionResponse::class.java)
+							responseModel.toPreview(url)
+						} else {
+							VideoPreviewModel.error()
+						}
+					}
+
+					callback.invoke(result)
+				}
+			} catch (e: Exception) {
+				e.printStackTrace()
+				callback.invoke(VideoPreviewModel.error())
+			}
+		}
+
+		fun getWistiaInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
+			try {
+				launch(coroutineContext) {
+					val result = withContext(Dispatchers.IO) {
+						val response = client.newCall(Request.Builder().url(url.getWistiaInfoUrl()).build()).execute()
+						return@withContext if (response.isSuccessful) {
+							val stringBody = response.body()?.string()
+
+							val responseModel = Gson().fromJson<WistiaResponse>(stringBody, WistiaResponse::class.java)
 							responseModel.toPreview(url)
 						} else {
 							VideoPreviewModel.error()
