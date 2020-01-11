@@ -3,6 +3,7 @@ package com.gapps.library.api.models.video.facebook
 
 import com.gapps.library.api.FACEBOOK_PATTERN
 import com.gapps.library.api.models.video.VideoPreviewModel
+import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.SerializedName
 
 data class FacebookResponse(
@@ -28,13 +29,16 @@ data class FacebookResponse(
 		val url: String = "",
 		@SerializedName("width")
 		val width: Int? = 0
-) {
-	fun toPreview(): VideoPreviewModel {
+) : BaseVideoResponse {
+	override fun toPreview(url: String?): VideoPreviewModel {
+		val videoId = getVideoId(url)
+
 		return VideoPreviewModel().apply {
+			this.thumbnailUrl = "https://graph.facebook.com/${videoId}/picture"
 			this.videoTitle = this@FacebookResponse.authorName
 			this.url = this@FacebookResponse.url
 			this.videoHosting = VideoPreviewModel.FACEBOOK
-			this.videoId = extractId(url)
+			this.videoId = videoId
 			this.linkToPlay = "https://www.facebook.com/video/embed?video_id=${videoId}"
 
 			this.width = this@FacebookResponse.width ?: 0
@@ -42,7 +46,7 @@ data class FacebookResponse(
 		}
 	}
 
-	private fun extractId(url: String?): String? {
+	override fun getVideoId(url: String?): String? {
 		url ?: return null
 
 		return FACEBOOK_PATTERN.toRegex().find(url)?.groups?.get(1)?.value

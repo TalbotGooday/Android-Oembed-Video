@@ -3,6 +3,7 @@ package com.gapps.library.api.models.video.dailymotion
 
 import com.gapps.library.api.DAILYMOTION_PATTERN
 import com.gapps.library.api.models.video.VideoPreviewModel
+import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.SerializedName
 
 data class DailymotionResponse(
@@ -34,14 +35,14 @@ data class DailymotionResponse(
 		val thumbnailWidth: Int = 0,
 		@SerializedName("thumbnail_height")
 		val thumbnailHeight: Int = 0
-) {
-	fun toPreview(url: String? = null): VideoPreviewModel {
+) : BaseVideoResponse {
+	override fun toPreview(url: String?): VideoPreviewModel {
 		return VideoPreviewModel().apply {
 			this.thumbnailUrl = this@DailymotionResponse.thumbnailUrl
 			this.videoTitle = this@DailymotionResponse.title
 			this.url = url
 			this.videoHosting = VideoPreviewModel.DAILYMOTION
-			this.videoId = extractId(url)
+			this.videoId = getVideoId(url)
 			this.linkToPlay = "https://www.dailymotion.com/embed/video/${videoId}"
 
 			this.width = this@DailymotionResponse.width
@@ -49,9 +50,9 @@ data class DailymotionResponse(
 		}
 	}
 
-    private fun extractId(url: String?): String? {
-        url ?: return null
+	override fun getVideoId(url: String?): String? {
+		url ?: return null
 
-        return DAILYMOTION_PATTERN.toRegex().find(url)?.groups?.get(1)?.value
-    }
+		return DAILYMOTION_PATTERN.toRegex().find(url)?.groups?.get(1)?.value
+	}
 }

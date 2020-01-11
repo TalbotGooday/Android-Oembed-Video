@@ -22,8 +22,10 @@ class VideoPreviewModel {
         const val WISTIA = "Wistia"
         const val VZAAR = "Vzaar"
 
-        fun error() = VideoPreviewModel().apply {
+        fun error(message: String? = null) = VideoPreviewModel().apply {
             this.videoTitle = ERROR_404
+            this.thumbnailUrl = "http://euonthemove.eu/wp-content/uploads/2017/05/no-video.jpg"
+            this.videoTitle = message
         }
     }
 }

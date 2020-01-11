@@ -1,6 +1,7 @@
 package com.gapps.library.api
 
 import com.gapps.library.api.models.video.VideoPreviewModel
+import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.gapps.library.api.models.video.dailymotion.DailymotionResponse
 import com.gapps.library.api.models.video.facebook.FacebookResponse
 import com.gapps.library.api.models.video.rutube.ResponseRutube
@@ -8,14 +9,13 @@ import com.gapps.library.api.models.video.vimeo.ResponseVimeo
 import com.gapps.library.api.models.video.vzaar.VzaarResponse
 import com.gapps.library.api.models.video.wistia.WistiaResponse
 import com.gapps.library.api.models.video.youtube.ResponseYoutube
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonElement
+import com.google.gson.JsonParser
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.lang.reflect.Type
 import kotlin.coroutines.CoroutineContext
 
 
@@ -63,179 +63,105 @@ class VideoService(
 	}
 
 	inner class Helper(private val client: OkHttpClient) : CoroutineScope {
+		private val job = Job()
 		override val coroutineContext: CoroutineContext
-			get() = Dispatchers.Main
+			get() = job + Dispatchers.Main
+
+		private var gson = GsonBuilder()
+				.setLenient()
+				.create()
 
 		fun getFacebookInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			try {
-				launch(coroutineContext) {
-					val result = withContext(Dispatchers.IO) {
-						val response = client.newCall(Request.Builder().url(url.getFacebookInfoUrl()).build()).execute()
-						return@withContext if (response.isSuccessful) {
-							val stringBody = response.body()?.string()
-
-							val responseModel = Gson().fromJson<FacebookResponse>(stringBody, FacebookResponse::class.java)
-							responseModel.toPreview()
-						} else {
-							VideoPreviewModel.error()
-						}
-					}
-
-					callback.invoke(result)
-				}
-			} catch (e: Exception) {
-				e.printStackTrace()
-				callback.invoke(VideoPreviewModel.error())
-			}
+			getVideoInfo(url, url.getFacebookInfoUrl(), FacebookResponse::class.java, callback)
 		}
 
 		fun getDailymotionInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			try {
-				launch(coroutineContext) {
-					val result = withContext(Dispatchers.IO) {
-						val response = client.newCall(Request.Builder().url(url.getDailymotionInfoUrl()).build()).execute()
-						return@withContext if (response.isSuccessful) {
-							val stringBody = response.body()?.string()
-
-							val responseModel = Gson().fromJson<DailymotionResponse>(stringBody, DailymotionResponse::class.java)
-							responseModel.toPreview(url)
-						} else {
-							VideoPreviewModel.error()
-						}
-					}
-
-					callback.invoke(result)
-				}
-			} catch (e: Exception) {
-				e.printStackTrace()
-				callback.invoke(VideoPreviewModel.error())
-			}
+			getVideoInfo(url, url.getDailymotionInfoUrl(), DailymotionResponse::class.java, callback)
 		}
 
 		fun getWistiaInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			try {
-				launch(coroutineContext) {
-					val result = withContext(Dispatchers.IO) {
-						val response = client.newCall(Request.Builder().url(url.getWistiaInfoUrl()).build()).execute()
-						return@withContext if (response.isSuccessful) {
-							val stringBody = response.body()?.string()
-
-							val responseModel = Gson().fromJson<WistiaResponse>(stringBody, WistiaResponse::class.java)
-							responseModel.toPreview(url)
-						} else {
-							VideoPreviewModel.error()
-						}
-					}
-
-					callback.invoke(result)
-				}
-			} catch (e: Exception) {
-				e.printStackTrace()
-				callback.invoke(VideoPreviewModel.error())
-			}
+			getVideoInfo(url, url.getWistiaInfoUrl(), WistiaResponse::class.java, callback)
 		}
 
 		fun getVzaarInfoUrl(url: String, callback: (VideoPreviewModel) -> Unit) {
-			try {
-				launch(coroutineContext) {
-					val result = withContext(Dispatchers.IO) {
-						val response = client.newCall(Request.Builder().url(url.getVzaarInfoUrl()).build()).execute()
-						return@withContext if (response.isSuccessful) {
-							val stringBody = response.body()?.string()
-
-							val responseModel = Gson().fromJson<VzaarResponse>(stringBody, VzaarResponse::class.java)
-							responseModel.toPreview(url)
-						} else {
-							VideoPreviewModel.error()
-						}
-					}
-
-					callback.invoke(result)
-				}
-			} catch (e: Exception) {
-				e.printStackTrace()
-				callback.invoke(VideoPreviewModel.error())
-			}
+			getVideoInfo(url, url.getVzaarInfoUrl(), VzaarResponse::class.java, callback)
 		}
 
 		fun getRutubeInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			try {
-				launch(coroutineContext) {
-					val result = withContext(Dispatchers.IO) {
-						val response = client.newCall(Request.Builder().url(url.getRutubeInfoUrl()).build()).execute()
-						return@withContext if (response.isSuccessful) {
-							val stringBody = response.body()?.string()
-							val responseModel = Gson().fromJson<ResponseRutube>(stringBody, ResponseRutube::class.java)
-
-							responseModel.toPreview()
-						} else {
-							VideoPreviewModel.error()
-						}
-
-					}
-
-					callback.invoke(result)
-				}
-			} catch (e: Exception) {
-				callback.invoke(VideoPreviewModel.error())
-			}
+			getVideoInfo(url, url.getRutubeInfoUrl(), ResponseRutube::class.java, callback)
 		}
 
 		fun getVimeoInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			try {
-				launch(coroutineContext) {
-					val result = withContext(Dispatchers.IO) {
-						val response = client.newCall(Request.Builder().url(url.getVimeoInfoUrl()).build()).execute()
-						return@withContext if (response.isSuccessful) {
-							val stringBody = response.body()?.string()
-
-							try {
-								val responseModel = Gson().fromJson<List<ResponseVimeo>>(stringBody, object : TypeToken<List<ResponseVimeo>>() {}.type)
-
-								responseModel.firstOrNull()?.toPreview(url)
-										?: VideoPreviewModel.error()
-							} catch (e: Exception) {
-								VideoPreviewModel.error()
-							}
-						} else {
-							VideoPreviewModel.error()
-						}
-					}
-
-					callback.invoke(result)
-				}
-			} catch (e: Exception) {
-				e.printStackTrace()
-				callback.invoke(VideoPreviewModel.error())
-			}
+			getVideoInfo(url, url.getVimeoInfoUrl(), ResponseVimeo::class.java, callback)
 		}
 
 		fun getYoutubeInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			try {
-				launch(coroutineContext) {
-					val result = withContext(Dispatchers.IO) {
-						val response = client.newCall(Request.Builder().url(url.getYoutubeInfoUrl()).build()).execute()
-						return@withContext if (response.isSuccessful) {
-							val stringBody = response.body()?.string()
+			getVideoInfo(url, url.getYoutubeInfoUrl(), ResponseYoutube::class.java, callback)
+		}
 
-							try {
-								val responseModel = Gson().fromJson(stringBody, ResponseYoutube::class.java)
-
-								responseModel.toPreview(url)
-							} catch (e: Exception) {
-								VideoPreviewModel.error()
-							}
-						} else {
-							VideoPreviewModel.error()
-						}
-					}
-
-					callback.invoke(result)
-				}
-			} catch (e: Exception) {
-				e.printStackTrace()
+		private fun getVideoInfo(originalUrl: String?, finalUrl: String?, type: Type?, callback: (VideoPreviewModel) -> Unit) {
+			if (finalUrl == null) {
 				callback.invoke(VideoPreviewModel.error())
+
+				return
 			}
+
+			runSafeWithBlock(
+					{
+						val jsonBody = makeCallGetBody(client, finalUrl)
+
+						if (jsonBody == null) {
+							withContext(Dispatchers.Main) {
+								callback.invoke(VideoPreviewModel.error("Can't parse response"))
+							}
+
+							return@runSafeWithBlock
+						}
+
+						val result = try {
+							fromJson(jsonBody, type).toPreview(originalUrl)
+						} catch (e: Exception) {
+							VideoPreviewModel.error(e.localizedMessage)
+						}
+
+						withContext(Dispatchers.Main) {
+							callback.invoke(result)
+						}
+					},
+					{
+						callback.invoke(VideoPreviewModel.error(it))
+					}
+			)
+		}
+
+
+		private fun runSafeWithBlock(action: suspend CoroutineScope.() -> Unit, onError: ((String?) -> Unit)? = null) {
+			launch(coroutineContext) {
+				try {
+					action.invoke(this)
+				} catch (error: Throwable) {
+					error.printStackTrace()
+					onError?.invoke(error.localizedMessage)
+				}
+			}
+		}
+
+		private suspend fun makeCallGetBody(client: OkHttpClient, url: String): JsonElement? {
+			return withContext(Dispatchers.IO) {
+				val response = client.newCall(Request.Builder().url(url).build()).execute()
+				val stringBody = response.body()?.string() ?: return@withContext null
+				val jsonObject = JsonParser.parseString(stringBody)
+
+				return@withContext if (jsonObject.isJsonArray) {
+					jsonObject.asJsonArray[0]
+				} else {
+					jsonObject
+				}
+			}
+		}
+
+		private fun fromJson(json: JsonElement?, type: Type?): BaseVideoResponse {
+			return gson.fromJson(json, type)
 		}
 	}
 

@@ -2,10 +2,11 @@ package com.gapps.library.api.models.video.youtube
 
 import com.gapps.library.api.YOUTUBE_PATTERN_ID
 import com.gapps.library.api.models.video.VideoPreviewModel
+import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.SerializedName
 import java.util.regex.Pattern
 
-class ResponseYoutube {
+class ResponseYoutube: BaseVideoResponse {
 	@SerializedName("author_name")
 	var authorName: String? = null
 
@@ -45,7 +46,7 @@ class ResponseYoutube {
 	@SerializedName("height")
 	var height: Int = 0
 
-	fun toPreview(url: String? = null): VideoPreviewModel {
+	override fun toPreview(url: String?): VideoPreviewModel {
 		return VideoPreviewModel().apply {
 			this.videoTitle = this@ResponseYoutube.title
 			this.thumbnailUrl = this@ResponseYoutube.thumbnailUrl
@@ -55,20 +56,16 @@ class ResponseYoutube {
 			} else {
 				VideoPreviewModel.YOUTUBE
 			}
-			this.videoId = extractId(url)
+			this.videoId = getVideoId(url)
 			this.linkToPlay = "https://www.youtube.com/embed/${this.videoId}?autoplay=1&vq=small"
 			this.width = this@ResponseYoutube.width
 			this.height = this@ResponseYoutube.height
 		}
 	}
 
-	fun extractId(url: String?): String? {
+	override fun getVideoId(url: String?): String? {
 		url ?: return null
 
-		val matcher = Pattern.compile(YOUTUBE_PATTERN_ID).matcher(url)
-		if (matcher.find()) {
-			return matcher.group(1)
-		}
-		return null
+		return YOUTUBE_PATTERN_ID.toRegex().find(url)?.groups?.get(1)?.value
 	}
 }

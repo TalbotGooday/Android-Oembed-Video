@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.gapps.library.api.VideoService
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.ui.bottom_menu.BottomVideoController
+import com.gapps.videonoapi.adapters.VideoAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,20 +23,55 @@ class MainActivity : AppCompatActivity() {
 
 	private lateinit var videoService: VideoService
 
+	private val videoUrls = listOf(
+			"https://www.youtube.com/watch?v=M4BSGZ07NNA",
+			"https://music.youtube.com/watch?v=lFMOYjVCLUo",
+			"https://vimeo.com/333257472",
+			"https://rutube.ru/video/d70e62b44b8893e98e3e90a6e2c9fcd4/?pl_type=source&amp;pl_id=18265",
+			"https://www.facebook.com/UFC/videos/410056389868335/",
+			"https://www.dailymotion.com/video/x5sxbmb",
+			"https://dave.wistia.com/medias/0k5h1g1chs/",
+			"https://vzaar.com/videos/401431"
+	)
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
 
 		initService()
 
-		youtube_container.setOnClickListener { getPreview(it) }
-		youtube_music_container.setOnClickListener { getPreview(it) }
-		vimeo_container.setOnClickListener { getPreview(it) }
-		rutube_container.setOnClickListener { getPreview(it) }
-		facebook_container.setOnClickListener { getPreview(it) }
-		dailymotion_container.setOnClickListener { getPreview(it) }
-		wistia_container.setOnClickListener { getPreview(it) }
-		vzaar_container.setOnClickListener { getPreview(it) }
+		initViews()
+	}
+
+	private fun initViews() {
+		videos_list.apply {
+			layoutManager = LinearLayoutManager(this@MainActivity)
+			adapter = VideoAdapter(videoService, object : VideoAdapter.Listener {
+				override fun onItemClick(item: VideoPreviewModel) {
+					showVideo(item)
+				}
+			}).apply {
+				swapData(videoUrls)
+			}
+
+			addOnScrollListener(object : RecyclerView.OnScrollListener() {
+				override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+					super.onScrolled(recyclerView, dx, dy)
+
+					val isBottom = recyclerView.canScrollVertically(1).not()
+
+					buttons_container.alpha = if (isBottom) .1f else 1f
+				}
+			})
+		}
+
+		refresh.setOnClickListener {
+			(videos_list.adapter as VideoAdapter).swapData(videoUrls)
+		}
+
+		collapse_all.setOnClickListener {
+			(videos_list.adapter as VideoAdapter).collapseAll()
+		}
 	}
 
 	private fun initService() {
@@ -51,36 +89,29 @@ class MainActivity : AppCompatActivity() {
 				.build()
 	}
 
-	private fun getPreview(it: View?) {
-		progress.visibility = View.VISIBLE
-		val textView = getTextView(it) ?: return
-		val url = textView.text?.toString() ?: return
+	private fun showVideo(model: VideoPreviewModel) {
+		val host = model.videoHosting
+		val linkToPlay = model.linkToPlay
+		val title = model.videoTitle
+		val initUrl = model.url
 
-		videoService.loadVideoPreview(url) { model: VideoPreviewModel ->
-			val host = model.videoHosting
-			val linkToPlay = model.linkToPlay
-			val title = model.videoTitle
-			val initUrl = model.url
+		BottomVideoController.Builder(this)
+				.setListener(object : BottomVideoController.Listener() {
+					override fun openLinkIn(link: String) {
+						openLink(link)
+					}
 
-			BottomVideoController.Builder(this)
-					.setListener(object : BottomVideoController.Listener() {
-						override fun openLinkIn(link: String) {
-							openLink(link)
-						}
+					override fun copyLink(link: String) {
+						copyLinkToClipboard(link)
+					}
+				})
+				.setHostText(host)
+				.setPlayLink(linkToPlay)
+				.setSize(model.width, model.height)
+				.setTitle(title)
+				.setVideoUrl(initUrl)
+				.show()
 
-						override fun copyLink(link: String) {
-							copyLinkToClipboard(link)
-						}
-					})
-					.setHostText(host)
-					.setPlayLink(linkToPlay)
-					.setSize(model.width, model.height)
-					.setTitle(title)
-					.setVideoUrl(initUrl)
-					.show()
-
-			progress.visibility = View.INVISIBLE
-		}
 	}
 
 	private fun getTextView(it: View?): TextView? {

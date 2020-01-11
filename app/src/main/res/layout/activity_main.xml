@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -7,114 +8,66 @@
 	android:orientation="vertical"
 	tools:context=".MainActivity">
 
-	<LinearLayout
-		android:id="@+id/youtube_container"
-		style="@style/Item">
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/videos_list"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:listitem="@layout/item_video" />
 
-		<androidx.appcompat.widget.AppCompatImageView
-			style="@style/ItemIcon"
-			android:src="@drawable/youtube" />
-
-		<TextView
-			style="@style/ItemText"
-			android:text="https://www.youtube.com/watch?v=M4BSGZ07NNA" />
-
-	</LinearLayout>
-
-	<LinearLayout
-		android:id="@+id/youtube_music_container"
-		style="@style/Item">
-
-		<androidx.appcompat.widget.AppCompatImageView
-			style="@style/ItemIcon"
-			android:src="@drawable/youtube_music" />
-
-		<TextView
-			style="@style/ItemText"
-			android:text="https://music.youtube.com/watch?v=lFMOYjVCLUo" />
-	</LinearLayout>
-
-	<LinearLayout
-		android:id="@+id/vimeo_container"
-		style="@style/Item">
-
-		<androidx.appcompat.widget.AppCompatImageView
-			style="@style/ItemIcon"
-			android:src="@drawable/vimeo" />
-
-		<TextView
-			style="@style/ItemText"
-			android:text="https://vimeo.com/333257472" />
-	</LinearLayout>
-
-	<LinearLayout
-		android:id="@+id/rutube_container"
-		style="@style/Item">
-
-		<androidx.appcompat.widget.AppCompatImageView
-			style="@style/ItemIcon"
-			android:src="@drawable/rutube" />
-
-		<TextView
-			style="@style/ItemText"
-			android:text="https://rutube.ru/video/d70e62b44b8893e98e3e90a6e2c9fcd4/?pl_type=source&amp;pl_id=18265" />
-	</LinearLayout>
-
-	<LinearLayout
-		android:id="@+id/facebook_container"
-		style="@style/Item">
-
-		<androidx.appcompat.widget.AppCompatImageView
-			style="@style/ItemIcon"
-			android:src="@drawable/ic_fb" />
-
-		<TextView
-			style="@style/ItemText"
-			android:text="https://www.facebook.com/HowAboutBeirut/videos/1013788008958789/" />
-	</LinearLayout>
-
-	<LinearLayout
-		android:id="@+id/dailymotion_container"
-		style="@style/Item">
-
-		<androidx.appcompat.widget.AppCompatImageView
-			style="@style/ItemIcon"
-			android:src="@drawable/ic_dailymotion" />
-
-		<TextView
-			style="@style/ItemText"
-			android:text="https://www.dailymotion.com/video/x5sxbmb" />
-	</LinearLayout>
-
-	<LinearLayout
-		android:id="@+id/wistia_container"
-		style="@style/Item">
-
-		<androidx.appcompat.widget.AppCompatImageView
-			style="@style/ItemIcon"
-			android:src="@drawable/ic_wistia" />
-
-		<TextView
-			style="@style/ItemText"
-			android:text="https://dave.wistia.com/medias/0k5h1g1chs/" />
-	</LinearLayout>
-
-	<LinearLayout
-		android:id="@+id/vzaar_container"
-		style="@style/Item">
-
-		<androidx.appcompat.widget.AppCompatImageView
-			style="@style/ItemIcon"
-			android:src="@drawable/ic_vzaar" />
-
-		<TextView
-			style="@style/ItemText"
-			android:text="https://vzaar.com/videos/401431" />
-	</LinearLayout>
-
-	<ProgressBar
-		android:id="@+id/progress"
-		android:layout_width="wrap_content"
+	<FrameLayout
+		android:id="@+id/buttons_container"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:visibility="invisible" />
-</LinearLayout>
+		android:layout_gravity="bottom">
+
+		<LinearLayout
+			android:id="@+id/collapse_all"
+			android:layout_width="wrap_content"
+			android:layout_height="48dp"
+			android:layout_gravity="start"
+			android:layout_margin="8dp"
+			android:background="@drawable/bg_action_button_image"
+			android:gravity="center"
+			android:orientation="horizontal"
+			android:paddingStart="8dp"
+			android:paddingEnd="20dp">
+
+			<androidx.appcompat.widget.AppCompatImageView
+				style="@style/ItemIcon"
+				android:rotation="180"
+				android:tint="@android:color/white"
+				app:srcCompat="@drawable/ic_arrow_drop" />
+
+			<TextView
+				style="@style/ItemText"
+				android:text="@string/collapse_all"
+				android:textAllCaps="true"
+				android:textColor="@android:color/white" />
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/refresh"
+			android:layout_width="wrap_content"
+			android:layout_height="48dp"
+			android:layout_gravity="end"
+			android:layout_margin="8dp"
+			android:background="@drawable/bg_action_button_image"
+			android:gravity="center"
+			android:orientation="horizontal"
+			android:paddingStart="8dp"
+			android:paddingEnd="20dp">
+
+			<androidx.appcompat.widget.AppCompatImageView
+				style="@style/ItemIcon"
+				app:srcCompat="@drawable/ic_refresh" />
+
+			<TextView
+				style="@style/ItemText"
+				android:text="@string/refresh"
+				android:textAllCaps="true"
+				android:textColor="@android:color/white" />
+
+		</LinearLayout>
+	</FrameLayout>
+</FrameLayout>

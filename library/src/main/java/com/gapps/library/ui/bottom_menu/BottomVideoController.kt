@@ -21,6 +21,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import com.gapps.library.R
 import com.gapps.library.ui.bottom_dialog.BottomSheetDialogFixed
+import com.gapps.library.utils.getHeight
+import com.gapps.library.utils.getWidth
 import kotlin.math.roundToInt
 
 class BottomVideoController private constructor(
@@ -119,10 +121,8 @@ class BottomVideoController private constructor(
 		val outlineColor = ColorUtils.setAlphaComponent(textColorInt, (255 * .1).toInt())
 		controlPanelOutline.background.colorFilter = PorterDuffColorFilter(outlineColor, PorterDuff.Mode.SRC_IN)
 
-		val widthRes = context.resources.getDimensionPixelSize(R.dimen.bv_dialog_width)
-
-		val videoViewWidth = getWidth(widthRes, context)
-		val videoViewHeight = getHeight(size, videoViewWidth)
+		val videoViewWidth = context.getWidth(context.resources.getDimensionPixelSize(R.dimen.bv_dialog_width))
+		val videoViewHeight = getHeight(size?.first, size?.second, videoViewWidth)
 
 		videoContainer.apply {
 			layoutParams.apply {
@@ -188,27 +188,6 @@ class BottomVideoController private constructor(
 				isVisible = false
 			}
 			show()
-		}
-	}
-
-	private fun getWidth(widthRes: Int, context: Context): Int {
-		return if (widthRes <= 0) {
-			val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-			val display = wm.defaultDisplay
-			val size = Point()
-			display.getSize(size)
-			size.x
-		} else {
-			widthRes
-		}
-	}
-
-	private fun getHeight(size: Pair<Float, Float>?, videoViewWidth: Int): Int {
-		return if (size == null || size.first <= 0 || size.second <= 0) {
-			videoViewWidth / 16 * 9
-		} else {
-			val aspectRatio = size.first / size.second
-			(videoViewWidth / aspectRatio).roundToInt()
 		}
 	}
 

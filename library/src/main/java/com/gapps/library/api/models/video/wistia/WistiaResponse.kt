@@ -2,6 +2,7 @@ package com.gapps.library.api.models.video.wistia
 
 import com.gapps.library.api.WISTIA_PATTERN
 import com.gapps.library.api.models.video.VideoPreviewModel
+import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.SerializedName
 
 data class WistiaResponse(
@@ -31,14 +32,14 @@ data class WistiaResponse(
 		val playerColor: String = "",
 		@SerializedName("duration")
 		val duration: Double = 0.0
-) {
-	fun toPreview(url: String? = null): VideoPreviewModel {
+) : BaseVideoResponse {
+	override fun toPreview(url: String?): VideoPreviewModel {
 		return VideoPreviewModel().apply {
 			this.thumbnailUrl = this@WistiaResponse.thumbnailUrl
 			this.videoTitle = this@WistiaResponse.title
 			this.url = url
 			this.videoHosting = VideoPreviewModel.WISTIA
-			this.videoId = extractId(url)
+			this.videoId = getVideoId(url)
 			this.linkToPlay = "http://fast.wistia.com/embed/iframe/${videoId}"
 
 			this.width = this@WistiaResponse.width
@@ -46,7 +47,7 @@ data class WistiaResponse(
 		}
 	}
 
-	private fun extractId(url: String?): String? {
+	override fun getVideoId(url: String?): String? {
 		url ?: return null
 
 		return WISTIA_PATTERN.toRegex().find(url)?.groups?.get(1)?.value
