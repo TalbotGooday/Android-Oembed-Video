@@ -132,7 +132,7 @@ class VideoAdapter(private val videoService: VideoService, private val listener:
 				VideoPreviewModel.VIMEO -> R.drawable.vimeo
 				VideoPreviewModel.RUTUBE -> R.drawable.rutube
 				VideoPreviewModel.FACEBOOK -> R.drawable.ic_fb
-				VideoPreviewModel.DAILYMOTION -> R.drawable.ic_dailymotion
+				VideoPreviewModel.DAILYMOTION -> R.drawable.dailymotion
 				VideoPreviewModel.WISTIA -> R.drawable.ic_wistia
 				VideoPreviewModel.VZAAR -> R.drawable.ic_vzaar
 				else -> R.drawable.ic_video

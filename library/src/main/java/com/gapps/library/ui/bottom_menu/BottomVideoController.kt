@@ -1,7 +1,11 @@
 package com.gapps.library.ui.bottom_menu
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,7 +27,6 @@ import com.gapps.library.R
 import com.gapps.library.ui.bottom_dialog.BottomSheetDialogFixed
 import com.gapps.library.utils.getHeight
 import com.gapps.library.utils.getWidth
-import kotlin.math.roundToInt
 
 class BottomVideoController private constructor(
 		private val context: Context?,
@@ -56,7 +59,12 @@ class BottomVideoController private constructor(
 			builder.size
 	)
 
+	@SuppressLint("InflateParams", "SetJavaScriptEnabled")
 	fun showBottomPopupMenu() {
+		if (isVisible) {
+			return
+		}
+
 		context ?: return
 
 		val url = url ?: return
