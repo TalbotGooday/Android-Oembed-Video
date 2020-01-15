@@ -9,6 +9,7 @@ class VideoPreviewModel {
     var linkToPlay: String? = null
     var width = 0
     var height = 0
+    var errorMessage: String? = null
 
     companion object {
         const val ERROR_404 = "Not found"
@@ -22,10 +23,11 @@ class VideoPreviewModel {
         const val WISTIA = "Wistia"
         const val VZAAR = "Vzaar"
 
-        fun error(message: String? = null) = VideoPreviewModel().apply {
+        fun error(url: String?, message: String? = null) = VideoPreviewModel().apply {
+            this.url = url
             this.videoTitle = ERROR_404
             this.thumbnailUrl = "http://euonthemove.eu/wp-content/uploads/2017/05/no-video.jpg"
-            this.videoTitle = message
+            this.errorMessage = message
         }
     }
 }

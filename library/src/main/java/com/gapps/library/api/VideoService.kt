@@ -1,5 +1,6 @@
 package com.gapps.library.api
 
+import android.util.Log
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.gapps.library.api.models.video.dailymotion.DailymotionResponse
@@ -20,16 +21,22 @@ import kotlin.coroutines.CoroutineContext
 
 
 class VideoService(
-		client: OkHttpClient
+		client: OkHttpClient,
+		val isLogEnabled: Boolean
 ) {
 
 	constructor(builder: Builder) : this(
-			builder.okHttpClient
+			builder.okHttpClient,
+			builder.isLogEnabled
 	)
 
 	private val videoHelper = Helper(client)
 
 	fun loadVideoPreview(url: String, callback: (VideoPreviewModel) -> Unit) {
+		if (isLogEnabled) {
+			Log.i("VideoService", "loading url: $url")
+		}
+
 		try {
 			when {
 				url.matches(YOUTUBE_PATTERN.toRegex()) -> {
@@ -54,11 +61,11 @@ class VideoService(
 					videoHelper.getVzaarInfoUrl(url, callback)
 				}
 				else -> {
-					callback.invoke(VideoPreviewModel.error())
+					callback.invoke(VideoPreviewModel.error(url))
 				}
 			}
 		} catch (e: Exception) {
-			callback.invoke(VideoPreviewModel.error())
+			callback.invoke(VideoPreviewModel.error(url))
 		}
 	}
 
@@ -101,7 +108,7 @@ class VideoService(
 
 		private fun getVideoInfo(originalUrl: String?, finalUrl: String?, type: Type?, callback: (VideoPreviewModel) -> Unit) {
 			if (finalUrl == null) {
-				callback.invoke(VideoPreviewModel.error())
+				callback.invoke(VideoPreviewModel.error(originalUrl))
 
 				return
 			}
@@ -133,7 +140,6 @@ class VideoService(
 					}
 			)
 		}
-
 
 		private fun runSafeWithBlock(action: suspend CoroutineScope.() -> Unit, onError: ((String?) -> Unit)? = null) {
 			launch(coroutineContext) {
@@ -167,8 +173,11 @@ class VideoService(
 
 	class Builder {
 		lateinit var okHttpClient: OkHttpClient
+		var isLogEnabled = false
 
 		fun httpClient(client: OkHttpClient) = apply { okHttpClient = client }
+
+		fun enableLog(isEnabled: Boolean) = apply { isLogEnabled = isEnabled }
 
 		fun build(): VideoService {
 			if (::okHttpClient.isInitialized.not()) {

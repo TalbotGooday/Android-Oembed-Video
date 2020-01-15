@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity() {
 			"https://www.facebook.com/UFC/videos/410056389868335/",
 			"https://www.dailymotion.com/video/x5sxbmb",
 			"https://dave.wistia.com/medias/0k5h1g1chs/",
-			"https://vzaar.com/videos/401431"
+			"https://vzaar.com/videos/401431",
+			"https://www.youtube.com/watch?v=Gqr14W91mdcjsjd"
 	)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,36 +96,24 @@ class MainActivity : AppCompatActivity() {
 		val title = model.videoTitle
 		val initUrl = model.url
 
-		BottomVideoController.Builder(this)
-				.setListener(object : BottomVideoController.Listener() {
-					override fun openLinkIn(link: String) {
-						openLink(link)
-					}
+		BottomVideoController.build(this) {
+			setListener(object : BottomVideoController.Listener() {
+				override fun openLinkIn(link: String) {
+					openLink(link)
+				}
 
-					override fun copyLink(link: String) {
-						copyLinkToClipboard(link)
-					}
-				})
-				.setHostText(host)
-				.setPlayLink(linkToPlay)
-				.setSize(model.width, model.height)
-				.setTitle(title)
-				.setVideoUrl(initUrl)
-				.show()
-
-	}
-
-	private fun getTextView(it: View?): TextView? {
-		it ?: return null
-
-		if (it !is ViewGroup) return null
-
-		for (i: Int in 0 until it.childCount) {
-			val childAt = it.getChildAt(i)
-			if (childAt is TextView) return childAt
+				override fun copyLink(link: String) {
+					copyLinkToClipboard(link)
+				}
+			})
+			setHostText(host)
+			setPlayLink(linkToPlay)
+			setSize(model.width, model.height)
+			setTitle(title)
+			setVideoUrl(initUrl)
+			show()
 		}
 
-		return null
 	}
 
 	private fun copyLinkToClipboard(link: String) {
