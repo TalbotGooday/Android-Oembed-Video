@@ -31,8 +31,7 @@ class MainActivity : AppCompatActivity() {
 			"https://www.facebook.com/UFC/videos/410056389868335/",
 			"https://www.dailymotion.com/video/x5sxbmb",
 			"https://dave.wistia.com/medias/0k5h1g1chs/",
-			"https://vzaar.com/videos/401431",
-			"https://www.youtube.com/watch?v=Gqr14W91mdcjsjd"
+			"https://vzaar.com/videos/401431"
 	)
 
 	override fun onCreate(savedInstanceState: Bundle?) {

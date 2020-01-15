@@ -128,7 +128,7 @@ class VideoService(
 						val result = try {
 							fromJson(jsonBody, type).toPreview(originalUrl)
 						} catch (e: Exception) {
-							VideoPreviewModel.error(e.localizedMessage)
+							VideoPreviewModel.error(originalUrl, e.localizedMessage)
 						}
 
 						withContext(Dispatchers.Main) {

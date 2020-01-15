@@ -1,6 +1,6 @@
 package com.gapps.library.api.models.video.youtube
 
-import com.gapps.library.api.YOUTUBE_PATTERN_ID
+import com.gapps.library.api.YOUTUBE_PATTERN
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.SerializedName
@@ -66,6 +66,6 @@ class ResponseYoutube: BaseVideoResponse {
 	override fun getVideoId(url: String?): String? {
 		url ?: return null
 
-		return YOUTUBE_PATTERN_ID.toRegex().find(url)?.groups?.get(1)?.value
+		return YOUTUBE_PATTERN.toRegex().find(url)?.groups?.get(1)?.value
 	}
 }
