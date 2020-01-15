@@ -61,11 +61,11 @@ class VideoService(
 					videoHelper.getVzaarInfoUrl(url, callback)
 				}
 				else -> {
-					callback.invoke(VideoPreviewModel.error(url))
+					callback.invoke(VideoPreviewModel.error(url, ERROR_1))
 				}
 			}
 		} catch (e: Exception) {
-			callback.invoke(VideoPreviewModel.error(url))
+			callback.invoke(VideoPreviewModel.error(url, ERROR_1))
 		}
 	}
 
@@ -108,7 +108,7 @@ class VideoService(
 
 		private fun getVideoInfo(originalUrl: String?, finalUrl: String?, type: Type?, callback: (VideoPreviewModel) -> Unit) {
 			if (finalUrl == null) {
-				callback.invoke(VideoPreviewModel.error(originalUrl))
+				callback.invoke(VideoPreviewModel.error(originalUrl, ERROR_3))
 
 				return
 			}
@@ -119,7 +119,7 @@ class VideoService(
 
 						if (jsonBody == null) {
 							withContext(Dispatchers.Main) {
-								callback.invoke(VideoPreviewModel.error("Can't parse response"))
+								callback.invoke(VideoPreviewModel.error(originalUrl, "$ERROR_2 \n---> Response is null"))
 							}
 
 							return@runSafeWithBlock
@@ -128,7 +128,7 @@ class VideoService(
 						val result = try {
 							fromJson(jsonBody, type).toPreview(originalUrl)
 						} catch (e: Exception) {
-							VideoPreviewModel.error(originalUrl, e.localizedMessage)
+							VideoPreviewModel.error(originalUrl, "$ERROR_2 \n---> ${e.localizedMessage}")
 						}
 
 						withContext(Dispatchers.Main) {
@@ -136,7 +136,7 @@ class VideoService(
 						}
 					},
 					{
-						callback.invoke(VideoPreviewModel.error(it))
+						callback.invoke(VideoPreviewModel.error(originalUrl, "$ERROR_2 \n---> $it"))
 					}
 			)
 		}
