@@ -27,6 +27,11 @@ fun getHeight(width: Float?, height: Float?, videoViewWidth: Int): Int {
 	}
 }
 
+/**
+* Check url is a video link
+ *
+ * @return true if url is a link and false otherwise
+*/
 fun String?.isVideoUrl(): Boolean {
 	this ?: return false
 

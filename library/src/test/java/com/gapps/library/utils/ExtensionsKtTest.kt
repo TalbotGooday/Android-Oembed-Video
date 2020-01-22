@@ -32,7 +32,7 @@ class ExtensionsKtTest {
 	)
 
 	@Test
-	fun `Check url is video link`() {
+	fun `Check url is a video link`() {
 		for (url in videoUrls){
 			println(url)
 			assertTrue(url.isVideoUrl())
