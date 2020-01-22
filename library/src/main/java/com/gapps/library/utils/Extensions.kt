@@ -3,8 +3,7 @@ package com.gapps.library.utils
 import android.content.Context
 import android.graphics.Point
 import android.view.WindowManager
-import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
+import com.gapps.library.api.*
 import kotlin.math.roundToInt
 
 fun Context.getWidth(widthRes: Int): Int {
@@ -28,8 +27,10 @@ fun getHeight(width: Float?, height: Float?, videoViewWidth: Int): Int {
 	}
 }
 
-fun <T> typeToken(): Type? {
-	return object : TypeToken<T>() {
+fun String?.isVideoUrl(): Boolean {
+	this ?: return false
 
-	}.type
+return "$YOUTUBE_PATTERN|$RUTUBE_PATTERN|$VIMEO_PATTERN|$FACEBOOK_PATTERN|$DAILYMOTION_PATTERN|$WISTIA_PATTERN|$VZAAR_PATTERN"
+				.toRegex()
+				.matches(this)
 }
