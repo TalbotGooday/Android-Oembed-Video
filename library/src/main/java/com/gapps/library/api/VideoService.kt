@@ -7,6 +7,7 @@ import com.gapps.library.api.models.video.dailymotion.DailymotionResponse
 import com.gapps.library.api.models.video.facebook.FacebookResponse
 import com.gapps.library.api.models.video.hulu.HuluResponse
 import com.gapps.library.api.models.video.rutube.RutubeResponse
+import com.gapps.library.api.models.video.ted.TedTalksResponse
 import com.gapps.library.api.models.video.ustream.UstreamResponse
 import com.gapps.library.api.models.video.vimeo.VimeoResponse
 import com.gapps.library.api.models.video.vzaar.VzaarResponse
@@ -68,6 +69,9 @@ class VideoService(
 				url.matches(USTREAM_PATTERN.toRegex()) -> {
 					videoHelper.getUstreamInfo(url, callback)
 				}
+				url.matches(TED_TALKS_PATTERN.toRegex()) -> {
+					videoHelper.getTedTalksInfo(url, callback)
+				}
 				else -> {
 					callback.invoke(VideoPreviewModel.error(url, ERROR_1))
 				}
@@ -88,6 +92,10 @@ class VideoService(
 
 		fun getUstreamInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
 			getVideoInfo(url, url.getUstreamInfoUrl(), UstreamResponse::class.java, callback)
+		}
+
+		fun getTedTalksInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
+			getVideoInfo(url, url.getTedTalksInfoUrl(), TedTalksResponse::class.java, callback)
 		}
 
 		fun getHuluInfo(url: String, callback: (VideoPreviewModel) -> Unit) {

@@ -24,17 +24,18 @@ class MainActivity : AppCompatActivity() {
 	private lateinit var videoService: VideoService
 
 	private val videoUrls = listOf(
-			"https://www.youtube.com/watch?v=M4BSGZ07NNA",
-			"https://music.youtube.com/watch?v=lFMOYjVCLUo",
-			"https://vimeo.com/333257472",
-			"https://rutube.ru/video/d70e62b44b8893e98e3e90a6e2c9fcd4/?pl_type=source&amp;pl_id=18265",
-			"https://www.facebook.com/UFC/videos/410056389868335/",
-			"https://www.dailymotion.com/video/x5sxbmb",
-			"https://dave.wistia.com/medias/0k5h1g1chs/",
-			"https://vzaar.com/videos/401431",
-			"http://www.hulu.com/w/154323",
-			"https://ustream.tv/channel/6540154",
-			"https://ustream.tv/recorded/101541339"
+//			"https://www.youtube.com/watch?v=M4BSGZ07NNA",
+//			"https://music.youtube.com/watch?v=lFMOYjVCLUo",
+//			"https://vimeo.com/333257472",
+//			"https://rutube.ru/video/d70e62b44b8893e98e3e90a6e2c9fcd4/?pl_type=source&amp;pl_id=18265",
+//			"https://www.facebook.com/UFC/videos/410056389868335/",
+//			"https://www.dailymotion.com/video/x5sxbmb",
+//			"https://dave.wistia.com/medias/0k5h1g1chs/",
+//			"https://vzaar.com/videos/401431",
+//			"http://www.hulu.com/w/154323",
+//			"https://ustream.tv/channel/6540154",
+//			"https://ustream.tv/recorded/101541339",
+			"https://www.ted.com/talks/jill_bolte_taylor_my_stroke_of_insight"
 	)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
