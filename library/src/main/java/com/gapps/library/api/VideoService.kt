@@ -5,6 +5,7 @@ import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.gapps.library.api.models.video.dailymotion.DailymotionResponse
 import com.gapps.library.api.models.video.facebook.FacebookResponse
+import com.gapps.library.api.models.video.hulu.HuluResponse
 import com.gapps.library.api.models.video.rutube.ResponseRutube
 import com.gapps.library.api.models.video.vimeo.ResponseVimeo
 import com.gapps.library.api.models.video.vzaar.VzaarResponse
@@ -60,6 +61,9 @@ class VideoService(
 				url.matches(VZAAR_PATTERN.toRegex()) -> {
 					videoHelper.getVzaarInfoUrl(url, callback)
 				}
+				url.matches(HULU_PATTERN.toRegex()) -> {
+					videoHelper.getHuluInfo(url, callback)
+				}
 				else -> {
 					callback.invoke(VideoPreviewModel.error(url, ERROR_1))
 				}
@@ -77,6 +81,10 @@ class VideoService(
 		private var gson = GsonBuilder()
 				.setLenient()
 				.create()
+
+		fun getHuluInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
+			getVideoInfo(url, url.getHuluInfoUrl(), HuluResponse::class.java, callback)
+		}
 
 		fun getFacebookInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
 			getVideoInfo(url, url.getFacebookInfoUrl(), FacebookResponse::class.java, callback)
@@ -156,7 +164,7 @@ class VideoService(
 			return withContext(Dispatchers.IO) {
 				val response = client.newCall(Request.Builder().url(url).build()).execute()
 				val stringBody = response.body()?.string() ?: return@withContext null
-				val jsonObject = JsonParser.parseString(stringBody)
+				val jsonObject = JsonParser().parse(stringBody)
 
 				return@withContext if (jsonObject.isJsonArray) {
 					jsonObject.asJsonArray[0]
@@ -172,7 +180,9 @@ class VideoService(
 	}
 
 	class Builder {
-		lateinit var okHttpClient: OkHttpClient
+		var okHttpClient: OkHttpClient = OkHttpClient()
+		private set
+
 		var isLogEnabled = false
 
 		fun httpClient(client: OkHttpClient) = apply { okHttpClient = client }
@@ -180,12 +190,7 @@ class VideoService(
 		fun enableLog(isEnabled: Boolean) = apply { isLogEnabled = isEnabled }
 
 		fun build(): VideoService {
-			if (::okHttpClient.isInitialized.not()) {
-				throw RuntimeException("OkHttpClient is not attached into Builder")
-			}
-
 			return VideoService(this)
 		}
 	}
-
 }

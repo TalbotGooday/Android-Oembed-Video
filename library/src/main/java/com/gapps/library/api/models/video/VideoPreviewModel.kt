@@ -22,6 +22,7 @@ class VideoPreviewModel {
         const val DAILYMOTION = "Dailymotion"
         const val WISTIA = "Wistia"
         const val VZAAR = "Vzaar"
+        const val HULU = "Hulu"
 
         fun error(url: String?, message: String? = null) = VideoPreviewModel().apply {
             this.url = url

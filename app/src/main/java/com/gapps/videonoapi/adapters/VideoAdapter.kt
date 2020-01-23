@@ -135,6 +135,7 @@ class VideoAdapter(private val videoService: VideoService, private val listener:
 				VideoPreviewModel.DAILYMOTION -> R.drawable.dailymotion
 				VideoPreviewModel.WISTIA -> R.drawable.ic_wistia
 				VideoPreviewModel.VZAAR -> R.drawable.ic_vzaar
+				VideoPreviewModel.HULU -> R.drawable.hulu
 				else -> R.drawable.ic_video
 			}
 
