@@ -6,7 +6,7 @@ import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class ResponseVimeo: BaseVideoResponse {
+class VimeoResponse: BaseVideoResponse {
 	@SerializedName("id")
 	@Expose
 	var id: Int? = null
@@ -79,14 +79,14 @@ class ResponseVimeo: BaseVideoResponse {
 
 	override fun toPreview(url: String?): VideoPreviewModel {
 		return VideoPreviewModel().apply {
-			this.thumbnailUrl = this@ResponseVimeo.thumbnailLarge
-			this.videoTitle = this@ResponseVimeo.title
+			this.thumbnailUrl = this@VimeoResponse.thumbnailLarge
+			this.videoTitle = this@VimeoResponse.title
 			this.url = url
 			this.videoHosting = VideoPreviewModel.VIMEO
 			this.videoId = getVideoId(url)
 			this.linkToPlay = "https://player.vimeo.com/video/${this.videoId}"
-			this.width = this@ResponseVimeo.width ?: 0
-			this.height = this@ResponseVimeo.height ?: 0
+			this.width = this@VimeoResponse.width ?: 0
+			this.height = this@VimeoResponse.height ?: 0
 		}
 	}
 

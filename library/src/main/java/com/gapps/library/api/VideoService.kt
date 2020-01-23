@@ -6,11 +6,12 @@ import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.gapps.library.api.models.video.dailymotion.DailymotionResponse
 import com.gapps.library.api.models.video.facebook.FacebookResponse
 import com.gapps.library.api.models.video.hulu.HuluResponse
-import com.gapps.library.api.models.video.rutube.ResponseRutube
-import com.gapps.library.api.models.video.vimeo.ResponseVimeo
+import com.gapps.library.api.models.video.rutube.RutubeResponse
+import com.gapps.library.api.models.video.ustream.UstreamResponse
+import com.gapps.library.api.models.video.vimeo.VimeoResponse
 import com.gapps.library.api.models.video.vzaar.VzaarResponse
 import com.gapps.library.api.models.video.wistia.WistiaResponse
-import com.gapps.library.api.models.video.youtube.ResponseYoutube
+import com.gapps.library.api.models.video.youtube.YoutubeResponse
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
@@ -64,6 +65,9 @@ class VideoService(
 				url.matches(HULU_PATTERN.toRegex()) -> {
 					videoHelper.getHuluInfo(url, callback)
 				}
+				url.matches(USTREAM_PATTERN.toRegex()) -> {
+					videoHelper.getUstreamInfo(url, callback)
+				}
 				else -> {
 					callback.invoke(VideoPreviewModel.error(url, ERROR_1))
 				}
@@ -81,6 +85,10 @@ class VideoService(
 		private var gson = GsonBuilder()
 				.setLenient()
 				.create()
+
+		fun getUstreamInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
+			getVideoInfo(url, url.getUstreamInfoUrl(), UstreamResponse::class.java, callback)
+		}
 
 		fun getHuluInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
 			getVideoInfo(url, url.getHuluInfoUrl(), HuluResponse::class.java, callback)
@@ -103,15 +111,15 @@ class VideoService(
 		}
 
 		fun getRutubeInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			getVideoInfo(url, url.getRutubeInfoUrl(), ResponseRutube::class.java, callback)
+			getVideoInfo(url, url.getRutubeInfoUrl(), RutubeResponse::class.java, callback)
 		}
 
 		fun getVimeoInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			getVideoInfo(url, url.getVimeoInfoUrl(), ResponseVimeo::class.java, callback)
+			getVideoInfo(url, url.getVimeoInfoUrl(), VimeoResponse::class.java, callback)
 		}
 
 		fun getYoutubeInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			getVideoInfo(url, url.getYoutubeInfoUrl(), ResponseYoutube::class.java, callback)
+			getVideoInfo(url, url.getYoutubeInfoUrl(), YoutubeResponse::class.java, callback)
 		}
 
 		private fun getVideoInfo(originalUrl: String?, finalUrl: String?, type: Type?, callback: (VideoPreviewModel) -> Unit) {

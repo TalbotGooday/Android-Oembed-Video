@@ -5,16 +5,21 @@ const val YOUTUBE_PATTERN = "(?:http(?:s)?://)?(?:www.)?(?:m.)?(?:music.)?youtu(
 const val VIMEO_PATTERN = "(?:http[s]?://)(?:w{3})?(?:player\\.)?vimeo\\.com/(?:[a-z]*/)*([0-9]{6,11})[?]?.*"
 const val RUTUBE_PATTERN = "(?:http[s]?://)(?:w{3})?(?:player\\.)?rutube\\.ru/video/(?:embed/)?([A-Za-z0-9]+)[/]?(\\?.+)?"
 const val FACEBOOK_PATTERN = "(?:http[s]?://)?(?:www.|web.|m.)?(?:facebook|fb)?.com/(?:(?:video.php|watch?/)?\\?v=|.+/videos(?:/.+)?/)(\\d+)\\S*"
+//https://regex101.com/r/98Nfkr/2
 const val DAILYMOTION_PATTERN = "(?:http[s]?://)?(?:www\\.)?(?:(?:dailymotion\\.com(?:/embed)?/video)|dai\\.ly)/([a-zA-Z0-9]+)(?:_[\\w_-]+)?"
 const val WISTIA_PATTERN = "(?:http[s]?:\\/\\/)?(?:.+)?(?:wistia\\.(?:com|net)|wi\\.st)\\/(?:medias|embed|series)\\/(?:iframe\\/?)?(?:\\S+\\?\\S*wvideoid=)?([a-zA-Z0-9]+)\\S*"
 const val VZAAR_PATTERN = "(?:http[s]?://)?(?:.+)?vzaar.com/?(?:videos/)?([a-zA-Z0-9]+)\\S*"
 const val HULU_PATTERN = "(?:http[s]?:\\/\\/)?(?:www.)?hulu\\.(?:(?:com\\/\\S*(?:w(?:atch)?|eid)(?:\\/|=)?)|(?:tv\\/))?([a-zA-Z0-9]+)\\S*"
+//https://regex101.com/r/LORZgZ/1
+const val USTREAM_PATTERN = "(?:http[s]?:\\/\\/)?(?:www\\.)?ustream.(?:com|tv)\\/(?:recorded|embed|channel)\\/?(?:([0-9]+)|(\\S+))(?:\\/\\S*)?"
+//https://regex101.com/r/E0PMAV/1
 
 private const val OEMBED_INFO = "/oembed"
 private const val VIMEO_INFO = "/api/v2/video/"
 private const val FACEBOOK_INFO = "/plugins/video/oembed"
 private const val DAILYMOTION_INFO = "/services/oembed/?url=https://www.dailymotion.com/video/"
 private const val WISTIA_INFO = "/oembed?url="
+private const val USTREAM_INFO = "/oembed?url="
 private const val VZAAR_INFO = "/videos/"
 private const val HULU_INFO = "api/oembed.json?url="
 private const val FACEBOOK_VIDEOS = "?url=https://www.facebook.com/facebook/videos/"
@@ -26,6 +31,7 @@ private const val WISTIA_BASE_URL = "https://fast.wistia.net"
 private const val RUTUBE_BASE_URL = "http://rutube.ru/api"
 private const val VZAAR_BASE_URL = "https://app.vzaar.com/"
 private const val HULU_BASE_URL = "https://www.hulu.com/"
+private const val USTREAM_BASE_URL = "https://video.ibm.com/"
 private const val FORMAT = "format"
 private const val FORMAT_JSON = "json"
 private const val URL = "url"
@@ -61,9 +67,21 @@ fun String.getDailymotionInfoUrl(): String {
 	return "$DAILYMOTION_BASE_URL$DAILYMOTION_INFO$id"
 }
 
-
 fun String.getWistiaInfoUrl(): String {
 	return "$WISTIA_BASE_URL$WISTIA_INFO$this"
+}
+
+fun String.getUstreamInfoUrl(): String {
+	val id = USTREAM_PATTERN.toRegex().find(this)?.groups?.get(1)?.value
+	val channelId = USTREAM_PATTERN.toRegex().find(this)?.groups?.get(2)?.value
+
+	val url = if (id == null || this.contains("channel")) {
+		"https://ustream.tv/channel/${channelId ?: id}"
+	} else {
+		"https://ustream.tv/recorded/$id"
+	}
+
+	return "$USTREAM_BASE_URL$USTREAM_INFO$url"
 }
 
 fun String.getVzaarInfoUrl(): String {

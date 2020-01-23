@@ -5,7 +5,7 @@ import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.SerializedName
 
-data class ResponseRutube(
+data class RutubeResponse(
 		@SerializedName("action_reason")
 		val actionReason: Int = 0,
 		@SerializedName("all_tags")
@@ -126,18 +126,18 @@ data class ResponseRutube(
 
 	override fun toPreview(url: String?): VideoPreviewModel {
 		return VideoPreviewModel().apply {
-			this.videoTitle = this@ResponseRutube.title
-			this.thumbnailUrl = this@ResponseRutube.thumbnailUrl
-			this.url = this@ResponseRutube.sourceUrl
+			this.videoTitle = this@RutubeResponse.title
+			this.thumbnailUrl = this@RutubeResponse.thumbnailUrl
+			this.url = this@RutubeResponse.sourceUrl
 			this.videoHosting = VideoPreviewModel.RUTUBE
 			this.videoId = getVideoId()
 			this.linkToPlay = "http://rutube.ru/play/embed/${this.videoId}"
-			this.width = this@ResponseRutube.width()
-			this.height = this@ResponseRutube.height()
+			this.width = this@RutubeResponse.width()
+			this.height = this@RutubeResponse.height()
 		}
 	}
 
 	override fun getVideoId(url: String?): String? {
-		return this@ResponseRutube.trackId.toString()
+		return this@RutubeResponse.trackId.toString()
 	}
 }

@@ -4,9 +4,8 @@ import com.gapps.library.api.YOUTUBE_PATTERN
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.SerializedName
-import java.util.regex.Pattern
 
-class ResponseYoutube: BaseVideoResponse {
+class YoutubeResponse: BaseVideoResponse {
 	@SerializedName("author_name")
 	var authorName: String? = null
 
@@ -48,8 +47,8 @@ class ResponseYoutube: BaseVideoResponse {
 
 	override fun toPreview(url: String?): VideoPreviewModel {
 		return VideoPreviewModel().apply {
-			this.videoTitle = this@ResponseYoutube.title
-			this.thumbnailUrl = this@ResponseYoutube.thumbnailUrl
+			this.videoTitle = this@YoutubeResponse.title
+			this.thumbnailUrl = this@YoutubeResponse.thumbnailUrl
 			this.url = url
 			this.videoHosting = if (url?.contains("music.") == true) {
 				VideoPreviewModel.YOUTUBE_MUSIC
@@ -58,8 +57,8 @@ class ResponseYoutube: BaseVideoResponse {
 			}
 			this.videoId = getVideoId(url)
 			this.linkToPlay = "https://www.youtube.com/embed/${this.videoId}?autoplay=1&vq=small"
-			this.width = this@ResponseYoutube.width
-			this.height = this@ResponseYoutube.height
+			this.width = this@YoutubeResponse.width
+			this.height = this@YoutubeResponse.height
 		}
 	}
 
