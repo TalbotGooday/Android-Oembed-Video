@@ -1,6 +1,6 @@
 
 # Android Oembed Video
-A simple library for parsing and playing links from YouTube, YouTube Music, Vimeo and Rutube is WebView without the need to connect api data services
+A simple library for parsing and playing links from YouTube, YouTube Music, Vimeo and Rutube and others in the WebView without the need to connect data API services.
 
 [![Release](https://jitpack.io/v/TalbotGooday/Android-Oembed-Video.svg)](https://jitpack.io/#TalbotGooday/Android-Oembed-Video)
 
