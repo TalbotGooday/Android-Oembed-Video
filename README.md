@@ -24,7 +24,7 @@ A simple library for parsing and playing links from YouTube, YouTube Music, Vime
 
 # Screenshots
 
-<img src="/screenshots/device-2020-02-06-232720.png" width=30%/> <img src="/screenshots/device-2020-02-06-232746.png" width=30%/> <img src="/screenshots/device-2020-02-06-232924.png" width=30%/>
+<img src="/screenshots/device-2020-02-06-232720.png" width=32%/> <img src="/screenshots/device-2020-02-06-232746.png" width=32%/> <img src="/screenshots/device-2020-02-06-232924.png" width=32%/>
 
 Add it in your root build.gradle at the end of repositories:
 ```java
