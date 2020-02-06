@@ -1,6 +1,7 @@
 package com.gapps.videonoapi.utils
 
 import android.view.View
+import android.view.animation.LinearInterpolator
 
 /**
  * Set the visibility state of this view to [View.VISIBLE] or [View.GONE]
@@ -26,5 +27,14 @@ fun View.gone() {
 fun View.visible() {
 	if (visibility != View.VISIBLE) {
 		visibility = View.VISIBLE
+	}
+}
+
+fun View.alphaSmooth(value: Float) {
+	this.animate().apply {
+		interpolator = LinearInterpolator()
+		duration = 200
+		alpha(value)
+		start()
 	}
 }

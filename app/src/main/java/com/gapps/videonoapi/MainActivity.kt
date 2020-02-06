@@ -3,9 +3,6 @@ package com.gapps.videonoapi
 import android.content.*
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +11,9 @@ import com.gapps.library.api.VideoService
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.ui.bottom_menu.BottomVideoController
 import com.gapps.videonoapi.adapters.VideoAdapter
+import com.gapps.videonoapi.utils.ScrollListener
+import com.gapps.videonoapi.utils.alphaSmooth
+import com.gapps.videonoapi.utils.convertDpToPx
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -47,37 +47,6 @@ class MainActivity : AppCompatActivity() {
 		initViews()
 	}
 
-	private fun initViews() {
-		videos_list.apply {
-			layoutManager = LinearLayoutManager(this@MainActivity)
-			adapter = VideoAdapter(videoService, object : VideoAdapter.Listener {
-				override fun onItemClick(item: VideoPreviewModel) {
-					showVideo(item)
-				}
-			}).apply {
-				swapData(videoUrls)
-			}
-
-			addOnScrollListener(object : RecyclerView.OnScrollListener() {
-				override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-					super.onScrolled(recyclerView, dx, dy)
-
-					val isBottom = recyclerView.canScrollVertically(1).not()
-
-					buttons_container.alpha = if (isBottom) .1f else 1f
-				}
-			})
-		}
-
-		refresh.setOnClickListener {
-			(videos_list.adapter as VideoAdapter).swapData(videoUrls)
-		}
-
-		collapse_all.setOnClickListener {
-			(videos_list.adapter as VideoAdapter).collapseAll()
-		}
-	}
-
 	private fun initService() {
 		val interceptor = HttpLoggingInterceptor()
 		interceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -91,6 +60,31 @@ class MainActivity : AppCompatActivity() {
 		videoService = VideoService.Builder()
 				.httpClient(okHttpClient)
 				.build()
+	}
+
+	private fun initViews() {
+		videos_list.apply {
+			layoutManager = LinearLayoutManager(this@MainActivity)
+			adapter = VideoAdapter(videoService, object : VideoAdapter.Listener {
+				override fun onItemClick(item: VideoPreviewModel) {
+					showVideo(item)
+				}
+			}).apply {
+				swapData(videoUrls)
+			}
+
+			addOnScrollListener(ScrollListener(convertDpToPx(100f)) {
+				buttons_container.alphaSmooth(if (it) .1f else 1f)
+			})
+		}
+
+		refresh.setOnClickListener {
+			(videos_list.adapter as VideoAdapter).swapData(videoUrls)
+		}
+
+		collapse_all.setOnClickListener {
+			(videos_list.adapter as VideoAdapter).collapseAll()
+		}
 	}
 
 	private fun showVideo(model: VideoPreviewModel) {
@@ -116,7 +110,6 @@ class MainActivity : AppCompatActivity() {
 			setVideoUrl(initUrl)
 			show()
 		}
-
 	}
 
 	private fun copyLinkToClipboard(link: String) {
