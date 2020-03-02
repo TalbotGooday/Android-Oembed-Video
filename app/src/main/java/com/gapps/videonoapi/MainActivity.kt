@@ -58,11 +58,11 @@ class MainActivity : AppCompatActivity() {
 				.addInterceptor(interceptor)
 				.build()
 
-		videoService = VideoService.build{
+		videoService = VideoService.build {
 			with(this@MainActivity)
 			httpClient(okHttpClient)
 			enableCache(true)
-			build()
+			enableLog(true)
 		}
 	}
 

@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.util.Log
 import com.gapps.library.api.models.video.VideoPreviewModel
-import com.gapps.library.utils.toHash
 import com.gapps.library.utils.toMD5
 import java.util.*
 
@@ -70,7 +69,7 @@ fun insertModel(context: Context?, post: VideoPreviewModel) {
 private fun modelToContentValues(videoModel: VideoPreviewModel): ContentValues {
 	val values = ContentValues()
 
-	val hash = (videoModel.linkToPlay?: "").toMD5()
+	val hash = (videoModel.linkToPlay ?: "").toMD5()
 	values.put(COLUMN_ID, hash)
 	values.put(COLUMN_URL, videoModel.url)
 	values.put(COLUMN_TITLE, videoModel.videoTitle)

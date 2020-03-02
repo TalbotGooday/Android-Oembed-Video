@@ -51,7 +51,7 @@ internal class Helper2(private val context: Context?, private val client: OkHttp
 							getCachedVideoModel(context, playLink)
 						}
 
-						if(model != null){
+						if (model != null) {
 							onSuccess.invoke(model)
 							return@launch
 						}
