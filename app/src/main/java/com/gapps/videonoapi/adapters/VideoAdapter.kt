@@ -104,7 +104,7 @@ class VideoAdapter(private val videoService: VideoService, private val listener:
 			icon_drop_down.visible()
 			text_preview.visibleOrGone(video.videoTitle.isNullOrBlank().not())
 
-			Picasso.get().load(video.thumbnailUrl).transform(FitThumbnailTransformation(context.getWidth(context.resources.getDimensionPixelSize(com.gapps.library.R.dimen.bv_dialog_width)))).into(image_preview)
+			Picasso.get().load(video.thumbnailUrl).transform(FitThumbnailTransformation(context.getWidth(context.resources.getDimensionPixelSize(com.gapps.library.R.dimen.vna_bv_dialog_width)))).into(image_preview)
 
 			text_preview.text = video.videoTitle
 

@@ -6,8 +6,12 @@ import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.SerializedName
 
 data class RutubeResponse(
-		@SerializedName("action_reason")
-		val actionReason: Int = 0,
+		@SerializedName("title")
+		val title: String = "",
+		@SerializedName("thumbnail_url")
+		val thumbnailUrl: String = "",
+		@SerializedName("source_url")
+		val sourceUrl: String = "",
 		@SerializedName("all_tags")
 		val allTags: List<AllTag> = listOf(),
 		@SerializedName("author")
@@ -98,12 +102,6 @@ data class RutubeResponse(
 		val shortDescription: String = "",
 		@SerializedName("show")
 		val show: Any? = Any(),
-		@SerializedName("source_url")
-		val sourceUrl: String = "",
-		@SerializedName("thumbnail_url")
-		val thumbnailUrl: String = "",
-		@SerializedName("title")
-		val title: String = "",
 		@SerializedName("track_id")
 		val trackId: Int = 0,
 		@SerializedName("tv_show_id")
@@ -128,7 +126,7 @@ data class RutubeResponse(
 		return VideoPreviewModel().apply {
 			this.videoTitle = this@RutubeResponse.title
 			this.thumbnailUrl = this@RutubeResponse.thumbnailUrl
-			this.url = this@RutubeResponse.sourceUrl
+			this.url = url
 			this.videoHosting = VideoPreviewModel.RUTUBE
 			this.videoId = getVideoId()
 			this.linkToPlay = "http://rutube.ru/play/embed/${this.videoId}"

@@ -18,10 +18,10 @@ class BottomSheetDialogFixed : BottomSheetDialog {
 
 
 		findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)?.let {
-			val dialogWidth = context.resources.getDimensionPixelSize(R.dimen.bv_dialog_width)
+			val dialogWidth = context.resources.getDimensionPixelSize(R.dimen.vna_bv_dialog_width)
 			it.layoutParams = it.layoutParams.apply {
 				if (dialogWidth > 0) {
-					width = context.resources.getDimensionPixelSize(R.dimen.bv_dialog_width)
+					width = context.resources.getDimensionPixelSize(R.dimen.vna_bv_dialog_width)
 				}
 			}
 		}

@@ -3,6 +3,7 @@ package com.gapps.library.api
 import android.util.Log
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
+import com.gapps.library.api.models.video.coub.CoubResponse
 import com.gapps.library.api.models.video.dailymotion.DailymotionResponse
 import com.gapps.library.api.models.video.facebook.FacebookResponse
 import com.gapps.library.api.models.video.hulu.HuluResponse
@@ -16,6 +17,7 @@ import com.gapps.library.api.models.video.youtube.YoutubeResponse
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
+import com.google.gson.JsonParser.parseString
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -72,6 +74,9 @@ class VideoService(
 				url.matches(TED_TALKS_PATTERN.toRegex()) -> {
 					videoHelper.getTedTalksInfo(url, callback)
 				}
+				url.matches(COUB_PATTERN.toRegex()) -> {
+					videoHelper.getCoubInfo(url, callback)
+				}
 				else -> {
 					callback.invoke(VideoPreviewModel.error(url, ERROR_1))
 				}
@@ -96,6 +101,11 @@ class VideoService(
 
 		fun getTedTalksInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
 			getVideoInfo(url, url.getTedTalksInfoUrl(), TedTalksResponse::class.java, callback)
+		}
+
+
+		fun getCoubInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
+			getVideoInfo(url, url.getCoubInfoUrl(), CoubResponse::class.java, callback)
 		}
 
 		fun getHuluInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
@@ -127,7 +137,8 @@ class VideoService(
 		}
 
 		fun getYoutubeInfo(url: String, callback: (VideoPreviewModel) -> Unit) {
-			getVideoInfo(url, url.getYoutubeInfoUrl(), YoutubeResponse::class.java, callback)
+			val type = YoutubeResponse::class.java
+			getVideoInfo(url, url.getYoutubeInfoUrl(), type, callback)
 		}
 
 		private fun getVideoInfo(originalUrl: String?, finalUrl: String?, type: Type?, callback: (VideoPreviewModel) -> Unit) {
@@ -180,7 +191,7 @@ class VideoService(
 			return withContext(Dispatchers.IO) {
 				val response = client.newCall(Request.Builder().url(url).build()).execute()
 				val stringBody = response.body()?.string() ?: return@withContext null
-				val jsonObject = JsonParser().parse(stringBody)
+				val jsonObject = parseString(stringBody)
 
 				return@withContext if (jsonObject.isJsonArray) {
 					jsonObject.asJsonArray[0]

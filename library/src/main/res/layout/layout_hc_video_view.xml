@@ -2,82 +2,89 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/menu_container"
+	android:id="@+id/vna_menu_container"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:layout_gravity="bottom"
 	android:orientation="vertical">
 
 	<FrameLayout
-		android:id="@+id/video_container"
+		android:id="@+id/vna_video_container"
 		android:layout_width="match_parent"
-		android:layout_height="195dp">
+		android:layout_height="@dimen/vna_web_view_default_height">
 
 		<WebView
-			android:id="@+id/video_view"
+			android:id="@+id/vna_video_view"
 			android:layout_width="match_parent"
-			android:layout_height="195dp" />
+			android:layout_height="@dimen/vna_web_view_default_height" />
 
-		<ProgressBar
-			android:id="@+id/video_progress"
+		<FrameLayout
+			android:id="@+id/vna_video_progress_container"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="center" />
+			android:layout_gravity="center">
+
+			<ProgressBar
+				android:id="@+id/vna_video_progress"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center" />
+		</FrameLayout>
 	</FrameLayout>
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/large_text_space"
-		android:layout_marginTop="@dimen/large_text_space"
-		android:layout_marginEnd="@dimen/large_text_space"
-		android:layout_marginBottom="@dimen/large_text_space"
+		android:layout_marginStart="@dimen/vna_large_text_space"
+		android:layout_marginTop="@dimen/vna_large_text_space"
+		android:layout_marginEnd="@dimen/vna_large_text_space"
+		android:layout_marginBottom="@dimen/vna_large_text_space"
 		android:orientation="vertical">
 
 		<TextView
-			android:id="@+id/text_url_preview_title"
+			android:id="@+id/vna_text_url_preview_title"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="end"
 			android:ellipsize="end"
 			android:maxLines="1"
-			android:textColor="@color/color_video_title_text"
-			android:textSize="16sp"
+			android:textColor="@color/vna_color_video_title_text"
+			android:textSize="@dimen/vna_title_text_size"
 			android:textStyle="bold"
 			tools:text="Title will be\n here." />
 
 		<TextView
-			android:id="@+id/player_type"
+			android:id="@+id/vna_player_type"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="3dp"
 			android:ellipsize="end"
-			android:maxLines="3"
-			android:textColor="@color/black_p50"
-			android:textSize="14sp"
+			android:maxLines="1"
+			android:textColor="@color/vna_black_p50"
+			android:textSize="@dimen/vna_host_text_size"
 			tools:text="Youtube"
 			tools:visibility="visible" />
 	</LinearLayout>
 
 	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="50dp"
+		android:layout_height="@dimen/vna_control_panel_height"
 		android:orientation="vertical">
 
 		<View
-			android:id="@+id/control_panel_outline"
+			android:id="@+id/vna_control_panel_outline"
 			android:layout_width="match_parent"
 			android:layout_height="1dp"
-			android:background="@color/dialog_divider" />
+			android:background="@color/vna_dialog_divider" />
 
 		<FrameLayout
-			android:id="@+id/control_container"
+			android:id="@+id/vna_control_container"
 			android:layout_width="match_parent"
-			android:layout_height="50dp"
+			android:layout_height="@dimen/vna_control_panel_height"
 			android:orientation="horizontal">
 
 			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/close_video"
+				android:id="@+id/vna_close_video"
 				style="@style/Widget.AppCompat.Button.Borderless"
 				android:layout_width="wrap_content"
 				android:layout_height="match_parent"
@@ -85,21 +92,21 @@
 				android:gravity="start|center_vertical"
 				android:paddingStart="18dp"
 				android:paddingEnd="0dp"
-				android:text="close" />
+				android:text="@string/vna_close" />
 
 			<androidx.appcompat.widget.AppCompatImageButton
-				android:id="@+id/copy_video_link"
-				android:layout_width="35dp"
-				android:layout_height="35dp"
+				android:id="@+id/vna_copy_video_link"
+				android:layout_width="@dimen/vna_copy_icon_size"
+				android:layout_height="@dimen/vna_copy_icon_size"
 				android:layout_gravity="center"
-				android:layout_marginStart="18dp"
-				android:layout_marginEnd="18dp"
+				android:layout_marginStart="@dimen/vna_copy_icon_margin"
+				android:layout_marginEnd="@dimen/vna_copy_icon_margin"
 				android:background="?selectableItemBackgroundBorderless"
-				android:tint="@color/black_p50"
-				app:srcCompat="@drawable/ic_content_copy" />
+				android:tint="@color/vna_black_p50"
+				app:srcCompat="@drawable/vna_ic_content_copy" />
 
 			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/open_video_in"
+				android:id="@+id/vna_open_video_in"
 				style="@style/Widget.AppCompat.Button.Borderless"
 				android:layout_width="wrap_content"
 				android:layout_height="match_parent"
@@ -108,7 +115,7 @@
 				android:gravity="end|center_vertical"
 				android:paddingStart="0dp"
 				android:paddingEnd="18dp"
-				android:text="open in..." />
+				android:text="@string/vna_open_in" />
 		</FrameLayout>
 	</LinearLayout>
 </LinearLayout>

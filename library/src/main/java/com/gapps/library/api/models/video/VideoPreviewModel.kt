@@ -20,6 +20,7 @@ class VideoPreviewModel {
         const val RUTUBE = "Rutube"
         const val FACEBOOK = "Facebook"
         const val DAILYMOTION = "Dailymotion"
+        const val COUB = "Coub"
         const val WISTIA = "Wistia"
         const val VZAAR = "Vzaar"
         const val HULU = "Hulu"

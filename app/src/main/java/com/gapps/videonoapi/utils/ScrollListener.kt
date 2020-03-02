@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class ScrollListener(private val scrollValue: Float, private val  action: (Boolean) -> Unit):  RecyclerView.OnScrollListener() {
-	var totalDy = 0f
+	private var totalDy = 0f
 
 	override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 		super.onScrolled(recyclerView, dx, dy)

@@ -3,10 +3,10 @@ package com.gapps.videonoapi
 import android.content.*
 import android.net.Uri
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.gapps.library.api.VideoService
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.ui.bottom_menu.BottomVideoController
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 	private val videoUrls = listOf(
 			"https://www.youtube.com/watch?v=M4BSGZ07NNA",
 			"https://music.youtube.com/watch?v=lFMOYjVCLUo",
-			"https://vimeo.com/333257472",
+			"https://vimeo.com/259411563",
 			"https://rutube.ru/video/d70e62b44b8893e98e3e90a6e2c9fcd4/?pl_type=source&amp;pl_id=18265",
 			"https://www.facebook.com/UFC/videos/410056389868335/",
 			"https://www.dailymotion.com/video/x5sxbmb",
@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity() {
 			"http://www.hulu.com/w/154323",
 			"https://ustream.tv/channel/6540154",
 			"https://ustream.tv/recorded/101541339",
-			"https://www.ted.com/talks/jill_bolte_taylor_my_stroke_of_insight"
+			"https://www.ted.com/talks/jill_bolte_taylor_my_stroke_of_insight",
+			"https://coub.com/view/um0um0"
 	)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,6 +109,7 @@ class MainActivity : AppCompatActivity() {
 			setSize(model.width, model.height)
 			setTitle(title)
 			setVideoUrl(initUrl)
+			setProgressView(TextView(this@MainActivity).apply { text = "Loading" })
 			show()
 		}
 	}

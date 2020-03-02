@@ -10,6 +10,7 @@ import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
@@ -17,7 +18,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.appcompat.widget.AppCompatImageButton
@@ -38,7 +38,8 @@ class BottomVideoController private constructor(
 		private val titleText: String?,
 		private val hostText: String?,
 		private val playLink: String?,
-		private val size: Pair<Float, Float>?
+		private val size: Pair<Float, Float>?,
+		private val progressView: View?
 ) {
 	companion object {
 		var isVisible = false
@@ -56,7 +57,8 @@ class BottomVideoController private constructor(
 			builder.titleText,
 			builder.hostText,
 			builder.playLink,
-			builder.size
+			builder.size,
+			builder.progressView
 	)
 
 	@SuppressLint("InflateParams", "SetJavaScriptEnabled")
@@ -73,16 +75,16 @@ class BottomVideoController private constructor(
 
 		val bottomSheetDialog = BottomSheetDialogFixed(context)
 		val menuView = LayoutInflater.from(context).inflate(R.layout.layout_hc_video_view, null)
-		val menuContainer = menuView.findViewById<LinearLayout>(R.id.menu_container)
-		val videoView = menuView.findViewById<WebView>(R.id.video_view)
-		val videoContainer = menuView.findViewById<FrameLayout>(R.id.video_container)
-		val progressBar = menuView.findViewById<ProgressBar>(R.id.video_progress)
-		val title = menuView.findViewById<TextView>(R.id.text_url_preview_title)
-		val videoServiceType = menuView.findViewById<TextView>(R.id.player_type)
-		val closeVideo = menuView.findViewById<TextView>(R.id.close_video)
-		val openVideoIn = menuView.findViewById<TextView>(R.id.open_video_in)
-		val copyLink = menuView.findViewById<AppCompatImageButton>(R.id.copy_video_link)
-		val controlPanelOutline = menuView.findViewById<View>(R.id.control_panel_outline)
+		val menuContainer = menuView.findViewById<LinearLayout>(R.id.vna_menu_container)
+		val videoView = menuView.findViewById<WebView>(R.id.vna_video_view)
+		val videoContainer = menuView.findViewById<FrameLayout>(R.id.vna_video_container)
+		val progressBarContainer = menuView.findViewById<ViewGroup>(R.id.vna_video_progress_container)
+		val title = menuView.findViewById<TextView>(R.id.vna_text_url_preview_title)
+		val videoServiceType = menuView.findViewById<TextView>(R.id.vna_player_type)
+		val closeVideo = menuView.findViewById<TextView>(R.id.vna_close_video)
+		val openVideoIn = menuView.findViewById<TextView>(R.id.vna_open_video_in)
+		val copyLink = menuView.findViewById<AppCompatImageButton>(R.id.vna_copy_video_link)
+		val controlPanelOutline = menuView.findViewById<View>(R.id.vna_control_panel_outline)
 
 		title.apply {
 			this.setTextColor(ContextCompat.getColor(this.context, titleColor))
@@ -129,8 +131,13 @@ class BottomVideoController private constructor(
 		val outlineColor = ColorUtils.setAlphaComponent(textColorInt, (255 * .1).toInt())
 		controlPanelOutline.background.colorFilter = PorterDuffColorFilter(outlineColor, PorterDuff.Mode.SRC_IN)
 
-		val videoViewWidth = context.getWidth(context.resources.getDimensionPixelSize(R.dimen.bv_dialog_width))
+		val videoViewWidth = context.getWidth(context.resources.getDimensionPixelSize(R.dimen.vna_bv_dialog_width))
 		val videoViewHeight = getHeight(size?.first, size?.second, videoViewWidth)
+
+		if (progressView != null) {
+			progressBarContainer.removeAllViews()
+			progressBarContainer.addView(progressView)
+		}
 
 		videoContainer.apply {
 			layoutParams.apply {
@@ -152,12 +159,12 @@ class BottomVideoController private constructor(
 
 				override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
 					super.onPageStarted(view, url, favicon)
-					progressBar.visibility = View.VISIBLE
+					progressBarContainer.visibility = View.VISIBLE
 				}
 
 				override fun onPageFinished(view: WebView?, url: String?) {
 					super.onPageFinished(view, url)
-					progressBar.visibility = View.GONE
+					progressBarContainer.visibility = View.GONE
 				}
 			}
 
@@ -165,7 +172,7 @@ class BottomVideoController private constructor(
 				override fun getDefaultVideoPoster(): Bitmap? {
 					return if (super.getDefaultVideoPoster() == null) {
 						try {
-							BitmapFactory.decodeResource(context.resources, R.drawable.ic_play_icon)
+							BitmapFactory.decodeResource(context.resources, R.drawable.ic_vna_play_icon)
 						} catch (e: Exception) {
 							null
 						}
@@ -209,11 +216,11 @@ class BottomVideoController private constructor(
 			private set
 
 		@ColorRes
-		var titleColor = R.color.color_video_title_text
+		var titleColor = R.color.vna_color_video_title_text
 			private set
 
 		@ColorRes
-		var textColor = R.color.color_video_title_text
+		var textColor = R.color.vna_color_video_title_text
 			private set
 
 		@ColorRes
@@ -235,11 +242,15 @@ class BottomVideoController private constructor(
 		var size: Pair<Float, Float>? = null
 			private set
 
+		var progressView: View? = null
+			private set
+
 		fun setVideoUrl(url: String?) = apply { this.url = url }
 		fun setTitle(title: String?) = apply { this.titleText = title }
 		fun setHostText(host: String?) = apply { this.hostText = host }
 		fun setPlayLink(url: String?) = apply { this.playLink = url }
 		fun setSize(width: Int, height: Int) = apply { this.size = width.toFloat() to height.toFloat() }
+		fun setProgressView(view: View) = apply { this.progressView = view }
 
 		fun setListener(listener: Listener) = apply { this.listener = listener }
 		fun setTitleColor(@ColorRes color: Int) = apply { this.titleColor = color }
