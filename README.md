@@ -52,13 +52,23 @@ val okHttpClient = OkHttpClient.Builder()
 	.readTimeout(15, TimeUnit.SECONDS)
 	.build()
 
-val videoService = VideoService.Builder()
-	.httpClient(okHttpClient)
-	.build()
+val videoService = VideoService.build{
+	with(this@MainActivity)
+	httpClient(okHttpClient)
+	enableCache(true)
+	enableLog(true)
+}
 ```
 2. Get VideoPreviewModel
 ```kotlin
-videoService.loadVideoPreview(url) { model -> ... }
+videoService.loadVideoPreview(
+	url,
+	{ video ->
+		//handle a video model
+	},
+	{ url, error ->
+		//handle an error
+	})
 ```
 # Play Video from VideoPreviewModel
 The BottomVideoController allows to run any oembed video in WebView.
