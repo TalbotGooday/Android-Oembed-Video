@@ -122,20 +122,12 @@ data class RutubeResponse(
 		0
 	}
 
-	override fun toPreview(url: String?): VideoPreviewModel {
-		return VideoPreviewModel().apply {
+	override fun toPreview(url: String?, linkToPlay: String, hostingName: String, videoId: String): VideoPreviewModel {
+		return VideoPreviewModel(url, linkToPlay, hostingName, videoId).apply {
 			this.videoTitle = this@RutubeResponse.title
 			this.thumbnailUrl = this@RutubeResponse.thumbnailUrl
-			this.url = url
-			this.videoHosting = VideoPreviewModel.RUTUBE
-			this.videoId = getVideoId()
-			this.linkToPlay = "http://rutube.ru/play/embed/${this.videoId}"
 			this.width = this@RutubeResponse.width()
 			this.height = this@RutubeResponse.height()
 		}
-	}
-
-	override fun getVideoId(url: String?): String? {
-		return this@RutubeResponse.trackId.toString()
 	}
 }

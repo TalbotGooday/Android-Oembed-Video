@@ -28,14 +28,14 @@ fun getHeight(width: Float?, height: Float?, videoViewWidth: Int): Int {
 }
 
 /**
-* Check url is a video link
+ * Check url is a video link
  *
  * @return true if url is a link and false otherwise
-*/
+ */
 fun String?.isVideoUrl(): Boolean {
 	this ?: return false
 
-return "$YOUTUBE_PATTERN|$RUTUBE_PATTERN|$VIMEO_PATTERN|$FACEBOOK_PATTERN|$DAILYMOTION_PATTERN|$WISTIA_PATTERN|$VZAAR_PATTERN"
-				.toRegex()
-				.matches(this)
+	return "$YOUTUBE_PATTERN|$RUTUBE_PATTERN|$VIMEO_PATTERN|$FACEBOOK_PATTERN|$DAILYMOTION_PATTERN|$WISTIA_PATTERN|$VZAAR_PATTERN"
+			.toRegex()
+			.matches(this)
 }

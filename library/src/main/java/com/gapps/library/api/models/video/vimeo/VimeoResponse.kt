@@ -1,12 +1,11 @@
 package com.gapps.library.api.models.video.vimeo
 
-import com.gapps.library.api.VIMEO_PATTERN
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class VimeoResponse: BaseVideoResponse {
+class VimeoResponse : BaseVideoResponse {
 	@SerializedName("id")
 	@Expose
 	var id: Int? = null
@@ -77,22 +76,12 @@ class VimeoResponse: BaseVideoResponse {
 	@Expose
 	var embedPrivacy: String? = null
 
-	override fun toPreview(url: String?): VideoPreviewModel {
-		return VideoPreviewModel().apply {
+	override fun toPreview(url: String?, linkToPlay: String, hostingName: String, videoId: String): VideoPreviewModel {
+		return VideoPreviewModel(url, linkToPlay, hostingName, videoId).apply {
 			this.thumbnailUrl = this@VimeoResponse.thumbnailLarge
 			this.videoTitle = this@VimeoResponse.title
-			this.url = url
-			this.videoHosting = VideoPreviewModel.VIMEO
-			this.videoId = getVideoId(url)
-			this.linkToPlay = "https://player.vimeo.com/video/${this.videoId}"
 			this.width = this@VimeoResponse.width ?: 0
 			this.height = this@VimeoResponse.height ?: 0
 		}
-	}
-
-	override fun getVideoId(url: String?): String? {
-		url ?: return null
-
-		return VIMEO_PATTERN.toRegex().find(url)?.groups?.get(1)?.value
 	}
 }

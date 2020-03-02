@@ -1,5 +1,6 @@
 package com.gapps.videonoapi.adapters
 
+import android.util.Log
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
@@ -68,12 +69,23 @@ class VideoAdapter(private val videoService: VideoService, private val listener:
 			icon_drop_down.toggleArrow(isVideoDataVisible, 0)
 
 			if (loadedDataItem == null) {
-				videoService.loadVideoPreview(item) { video ->
-					loadedData.put(adapterPosition, video)
-					loadedDataItem = video
+				videoService.loadVideoPreview(item,
+						{ video ->
+							loadedData.put(adapterPosition, video)
+							loadedDataItem = video
 
-					initVideoView(video)
-				}
+							initVideoView(video)
+						},
+						{ url, error ->
+							Log.e("MainActivity", "$error \n $url")
+
+							val video = VideoPreviewModel.error(url, error)
+
+							loadedData.put(adapterPosition, video)
+							loadedDataItem = video
+
+							initVideoView(video)
+						})
 			} else {
 				initVideoView(loadedDataItem)
 			}
@@ -104,7 +116,11 @@ class VideoAdapter(private val videoService: VideoService, private val listener:
 			icon_drop_down.visible()
 			text_preview.visibleOrGone(video.videoTitle.isNullOrBlank().not())
 
-			Picasso.get().load(video.thumbnailUrl).transform(FitThumbnailTransformation(context.getWidth(context.resources.getDimensionPixelSize(com.gapps.library.R.dimen.vna_bv_dialog_width)))).into(image_preview)
+			Picasso.get()
+					.load(video.thumbnailUrl)
+					.error(R.drawable.image_shop_1)
+					.transform(FitThumbnailTransformation(context.getWidth(context.resources.getDimensionPixelSize(com.gapps.library.R.dimen.vna_bv_dialog_width))))
+					.into(image_preview)
 
 			text_preview.text = video.videoTitle
 
@@ -138,6 +154,7 @@ class VideoAdapter(private val videoService: VideoService, private val listener:
 				VideoPreviewModel.HULU -> R.drawable.hulu
 				VideoPreviewModel.USTREAM -> R.drawable.ibm
 				VideoPreviewModel.TED_TALKS -> R.drawable.ted_talks
+				VideoPreviewModel.COUB -> R.drawable.ic_coub
 				else -> R.drawable.ic_video
 			}
 

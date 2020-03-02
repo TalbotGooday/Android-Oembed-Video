@@ -1,11 +1,10 @@
 package com.gapps.library.api.models.video.youtube
 
-import com.gapps.library.api.YOUTUBE_PATTERN
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.SerializedName
 
-class YoutubeResponse: BaseVideoResponse {
+class YoutubeResponse : BaseVideoResponse {
 	@SerializedName("author_name")
 	var authorName: String? = null
 
@@ -45,26 +44,12 @@ class YoutubeResponse: BaseVideoResponse {
 	@SerializedName("height")
 	var height: Int = 0
 
-	override fun toPreview(url: String?): VideoPreviewModel {
-		return VideoPreviewModel().apply {
+	override fun toPreview(url: String?, linkToPlay: String, hostingName: String, videoId: String): VideoPreviewModel {
+		return VideoPreviewModel(url, linkToPlay, hostingName, videoId).apply {
 			this.videoTitle = this@YoutubeResponse.title
 			this.thumbnailUrl = this@YoutubeResponse.thumbnailUrl
-			this.url = url
-			this.videoHosting = if (url?.contains("music.") == true) {
-				VideoPreviewModel.YOUTUBE_MUSIC
-			} else {
-				VideoPreviewModel.YOUTUBE
-			}
-			this.videoId = getVideoId(url)
-			this.linkToPlay = "https://www.youtube.com/embed/${this.videoId}?autoplay=1&vq=small"
 			this.width = this@YoutubeResponse.width
 			this.height = this@YoutubeResponse.height
 		}
-	}
-
-	override fun getVideoId(url: String?): String? {
-		url ?: return null
-
-		return YOUTUBE_PATTERN.toRegex().find(url)?.groups?.get(1)?.value
 	}
 }

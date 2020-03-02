@@ -1,7 +1,6 @@
 package com.gapps.library.api.models.video.ted
 
 
-import com.gapps.library.api.TED_TALKS_PATTERN
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.SerializedName
@@ -40,22 +39,12 @@ data class TedTalksResponse(
 		@SerializedName("html")
 		val html: String = ""
 ) : BaseVideoResponse {
-	override fun toPreview(url: String?): VideoPreviewModel {
-		return VideoPreviewModel().apply {
+	override fun toPreview(url: String?, linkToPlay: String, hostingName: String, videoId: String): VideoPreviewModel {
+		return VideoPreviewModel(url, linkToPlay, hostingName, videoId).apply {
 			this.thumbnailUrl = this@TedTalksResponse.thumbnailUrl
 			this.videoTitle = this@TedTalksResponse.title
-			this.url = url
-			this.videoHosting = VideoPreviewModel.TED_TALKS
-			this.videoId = getVideoId(url)
-			this.linkToPlay = "https://embed.ted.com/talks/$videoId"
 			this.width = this@TedTalksResponse.width
 			this.height = this@TedTalksResponse.height
 		}
-	}
-
-	override fun getVideoId(url: String?): String? {
-		url ?: return null
-
-		return TED_TALKS_PATTERN.toRegex().find(url)?.groups?.get(1)?.value
 	}
 }

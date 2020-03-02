@@ -1,7 +1,6 @@
 package com.gapps.library.api.models.video.vzaar
 
 
-import com.gapps.library.api.VZAAR_PATTERN
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.SerializedName
@@ -60,22 +59,12 @@ data class VzaarResponse(
 		@SerializedName("categories")
 		val categories: List<Any> = listOf()
 ) : BaseVideoResponse {
-	override fun toPreview(url: String?): VideoPreviewModel {
-		return VideoPreviewModel().apply {
+	override fun toPreview(url: String?, linkToPlay: String, hostingName: String, videoId: String): VideoPreviewModel {
+		return VideoPreviewModel(url, linkToPlay, hostingName, videoId).apply {
 			this.thumbnailUrl = this@VzaarResponse.framegrabUrl
 			this.videoTitle = this@VzaarResponse.title
-			this.url = url
-			this.videoHosting = VideoPreviewModel.VZAAR
-			this.videoId = getVideoId(url)
-			this.linkToPlay = "https://view.vzaar.com/${this.videoId}/player"
 			this.width = this@VzaarResponse.width ?: 0
 			this.height = this@VzaarResponse.height ?: 0
 		}
-	}
-
-	override fun getVideoId(url: String?): String? {
-		url ?: return null
-
-		return VZAAR_PATTERN.toRegex().find(url)?.groups?.get(1)?.value
 	}
 }

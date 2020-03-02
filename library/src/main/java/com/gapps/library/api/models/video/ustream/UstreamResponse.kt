@@ -1,7 +1,6 @@
 package com.gapps.library.api.models.video.ustream
 
 
-import com.gapps.library.api.USTREAM_PATTERN
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.google.gson.annotations.SerializedName
@@ -32,24 +31,12 @@ data class UstreamResponse(
 		@SerializedName("thumbnail_height")
 		val thumbnailHeight: Int = 0
 ) : BaseVideoResponse {
-	override fun toPreview(url: String?): VideoPreviewModel {
-		return VideoPreviewModel().apply {
+	override fun toPreview(url: String?, linkToPlay: String, hostingName: String, videoId: String): VideoPreviewModel {
+		return VideoPreviewModel(url, linkToPlay, hostingName, videoId).apply {
 			this.thumbnailUrl = this@UstreamResponse.thumbnailUrl
 			this.videoTitle = this@UstreamResponse.title
-			this.url = url
-			this.videoHosting = VideoPreviewModel.USTREAM
-			this.videoId = getVideoId(url)
-			this.linkToPlay = getPlayLink()
 			this.width = this@UstreamResponse.width
 			this.height = this@UstreamResponse.height
 		}
-	}
-
-	fun getPlayLink() = "(?:src=\"(\\S+)\")".toRegex().find(html)?.groups?.get(1)?.value
-
-	override fun getVideoId(url: String?): String? {
-		url ?: return null
-
-		return USTREAM_PATTERN.toRegex().find(url)?.groups?.get(1)?.value
 	}
 }

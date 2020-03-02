@@ -28,15 +28,15 @@ class MainActivity : AppCompatActivity() {
 			"https://music.youtube.com/watch?v=lFMOYjVCLUo",
 			"https://vimeo.com/259411563",
 			"https://rutube.ru/video/d70e62b44b8893e98e3e90a6e2c9fcd4/?pl_type=source&amp;pl_id=18265",
-			"https://www.facebook.com/UFC/videos/410056389868335/",
+			"https://www.facebook.com/kinodizi/videos/965220097161488",
 			"https://www.dailymotion.com/video/x5sxbmb",
 			"https://dave.wistia.com/medias/0k5h1g1chs/",
 			"https://vzaar.com/videos/401431",
 			"http://www.hulu.com/w/154323",
 			"https://ustream.tv/channel/6540154",
-			"https://ustream.tv/recorded/101541339",
 			"https://www.ted.com/talks/jill_bolte_taylor_my_stroke_of_insight",
-			"https://coub.com/view/um0um0"
+			"https://coub.com/view/um0um0",
+			"https://ustream.tv/recorded/101541339"
 	)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,9 +58,12 @@ class MainActivity : AppCompatActivity() {
 				.addInterceptor(interceptor)
 				.build()
 
-		videoService = VideoService.Builder()
-				.httpClient(okHttpClient)
-				.build()
+		videoService = VideoService.build{
+			with(this@MainActivity)
+			httpClient(okHttpClient)
+			enableCache(true)
+			build()
+		}
 	}
 
 	private fun initViews() {
