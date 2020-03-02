@@ -10,9 +10,6 @@ abstract class VideoInfoModel<T> {
 
 	abstract val hostingName: String
 
-	/**
-	 *
-	 */
 	open fun parseVideoId(url: String?): String? {
 		url ?: return null
 
