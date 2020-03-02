@@ -155,6 +155,7 @@ class VideoAdapter(private val videoService: VideoService, private val listener:
 				VideoPreviewModel.USTREAM -> R.drawable.ibm
 				VideoPreviewModel.TED_TALKS -> R.drawable.ted_talks
 				VideoPreviewModel.COUB -> R.drawable.ic_coub
+				"Ultimedia" -> R.drawable.ultimedia
 				else -> R.drawable.ic_video
 			}
 

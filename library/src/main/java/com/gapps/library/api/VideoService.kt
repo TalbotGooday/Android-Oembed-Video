@@ -3,7 +3,9 @@ package com.gapps.library.api
 import android.content.Context
 import android.util.Log
 import com.gapps.library.api.models.api.*
+import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.VideoPreviewModel
+import com.gapps.library.api.models.video.base.BaseVideoResponse
 import okhttp3.OkHttpClient
 
 
@@ -11,7 +13,8 @@ class VideoService(
 		context: Context?,
 		client: OkHttpClient,
 		isCacheEnabled: Boolean,
-		val isLogEnabled: Boolean
+		val isLogEnabled: Boolean,
+		val customModels: List<VideoInfoModel<out BaseVideoResponse>>
 ) {
 	private val videoInfoModelsList = mutableListOf(
 			CoubVideoInfoModel(),
@@ -36,8 +39,11 @@ class VideoService(
 			builder.context,
 			builder.okHttpClient,
 			builder.isCacheEnabled,
-			builder.isLogEnabled
-	)
+			builder.isLogEnabled,
+			builder.customModels
+	) {
+		this.videoInfoModelsList.addAll(customModels)
+	}
 
 	private val videoHelper = Helper2(context, client, isCacheEnabled)
 
@@ -83,6 +89,8 @@ class VideoService(
 		var context: Context? = null
 			private set
 
+		val customModels: MutableList<VideoInfoModel<out BaseVideoResponse>> = mutableListOf()
+
 		fun with(context: Context) = apply { this.context = context }
 
 		fun httpClient(client: OkHttpClient) = apply { okHttpClient = client }
@@ -90,6 +98,8 @@ class VideoService(
 		fun enableLog(isEnabled: Boolean) = apply { isLogEnabled = isEnabled }
 
 		fun enableCache(isEnabled: Boolean) = apply { isCacheEnabled = isEnabled }
+
+		fun <T : VideoInfoModel<out BaseVideoResponse>> withCustomVideoInfoModels(vararg models: T) = apply { this.customModels.addAll(models) }
 
 		fun build() = VideoService(this)
 	}

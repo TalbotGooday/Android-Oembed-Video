@@ -11,6 +11,7 @@ import com.gapps.library.api.VideoService
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.ui.bottom_menu.BottomVideoController
 import com.gapps.videonoapi.adapters.VideoAdapter
+import com.gapps.videonoapi.custom.abraira.UltimediaVideoInfoModel
 import com.gapps.videonoapi.utils.ScrollListener
 import com.gapps.videonoapi.utils.alphaSmooth
 import com.gapps.videonoapi.utils.convertDpToPx
@@ -36,7 +37,8 @@ class MainActivity : AppCompatActivity() {
 			"https://ustream.tv/channel/6540154",
 			"https://www.ted.com/talks/jill_bolte_taylor_my_stroke_of_insight",
 			"https://coub.com/view/um0um0",
-			"https://ustream.tv/recorded/101541339"
+			"https://ustream.tv/recorded/101541339",
+			"https://www.ultimedia.com/default/index/videogeneric/id/pzkk35/"
 	)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +65,7 @@ class MainActivity : AppCompatActivity() {
 			httpClient(okHttpClient)
 			enableCache(true)
 			enableLog(true)
+			withCustomVideoInfoModels(UltimediaVideoInfoModel())
 		}
 	}
 

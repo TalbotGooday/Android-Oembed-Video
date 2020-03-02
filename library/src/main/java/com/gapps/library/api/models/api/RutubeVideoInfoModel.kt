@@ -22,7 +22,7 @@ class RutubeVideoInfoModel : VideoInfoModel<RutubeResponse>() {
 		val id = parseVideoId(incomingUrl) ?: return null
 
 		return if (id.length < 32) {
-			"$baseUrl/oembed?$FORMAT=$FORMAT_JSON&$URL=$this"
+			"$baseUrl/oembed?$FORMAT=$FORMAT_JSON&$URL=$id"
 		} else {
 			"$baseUrl/video/$id/"
 		}
