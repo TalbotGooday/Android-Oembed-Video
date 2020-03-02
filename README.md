@@ -52,9 +52,12 @@ val okHttpClient = OkHttpClient.Builder()
 	.readTimeout(15, TimeUnit.SECONDS)
 	.build()
 
-val videoService = VideoService.Builder()
-	.httpClient(okHttpClient)
-	.build()
+val videoService = VideoService.build{
+	with(this@MainActivity)
+	httpClient(okHttpClient)
+	enableCache(true)
+	enableLog(true)
+}
 ```
 2. Get VideoPreviewModel
 ```kotlin
