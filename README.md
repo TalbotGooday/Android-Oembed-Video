@@ -61,7 +61,14 @@ val videoService = VideoService.build{
 ```
 2. Get VideoPreviewModel
 ```kotlin
-videoService.loadVideoPreview(url) { model -> ... }
+videoService.loadVideoPreview(
+	url,
+	{ video ->
+		//handle a video model
+	},
+	{ url, error ->
+		//handle an error
+	})
 ```
 # Play Video from VideoPreviewModel
 The BottomVideoController allows to run any oembed video in WebView.
