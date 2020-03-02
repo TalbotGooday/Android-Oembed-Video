@@ -118,7 +118,7 @@ class UltimediaVideoInfoModel: VideoInfoModel<UltimediaResponse>() {
 	override val pattern: String
 		get() = "(?:http[s]?:\\/\\/)?(?:www)?\\.?ultimedia\\.com\\/(?:deliver|default|api)\\/.*\\/([_a-zA-Z0-9]+)\\S*"
 	override val idPattern: String
-		get() = pattern //or some other another video id search pattern
+		get() = pattern //or some another video id search pattern
 	override val type: Class<UltimediaResponse>
 		get() = UltimediaResponse::class.java
 	override val hostingName: String
