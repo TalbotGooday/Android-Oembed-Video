@@ -68,19 +68,21 @@ val linkToPlay = model.linkToPlay
 val title = model.videoTitle
 val initUrl = model.url
 
-BottomVideoController.Builder(this)
-	.setListener(object : BottomVideoController.Listener() {
+BottomVideoController.build(this) {
+	setListener(object : BottomVideoController.Listener() {
 		override fun openLinkIn(link: String) {
 			openLink(link)
 		}
-
 		override fun copyLink(link: String) {
 			copyLinkToClipboard(link)
 		}
 	})
-	.setHostText(host)
-	.setPlayLink(linkToPlay)
-	.setTitle(title)
-	.setVideoUrl(initUrl)
-	.show()
+	setHostText(host)
+	setPlayLink(linkToPlay)
+	setSize(model.width, model.height)
+	setTitle(title)
+	setVideoUrl(initUrl)
+	setProgressView(TextView(this@MainActivity).apply { text = "Loading" })
+	show()
+}
 ```
