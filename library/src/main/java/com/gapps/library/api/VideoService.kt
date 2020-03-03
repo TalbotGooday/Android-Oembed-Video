@@ -6,6 +6,7 @@ import com.gapps.library.api.models.api.*
 import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
+import com.gapps.library.utils.errors.ERROR_1
 import okhttp3.OkHttpClient
 
 
@@ -14,24 +15,24 @@ class VideoService(
 		client: OkHttpClient,
 		isCacheEnabled: Boolean,
 		val isLogEnabled: Boolean,
-		val customModels: List<VideoInfoModel<out BaseVideoResponse>>
+		private val customModels: List<VideoInfoModel<out BaseVideoResponse>>
 ) {
-	private val videoInfoModelsList = mutableListOf(
-			CoubVideoInfoModel(),
-			DailymotionVideoInfoModel(),
-			FacebookVideoInfoModel(),
-			HuluVideoInfoModel(),
-			RutubeVideoInfoModel(),
-			TedTalksVideoInfoModel(),
-			UstreamVideoInfoModel(),
-			VimeoVideoInfoModel(),
-			VzaarVideoInfoModel(),
-			WistiaVideoInfoModel(),
-			YoutubeMusicVideoInfoModel(),
-			YoutubeVideoInfoModel()
-	)
-
 	companion object {
+		val videoInfoModelsList = mutableListOf(
+				CoubVideoInfoModel(),
+				DailymotionVideoInfoModel(),
+				FacebookVideoInfoModel(),
+				HuluVideoInfoModel(),
+				RutubeVideoInfoModel(),
+				TedTalksVideoInfoModel(),
+				UstreamVideoInfoModel(),
+				VimeoVideoInfoModel(),
+				VzaarVideoInfoModel(),
+				WistiaVideoInfoModel(),
+				YoutubeMusicVideoInfoModel(),
+				YoutubeVideoInfoModel()
+		)
+
 		inline fun build(block: Builder.() -> Unit) = Builder().apply(block).build()
 	}
 
@@ -42,10 +43,10 @@ class VideoService(
 			builder.isLogEnabled,
 			builder.customModels
 	) {
-		this.videoInfoModelsList.addAll(customModels)
+		videoInfoModelsList.addAll(customModels)
 	}
 
-	private val videoHelper = Helper2(context, client, isCacheEnabled)
+	private val videoHelper = VideoLoadHelper(context, client, isCacheEnabled)
 
 	fun loadVideoPreview(
 			url: String,

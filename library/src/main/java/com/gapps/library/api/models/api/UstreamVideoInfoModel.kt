@@ -10,7 +10,7 @@ class UstreamVideoInfoModel : VideoInfoModel<UstreamResponse>() {
 		get() = "https://video.ibm.com/"
 	//https://regex101.com/r/E0PMAV/2
 	override val pattern: String
-		get() = "(?:http[s]?:\\/\\/)?(?:www\\.)?ustream.(?:com|tv)\\/(?:recorded|embed|channel)\\/?(?:([0-9]+)|(\\S+))(?:\\/\\S*)?"
+		get() = "(?:http[s]?:\\/\\/)?(?:www\\.)?ustream.(?:com|tv)\\/(?:recorded|embed|channel)\\/?(?:([0-9]+)|(\\S+))[^,;\\s]*"
 	override val idPattern: String
 		get() = pattern
 	override val type: Class<UstreamResponse>

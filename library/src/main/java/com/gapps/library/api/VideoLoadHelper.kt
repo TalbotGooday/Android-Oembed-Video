@@ -6,6 +6,8 @@ import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.gapps.library.cache.getCachedVideoModel
 import com.gapps.library.cache.insertModel
+import com.gapps.library.utils.errors.ERROR_2
+import com.gapps.library.utils.errors.ERROR_3
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser.parseString
@@ -15,7 +17,11 @@ import okhttp3.Request
 import java.lang.reflect.Type
 import kotlin.coroutines.CoroutineContext
 
-internal class Helper2(private val context: Context?, private val client: OkHttpClient, val isCacheEnabled: Boolean) : CoroutineScope {
+internal class VideoLoadHelper(
+		private val context: Context?,
+		private val client: OkHttpClient,
+		private val isCacheEnabled: Boolean
+) : CoroutineScope {
 	private val job = Job()
 	override val coroutineContext: CoroutineContext
 		get() = job + Dispatchers.Main

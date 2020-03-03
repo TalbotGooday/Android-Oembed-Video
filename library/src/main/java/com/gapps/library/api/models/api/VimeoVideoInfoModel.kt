@@ -8,7 +8,7 @@ class VimeoVideoInfoModel : VideoInfoModel<VimeoResponse>() {
 	override val baseUrl: String
 		get() = "http://vimeo.com"
 	override val pattern: String
-		get() = "(?:http[s]?://)(?:w{3})?(?:player\\.)?vimeo\\.com/(?:[a-z]*/)*([0-9]{6,11})[?]?"
+		get() = "(?:http[s]?://)(?:w{3})?(?:player\\.)?vimeo\\.com/(?:[a-z]*/)*([0-9]{6,11})[^,;\\s]*"
 	override val idPattern: String
 		get() = pattern
 	override val type: Class<VimeoResponse>

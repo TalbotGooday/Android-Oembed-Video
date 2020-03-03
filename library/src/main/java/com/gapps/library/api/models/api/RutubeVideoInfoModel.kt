@@ -10,7 +10,7 @@ class RutubeVideoInfoModel : VideoInfoModel<RutubeResponse>() {
 	override val baseUrl: String
 		get() = "http://rutube.ru/api"
 	override val pattern: String
-		get() = "(?:http[s]?://)(?:w{3})?(?:player\\.)?rutube\\.ru/video/(?:embed/)?([A-Za-z0-9]+)[/]?(\\?.+)?"
+		get() = "(?:http[s]?://)(?:w{3})?(?:player\\.)?rutube\\.ru/video/(?:embed/)?([A-Za-z0-9]+)[^,\\s]*"
 	override val idPattern: String
 		get() = pattern
 	override val type: Class<RutubeResponse>

@@ -11,7 +11,7 @@ class CoubVideoInfoModel : VideoInfoModel<CoubResponse>() {
 
 	//https://regex101.com/r/ZoQVLa/1
 	override val pattern: String
-		get() = "(?:http[s]?:\\/\\/)?(?:www)?\\.?coub\\.com\\/(?:embed|view|api)\\/([_a-zA-Z0-9]+)\\S*"
+		get() = "(?:http[s]?:\\/\\/)?(?:www)?\\.?coub\\.com\\/(?:embed|view|api)\\/([_a-zA-Z0-9]+)[^,;\\s]*"
 
 	override val idPattern: String
 		get() = pattern

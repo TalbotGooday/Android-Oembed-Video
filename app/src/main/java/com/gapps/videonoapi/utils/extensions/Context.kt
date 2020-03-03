@@ -1,4 +1,4 @@
-package com.gapps.videonoapi.utils
+package com.gapps.videonoapi.utils.extensions
 
 import android.content.Context
 import android.util.TypedValue

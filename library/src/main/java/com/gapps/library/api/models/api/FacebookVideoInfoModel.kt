@@ -10,7 +10,7 @@ class FacebookVideoInfoModel : VideoInfoModel<FacebookResponse>() {
 		get() = "https://apps.facebook.com"
 	//Pattern: https://regex101.com/r/98Nfkr/5
 	override val pattern: String
-		get() = "(?:http[s]?://)?(?:www.|web.|m.)?(?:facebook|fb)?.com/(?:(?:video.php|watch?/)?\\?v=|.+/videos(?:/.+)?/)(\\d+)\\S*"
+		get() = "(?:http[s]?://)?(?:www.|web.|m.)?(?:facebook|fb)?.com/(?:(?:video.php|watch?/)?\\?v=|.+/videos(?:/.+)?/)(\\d+)[^,;\\s]*"
 	override val idPattern: String
 		get() = pattern
 	override val type: Class<FacebookResponse>

@@ -1,26 +1,26 @@
-package com.gapps.videonoapi
+package com.gapps.videonoapi.ui.main
 
 import android.content.*
-import android.net.Uri
 import android.os.Bundle
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gapps.library.api.VideoService
 import com.gapps.library.api.models.video.VideoPreviewModel
-import com.gapps.library.ui.bottom_menu.BottomVideoController
-import com.gapps.videonoapi.adapters.VideoAdapter
-import com.gapps.videonoapi.custom.abraira.UltimediaVideoInfoModel
-import com.gapps.videonoapi.utils.ScrollListener
-import com.gapps.videonoapi.utils.alphaSmooth
-import com.gapps.videonoapi.utils.convertDpToPx
+import com.gapps.library.utils.isVideoUrl
+import com.gapps.videonoapi.R
+import com.gapps.videonoapi.ui.text.TextActivity
+import com.gapps.videonoapi.ui.main.adapters.VideoAdapter
+import com.gapps.videonoapi.video_utils.abraira.UltimediaVideoInfoModel
+import com.gapps.videonoapi.ui.base.BaseActivity
+import com.gapps.videonoapi.utils.recycler_view.MarginItemDecoration
+import com.gapps.videonoapi.utils.scroll.ScrollListener
+import com.gapps.videonoapi.utils.extensions.alphaSmooth
+import com.gapps.videonoapi.utils.extensions.convertDpToPx
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
 	private lateinit var videoService: VideoService
 
@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 			"https://www.ted.com/talks/jill_bolte_taylor_my_stroke_of_insight",
 			"https://coub.com/view/um0um0",
 			"https://ustream.tv/recorded/101541339",
+			"https://asdasdasdasd.tv/recorded/101541339",
 			"https://www.ultimedia.com/default/index/videogeneric/id/pzkk35/"
 	)
 
@@ -72,69 +73,33 @@ class MainActivity : AppCompatActivity() {
 	private fun initViews() {
 		videos_list.apply {
 			layoutManager = LinearLayoutManager(this@MainActivity)
-			adapter = VideoAdapter(videoService, object : VideoAdapter.Listener {
+			val videoAdapter = VideoAdapter(this@MainActivity, videoService, object : VideoAdapter.Listener {
 				override fun onItemClick(item: VideoPreviewModel) {
 					showVideo(item)
 				}
-			}).apply {
-				swapData(videoUrls)
+			})
+			adapter = videoAdapter.apply {
+				swapData(videoUrls.filter { it.isVideoUrl() })
 			}
 
 			addOnScrollListener(ScrollListener(convertDpToPx(100f)) {
 				buttons_container.alphaSmooth(if (it) .1f else 1f)
 			})
+
+			addItemDecoration(MarginItemDecoration(videoAdapter, top = false, bottom = true))
 		}
 
-		refresh.setOnClickListener {
-			(videos_list.adapter as VideoAdapter).swapData(videoUrls)
+		text_test.setOnClickListener {
+			startActivity(Intent(this, TextActivity::class.java))
 		}
 
 		collapse_all.setOnClickListener {
 			(videos_list.adapter as VideoAdapter).collapseAll()
 		}
-	}
 
-	private fun showVideo(model: VideoPreviewModel) {
-		val host = model.videoHosting
-		val linkToPlay = model.linkToPlay
-		val title = model.videoTitle
-		val initUrl = model.url
-
-		BottomVideoController.build(this) {
-			setListener(object : BottomVideoController.Listener() {
-				override fun openLinkIn(link: String) {
-					openLink(link)
-				}
-
-				override fun copyLink(link: String) {
-					copyLinkToClipboard(link)
-				}
-			})
-			setHostText(host)
-			setPlayLink(linkToPlay)
-			setSize(model.width, model.height)
-			setTitle(title)
-			setVideoUrl(initUrl)
-			setProgressView(TextView(this@MainActivity).apply { text = "Loading" })
-			show()
-		}
-	}
-
-	private fun copyLinkToClipboard(link: String) {
-		val clip = ClipData.newPlainText("VideoUrl", link)
-		(getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager)?.setPrimaryClip(clip)
-		Toast.makeText(this, "Copied: $link", Toast.LENGTH_SHORT).show()
-	}
-
-	private fun openLink(link: String) {
-		try {
-			val intent = Intent(Intent.ACTION_VIEW).apply {
-				data = Uri.parse(link)
-			}
-
-			startActivity(intent)
-		} catch (e: ActivityNotFoundException) {
-			e.printStackTrace()
+		swiperefresh.setOnRefreshListener {
+			(videos_list.adapter as VideoAdapter).swapData(videoUrls)
+			swiperefresh.isRefreshing = false
 		}
 	}
 }

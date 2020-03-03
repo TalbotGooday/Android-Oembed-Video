@@ -9,7 +9,7 @@ class TedTalksVideoInfoModel : VideoInfoModel<TedTalksResponse>() {
 	override val baseUrl: String
 		get() = "https://www.ted.com"
 	override val pattern: String
-		get() = "(?:http[s]?:\\/\\/)?(?:www|embed)?\\.?ted\\.com\\/talks\\/([_a-zA-Z0-9]+)\\S*"
+		get() = "(?:http[s]?:\\/\\/)?(?:www|embed)?\\.?ted\\.com\\/talks\\/([_a-zA-Z0-9]+)[^,;\\s]*"
 	override val idPattern: String
 		get() = pattern
 	override val type: Class<TedTalksResponse>

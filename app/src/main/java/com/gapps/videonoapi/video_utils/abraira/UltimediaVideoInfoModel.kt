@@ -1,10 +1,10 @@
-package com.gapps.videonoapi.custom.abraira
+package com.gapps.videonoapi.video_utils.abraira
 
 import com.gapps.library.api.FORMAT
 import com.gapps.library.api.FORMAT_JSON
 import com.gapps.library.api.URL
 import com.gapps.library.api.models.api.base.VideoInfoModel
-import com.gapps.videonoapi.custom.abraira.response.UltimediaResponse
+import com.gapps.videonoapi.video_utils.abraira.response.UltimediaResponse
 
 class UltimediaVideoInfoModel: VideoInfoModel<UltimediaResponse>() {
 	override val baseUrl: String

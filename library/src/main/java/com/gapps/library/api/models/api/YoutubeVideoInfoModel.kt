@@ -11,7 +11,7 @@ class YoutubeVideoInfoModel : VideoInfoModel<YoutubeResponse>() {
 		get() = "https://www.youtube.com"
 	//https://regex101.com/r/nJzgG0/1
 	override val pattern: String
-		get() = "(?:http(?:s)?:\\/\\/)?(?:www.)?(?:m.)?youtu(?:be|.be)?(?:\\.com)?(?:(?:\\w*.?:\\/\\/)?\\w*.?\\w*-?.?\\w*\\/(?:embed|e|v|watch|.*\\/)?\\??(?:feature=\\w*\\.?\\w*)?&?(?:v=)?\\/?)([\\w\\d_-]{11})(?:\\S+)?"
+		get() = "(?:http[s]?:\\/\\/)(?:www.)?(?:m.)?youtu(?:be|.be)?(?:\\.com)?(?:(?:\\w*.?:\\/\\/)?\\w*.?\\w*-?.?\\w*\\/(?:embed|e|v|watch|.*\\/)?\\??(?:feature=\\w*\\.?\\w*)?&?(?:v=)?\\/?)([\\w\\d_-]{11})[^,;\\s]*"
 	override val idPattern: String
 		get() = pattern
 	override val type: Class<YoutubeResponse>

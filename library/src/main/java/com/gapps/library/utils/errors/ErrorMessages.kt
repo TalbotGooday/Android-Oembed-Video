@@ -1,4 +1,4 @@
-package com.gapps.library.api
+package com.gapps.library.utils.errors
 
 const val ERROR_1 = "Err 1. Unknown video service. \nPlease, visit https://github.com/TalbotGooday/Android-Oembed-Video for more information about available services"
 const val ERROR_2 = "Err 2. Can't parse response"

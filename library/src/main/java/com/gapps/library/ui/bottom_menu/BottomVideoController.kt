@@ -25,7 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import com.gapps.library.R
 import com.gapps.library.ui.bottom_dialog.BottomSheetDialogFixed
-import com.gapps.library.utils.getHeight
+import com.gapps.library.utils.getHeightFromWidth
 import com.gapps.library.utils.getWidth
 
 class BottomVideoController private constructor(
@@ -132,7 +132,7 @@ class BottomVideoController private constructor(
 		controlPanelOutline.background.colorFilter = PorterDuffColorFilter(outlineColor, PorterDuff.Mode.SRC_IN)
 
 		val videoViewWidth = context.getWidth(context.resources.getDimensionPixelSize(R.dimen.vna_bv_dialog_width))
-		val videoViewHeight = getHeight(size?.first, size?.second, videoViewWidth)
+		val videoViewHeight = getHeightFromWidth(size?.first, size?.second, videoViewWidth)
 
 		if (progressView != null) {
 			progressBarContainer.removeAllViews()

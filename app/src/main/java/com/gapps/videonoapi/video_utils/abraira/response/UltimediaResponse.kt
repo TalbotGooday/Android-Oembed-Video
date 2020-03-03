@@ -1,4 +1,4 @@
-package com.gapps.videonoapi.custom.abraira.response
+package com.gapps.videonoapi.video_utils.abraira.response
 
 
 import com.gapps.library.api.models.video.VideoPreviewModel

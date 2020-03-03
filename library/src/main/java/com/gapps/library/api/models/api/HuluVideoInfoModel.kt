@@ -11,7 +11,7 @@ class HuluVideoInfoModel : VideoInfoModel<HuluResponse>() {
 		get() = "https://www.hulu.com"
 	//https://regex101.com/r/LORZgZ/2
 	override val pattern: String
-		get() = "(?:http[s]?:\\/\\/)?(?:www.)?hulu\\.(?:(?:com\\/\\S*(?:w(?:atch)?|eid)(?:\\/|=)?)|(?:tv\\/))?([a-zA-Z0-9]+)\\S*"
+		get() = "(?:http[s]?:\\/\\/)?(?:www.)?hulu\\.(?:(?:com\\/\\S*(?:w(?:atch)?|eid)(?:\\/|=)?)|(?:tv\\/))?([a-zA-Z0-9]+)[^,;\\s]*"
 	override val idPattern: String
 		get() = pattern
 	override val type: Class<HuluResponse>

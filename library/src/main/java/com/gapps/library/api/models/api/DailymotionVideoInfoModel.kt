@@ -9,7 +9,7 @@ class DailymotionVideoInfoModel : VideoInfoModel<DailymotionResponse>() {
 		get() = "https://www.dailymotion.com"
 
 	override val pattern: String
-		get() = "(?:http[s]?://)?(?:www\\.)?(?:(?:dailymotion\\.com(?:/embed)?/video)|dai\\.ly)/([a-zA-Z0-9]+)(?:_[\\w_-]+)?"
+		get() = "(?:http[s]?://)?(?:www\\.)?(?:(?:dailymotion\\.com(?:/embed)?/video)|dai\\.ly)/([a-zA-Z0-9]+)[^,;\\s]*"
 
 	override val idPattern: String
 		get() = pattern

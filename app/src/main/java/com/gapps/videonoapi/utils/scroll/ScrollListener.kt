@@ -1,4 +1,4 @@
-package com.gapps.videonoapi.utils
+package com.gapps.videonoapi.utils.scroll
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

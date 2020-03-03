@@ -1,5 +1,6 @@
-package com.gapps.videonoapi.adapters
+package com.gapps.videonoapi.ui.main.adapters
 
+import android.content.Context
 import android.util.Log
 import android.util.SparseArray
 import android.view.LayoutInflater
@@ -11,27 +12,43 @@ import com.gapps.library.api.VideoService
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.utils.getWidth
 import com.gapps.videonoapi.R
-import com.gapps.videonoapi.utils.*
+import com.gapps.videonoapi.utils.extensions.*
+import com.gapps.videonoapi.utils.picasso.FitThumbnailTransformation
+import com.gapps.videonoapi.utils.recycler_view.MarginItemDecoration
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_video.view.*
 
 
-class VideoAdapter(private val videoService: VideoService, private val listener: Listener) : RecyclerView.Adapter<VideoAdapter.Holder>() {
+class VideoAdapter(private val context: Context, private val videoService: VideoService, private val listener: Listener)
+	: RecyclerView.Adapter<VideoAdapter.Holder>(),
+		MarginItemDecoration.Listener {
 
 	private var data: MutableList<String> = mutableListOf()
 	private val dataExpanded: SparseArray<Boolean> = SparseArray()
 	private val loadedData: SparseArray<VideoPreviewModel?> = SparseArray()
+	private val inflater = LayoutInflater.from(context)
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-		return Holder(
-				LayoutInflater.from(parent.context)
-						.inflate(R.layout.item_video, parent, false)
-		)
+		return Holder(inflater.inflate(R.layout.item_video, parent, false))
 	}
 
 	override fun getItemCount() = data.size
 
 	override fun onBindViewHolder(holder: Holder, position: Int) = holder.bind(data[position], listener)
+
+	override fun getTopMargin(position: Int): Int {
+		return 0
+	}
+
+	override fun getBottomMargin(position: Int): Int {
+		Log.d("MarginItemDecoration", "bottom: position: $position, itemCount: $itemCount")
+
+		return if (position == itemCount - 1) {
+			context.convertDpToPx(75f).toInt()
+		} else {
+			0
+		}
+	}
 
 	fun swapData(data: List<String>) {
 		this.data.clear()
@@ -143,18 +160,18 @@ class VideoAdapter(private val videoService: VideoService, private val listener:
 			type ?: return
 
 			val icon = when (type) {
-				VideoPreviewModel.YOUTUBE -> R.drawable.youtube
-				VideoPreviewModel.YOUTUBE_MUSIC -> R.drawable.youtube_music
-				VideoPreviewModel.VIMEO -> R.drawable.vimeo
-				VideoPreviewModel.RUTUBE -> R.drawable.rutube
-				VideoPreviewModel.FACEBOOK -> R.drawable.ic_fb
-				VideoPreviewModel.DAILYMOTION -> R.drawable.dailymotion
-				VideoPreviewModel.WISTIA -> R.drawable.ic_wistia
-				VideoPreviewModel.VZAAR -> R.drawable.ic_vzaar
-				VideoPreviewModel.HULU -> R.drawable.hulu
-				VideoPreviewModel.USTREAM -> R.drawable.ibm
-				VideoPreviewModel.TED_TALKS -> R.drawable.ted_talks
-				VideoPreviewModel.COUB -> R.drawable.ic_coub
+				"YouTube" -> R.drawable.youtube
+				"YouTube Music" -> R.drawable.youtube_music
+				"Vimeo" -> R.drawable.vimeo
+				"Rutube" -> R.drawable.rutube
+				"Facebook" -> R.drawable.ic_fb
+				"Dailymotion" -> R.drawable.dailymotion
+				"Wistia" -> R.drawable.ic_wistia
+				"Vzaar" -> R.drawable.ic_vzaar
+				"Hulu" -> R.drawable.hulu
+				"Ustream" -> R.drawable.ibm
+				"Ted Talks" -> R.drawable.ted_talks
+				"Coub" -> R.drawable.ic_coub
 				"Ultimedia" -> R.drawable.ultimedia
 				else -> R.drawable.ic_video
 			}

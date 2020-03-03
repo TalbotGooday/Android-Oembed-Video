@@ -6,13 +6,20 @@
 	android:layout_height="match_parent"
 	android:gravity="center"
 	android:orientation="vertical"
-	tools:context=".MainActivity">
+	tools:context=".ui.main.MainActivity">
 
-	<androidx.recyclerview.widget.RecyclerView
-		android:id="@+id/videos_list"
+	<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+		android:id="@+id/swiperefresh"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		tools:listitem="@layout/item_video" />
+		android:layout_height="match_parent">
+
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/videos_list"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			tools:listitem="@layout/item_video" />
+
+	</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 	<FrameLayout
 		android:id="@+id/buttons_container"
@@ -47,7 +54,7 @@
 		</LinearLayout>
 
 		<LinearLayout
-			android:id="@+id/refresh"
+			android:id="@+id/text_test"
 			android:layout_width="wrap_content"
 			android:layout_height="48dp"
 			android:layout_gravity="end"
@@ -55,18 +62,18 @@
 			android:background="@drawable/bg_action_button_image"
 			android:gravity="center"
 			android:orientation="horizontal"
-			android:paddingStart="8dp"
-			android:paddingEnd="20dp">
-
-			<androidx.appcompat.widget.AppCompatImageView
-				style="@style/ItemIcon"
-				app:srcCompat="@drawable/ic_refresh" />
+			android:paddingStart="20dp"
+			android:paddingEnd="8dp">
 
 			<TextView
 				style="@style/ItemText"
-				android:text="@string/refresh"
+				android:text="@string/text_test"
 				android:textAllCaps="true"
 				android:textColor="@android:color/white" />
+
+			<androidx.appcompat.widget.AppCompatImageView
+				style="@style/ItemIcon"
+				app:srcCompat="@drawable/ic_arrow_forward" />
 
 		</LinearLayout>
 	</FrameLayout>
