@@ -70,6 +70,18 @@ videoService.loadVideoPreview(
 		//handle an error
 	})
 ```
+3. Enable/disable caching
+```kotlin
+val videoService = VideoService.build{
+	enableCache(true)
+}
+```
+4. Enable/disable logging
+```kotlin
+val videoService = VideoService.build{
+	enableLog(BuildConfig.DEBUG)
+}
+```
 ## Play Video from VideoPreviewModel
 The BottomVideoController allows to run any oembed video in WebView.
 ```kotlin
