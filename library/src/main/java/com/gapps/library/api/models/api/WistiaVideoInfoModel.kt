@@ -4,7 +4,7 @@ import com.gapps.library.api.URL
 import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.wistia.WistiaResponse
 
-class WistiaVideoInfoModel : VideoInfoModel<WistiaResponse>() {
+open class WistiaVideoInfoModel : VideoInfoModel<WistiaResponse>() {
 	override val baseUrl: String
 		get() = "https://fast.wistia.net"
 	override val pattern: String

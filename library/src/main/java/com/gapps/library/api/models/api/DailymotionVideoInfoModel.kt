@@ -4,7 +4,7 @@ import com.gapps.library.api.URL
 import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.dailymotion.DailymotionResponse
 
-class DailymotionVideoInfoModel : VideoInfoModel<DailymotionResponse>() {
+open class DailymotionVideoInfoModel : VideoInfoModel<DailymotionResponse>() {
 	override val baseUrl: String
 		get() = "https://www.dailymotion.com"
 

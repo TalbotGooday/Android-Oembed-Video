@@ -43,6 +43,11 @@ class VideoService(
 			builder.isLogEnabled,
 			builder.customModels
 	) {
+
+		customModels.forEach { custom ->
+			videoInfoModelsList.removeAll { it.hostingName == custom.hostingName }
+		}
+
 		videoInfoModelsList.addAll(customModels)
 	}
 

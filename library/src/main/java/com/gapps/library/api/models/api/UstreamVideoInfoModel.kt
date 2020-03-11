@@ -5,9 +5,9 @@ import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.ustream.UstreamResponse
 import com.gapps.library.utils.getGroupValue
 
-class UstreamVideoInfoModel : VideoInfoModel<UstreamResponse>() {
+open class UstreamVideoInfoModel : VideoInfoModel<UstreamResponse>() {
 	override val baseUrl: String
-		get() = "https://video.ibm.com/"
+		get() = "https://video.ibm.com"
 	//https://regex101.com/r/E0PMAV/2
 	override val pattern: String
 		get() = "(?:http[s]?:\\/\\/)?(?:www\\.)?ustream.(?:com|tv)\\/(?:recorded|embed|channel)\\/?(?:([0-9]+)|(\\S+))[^,;\\s]*"

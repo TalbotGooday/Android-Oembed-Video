@@ -6,7 +6,7 @@ import com.gapps.library.api.URL
 import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.hulu.HuluResponse
 
-class HuluVideoInfoModel : VideoInfoModel<HuluResponse>() {
+open class HuluVideoInfoModel : VideoInfoModel<HuluResponse>() {
 	override val baseUrl: String
 		get() = "https://www.hulu.com"
 	//https://regex101.com/r/LORZgZ/2

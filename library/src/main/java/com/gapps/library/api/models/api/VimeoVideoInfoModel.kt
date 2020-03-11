@@ -4,7 +4,7 @@ import com.gapps.library.api.FORMAT_JSON
 import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.vimeo.VimeoResponse
 
-class VimeoVideoInfoModel : VideoInfoModel<VimeoResponse>() {
+open class VimeoVideoInfoModel : VideoInfoModel<VimeoResponse>() {
 	override val baseUrl: String
 		get() = "http://vimeo.com"
 	override val pattern: String

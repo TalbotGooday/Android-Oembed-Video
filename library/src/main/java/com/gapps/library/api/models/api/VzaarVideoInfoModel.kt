@@ -4,9 +4,9 @@ import com.gapps.library.api.FORMAT_JSON
 import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.vzaar.VzaarResponse
 
-class VzaarVideoInfoModel : VideoInfoModel<VzaarResponse>() {
+open class VzaarVideoInfoModel : VideoInfoModel<VzaarResponse>() {
 	override val baseUrl: String
-		get() = "https://app.vzaar.com/"
+		get() = "https://app.vzaar.com"
 	override val pattern: String
 		get() = "(?:http[s]?://)?(?:.+)?vzaar.com/?(?:videos/)?([0-9]+)[^,;\\s]*"
 	override val idPattern: String

@@ -5,7 +5,7 @@ import com.gapps.library.api.URL
 import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.facebook.FacebookResponse
 
-class FacebookVideoInfoModel : VideoInfoModel<FacebookResponse>() {
+open class FacebookVideoInfoModel : VideoInfoModel<FacebookResponse>() {
 	override val baseUrl: String
 		get() = "https://apps.facebook.com"
 	//Pattern: https://regex101.com/r/98Nfkr/5

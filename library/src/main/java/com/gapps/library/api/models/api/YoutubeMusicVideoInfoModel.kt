@@ -6,7 +6,7 @@ import com.gapps.library.api.URL
 import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.youtube.YoutubeResponse
 
-class YoutubeMusicVideoInfoModel : VideoInfoModel<YoutubeResponse>() {
+open class YoutubeMusicVideoInfoModel : VideoInfoModel<YoutubeResponse>() {
 	override val baseUrl: String
 		get() = "https://www.youtube.com"
 	override val pattern: String

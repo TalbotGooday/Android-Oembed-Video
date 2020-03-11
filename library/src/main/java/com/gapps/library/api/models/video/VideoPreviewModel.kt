@@ -21,19 +21,6 @@ class VideoPreviewModel() {
 	companion object {
 		const val ERROR_404 = "Not found"
 
-		const val YOUTUBE = "YouTube"
-		const val YOUTUBE_MUSIC = "YouTube Music"
-		const val VIMEO = "Vimeo"
-		const val RUTUBE = "Rutube"
-		const val FACEBOOK = "Facebook"
-		const val DAILYMOTION = "Dailymotion"
-		const val COUB = "Coub"
-		const val WISTIA = "Wistia"
-		const val VZAAR = "Vzaar"
-		const val HULU = "Hulu"
-		const val USTREAM = "Ustream"
-		const val TED_TALKS = "Ted Talks"
-
 		fun error(url: String?, message: String? = null) = VideoPreviewModel().apply {
 			this.url = url
 			this.videoTitle = ERROR_404

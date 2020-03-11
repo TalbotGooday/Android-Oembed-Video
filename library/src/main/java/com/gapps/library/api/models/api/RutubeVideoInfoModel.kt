@@ -6,9 +6,9 @@ import com.gapps.library.api.URL
 import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.rutube.RutubeResponse
 
-class RutubeVideoInfoModel : VideoInfoModel<RutubeResponse>() {
+open class RutubeVideoInfoModel : VideoInfoModel<RutubeResponse>() {
 	override val baseUrl: String
-		get() = "http://rutube.ru/api"
+		get() = "http://rutube.ru"
 	override val pattern: String
 		get() = "(?:http[s]?://)(?:w{3})?(?:player\\.)?rutube\\.ru/video/(?:embed/)?([A-Za-z0-9]+)[^,\\s]*"
 	override val idPattern: String
@@ -22,9 +22,9 @@ class RutubeVideoInfoModel : VideoInfoModel<RutubeResponse>() {
 		val id = parseVideoId(incomingUrl) ?: return null
 
 		return if (id.length < 32) {
-			"$baseUrl/oembed?$FORMAT=$FORMAT_JSON&$URL=$id"
+			"$baseUrl/api/oembed?$FORMAT=$FORMAT_JSON&$URL=$id"
 		} else {
-			"$baseUrl/video/$id/"
+			"$baseUrl/api/video/$id/"
 		}
 	}
 

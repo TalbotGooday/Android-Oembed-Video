@@ -5,7 +5,7 @@ import com.gapps.library.api.URL
 import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.ted.TedTalksResponse
 
-class TedTalksVideoInfoModel : VideoInfoModel<TedTalksResponse>() {
+open class TedTalksVideoInfoModel : VideoInfoModel<TedTalksResponse>() {
 	override val baseUrl: String
 		get() = "https://www.ted.com"
 	override val pattern: String

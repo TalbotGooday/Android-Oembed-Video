@@ -15,6 +15,7 @@ import com.gapps.videonoapi.utils.recycler_view.MarginItemDecoration
 import com.gapps.videonoapi.utils.scroll.ScrollListener
 import com.gapps.videonoapi.utils.extensions.alphaSmooth
 import com.gapps.videonoapi.utils.extensions.convertDpToPx
+import com.gapps.videonoapi.video_utils.youtube.MyYoutubeVideoInfoModel
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -64,9 +65,9 @@ class MainActivity : BaseActivity() {
 		videoService = VideoService.build {
 			with(this@MainActivity)
 			httpClient(okHttpClient)
-			enableCache(true)
+			enableCache(false)
 			enableLog(true)
-			withCustomVideoInfoModels(UltimediaVideoInfoModel())
+			withCustomVideoInfoModels(UltimediaVideoInfoModel(), MyYoutubeVideoInfoModel())
 		}
 	}
 

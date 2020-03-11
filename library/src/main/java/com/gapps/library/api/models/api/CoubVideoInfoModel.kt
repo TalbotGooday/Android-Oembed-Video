@@ -5,9 +5,9 @@ import com.gapps.library.api.URL
 import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.coub.CoubResponse
 
-class CoubVideoInfoModel : VideoInfoModel<CoubResponse>() {
+open class CoubVideoInfoModel : VideoInfoModel<CoubResponse>() {
 	override val baseUrl: String
-		get() = "http://coub.com/"
+		get() = "http://coub.com"
 
 	//https://regex101.com/r/ZoQVLa/1
 	override val pattern: String

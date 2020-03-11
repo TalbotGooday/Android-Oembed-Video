@@ -1,12 +1,12 @@
-package com.gapps.library.api.models.api
+package com.gapps.videonoapi.video_utils.youtube
 
 import com.gapps.library.api.FORMAT
 import com.gapps.library.api.FORMAT_JSON
 import com.gapps.library.api.URL
-import com.gapps.library.api.models.api.base.VideoInfoModel
+import com.gapps.library.api.models.api.YoutubeVideoInfoModel
 import com.gapps.library.api.models.video.youtube.YoutubeResponse
 
-open class YoutubeVideoInfoModel : VideoInfoModel<YoutubeResponse>() {
+class MyYoutubeVideoInfoModel: YoutubeVideoInfoModel() {
 	override val baseUrl: String
 		get() = "https://www.youtube.com"
 	//https://regex101.com/r/nJzgG0/1
@@ -26,6 +26,6 @@ open class YoutubeVideoInfoModel : VideoInfoModel<YoutubeResponse>() {
 	}
 
 	override fun getPlayLink(videoId: String): String {
-		return "https://www.youtube.com/embed/${videoId}?autoplay=1&vq=small"
+		return "https://www.youtube.com/embed/${videoId}?autoplay=0&vq=small&hl=uk"
 	}
 }
