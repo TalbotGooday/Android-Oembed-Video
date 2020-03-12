@@ -67,9 +67,11 @@
 	</LinearLayout>
 
 	<LinearLayout
+		android:id="@+id/vna_bottom_control_panel"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/vna_control_panel_height"
-		android:orientation="vertical">
+		android:orientation="vertical"
+		>
 
 		<View
 			android:id="@+id/vna_control_panel_outline"
@@ -84,7 +86,7 @@
 			android:orientation="horizontal">
 
 			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/vna_close_video"
+				android:id="@+id/vna_left_button"
 				style="@style/Widget.AppCompat.Button.Borderless"
 				android:layout_width="wrap_content"
 				android:layout_height="match_parent"
@@ -95,7 +97,7 @@
 				android:text="@string/vna_close" />
 
 			<androidx.appcompat.widget.AppCompatImageButton
-				android:id="@+id/vna_copy_video_link"
+				android:id="@+id/vna_center_button"
 				android:layout_width="@dimen/vna_copy_icon_size"
 				android:layout_height="@dimen/vna_copy_icon_size"
 				android:layout_gravity="center"
@@ -103,10 +105,10 @@
 				android:layout_marginEnd="@dimen/vna_copy_icon_margin"
 				android:background="?selectableItemBackgroundBorderless"
 				android:tint="@color/vna_black_p50"
-				app:srcCompat="@drawable/vna_ic_content_copy" />
+				app:srcCompat="@drawable/ic_vna_content_copy" />
 
 			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/vna_open_video_in"
+				android:id="@+id/vna_right_button"
 				style="@style/Widget.AppCompat.Button.Borderless"
 				android:layout_width="wrap_content"
 				android:layout_height="match_parent"

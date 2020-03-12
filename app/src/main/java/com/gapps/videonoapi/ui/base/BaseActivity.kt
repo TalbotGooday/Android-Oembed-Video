@@ -7,8 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.ui.bottom_menu.BottomVideoController
+import com.gapps.videonoapi.R
 
-abstract class BaseActivity: AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
 
 	protected fun showVideo(model: VideoPreviewModel) {
 		val host = model.videoHosting
@@ -31,7 +32,16 @@ abstract class BaseActivity: AppCompatActivity() {
 			setSize(model.width, model.height)
 			setTitle(title)
 			setVideoUrl(initUrl)
-			setProgressView(TextView(this@BaseActivity).apply { text = "Loading" })
+			setBackgroundColor(R.color.colorBackground)
+			setTextColor(R.color.colorHostName)
+			setTitleColor(R.color.colorVideoTitle)
+			setLeftButtonText(R.string.vna_close)
+			setRightButtonText(R.string.vna_open_in)
+			setRightButtonTextColor(R.color.colorVideoTitle)
+			setLeftButtonTextColor(R.color.colorVideoTitle)
+			setCenterButtonIcon(R.drawable.ic_vna_content_copy)
+			setCenterButtonIconTint(R.color.colorVideoTitle)
+			setProgressView(TextView(this@BaseActivity).apply { text = "Loading"; setTextColor(-1) })
 			show()
 		}
 	}

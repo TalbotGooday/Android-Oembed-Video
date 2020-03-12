@@ -9,7 +9,7 @@ import com.gapps.library.utils.toMD5
 import java.util.*
 
 
-private const val TAG = "VideoModelsORM"
+private const val TAG = "VideoServiceORM"
 private const val TABLE_NAME = "video_model"
 private const val COMMA_SEP = ", "
 

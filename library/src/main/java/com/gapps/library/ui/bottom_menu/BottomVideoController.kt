@@ -20,6 +20,8 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
@@ -39,7 +41,14 @@ class BottomVideoController private constructor(
 		private val hostText: String?,
 		private val playLink: String?,
 		private val size: Pair<Float, Float>?,
-		private val progressView: View?
+		private val progressView: View?,
+		private val isBottomControlPanelVisible: Boolean,
+		@DrawableRes private val centerButtonIcon: Int,
+		@StringRes private val leftButtonText: Int,
+		@StringRes private val rightButtonText: Int,
+		@ColorRes private val leftButtonTextColor: Int,
+		@ColorRes private val rightButtonTextColor: Int,
+		@ColorRes private val centerButtonIconTint: Int
 ) {
 	companion object {
 		var isVisible = false
@@ -58,11 +67,18 @@ class BottomVideoController private constructor(
 			builder.hostText,
 			builder.playLink,
 			builder.size,
-			builder.progressView
+			builder.progressView,
+			builder.isBottomControlPanelVisible,
+			builder.centerButtonIcon,
+			builder.leftButtonText,
+			builder.rightButtonText,
+			builder.leftButtonTextColor,
+			builder.rightButtonTextColor,
+			builder.centerButtonIconTint
 	)
 
 	@SuppressLint("InflateParams", "SetJavaScriptEnabled")
-	fun showBottomPopupMenu() {
+	fun show() {
 		if (isVisible) {
 			return
 		}
@@ -81,10 +97,13 @@ class BottomVideoController private constructor(
 		val progressBarContainer = menuView.findViewById<ViewGroup>(R.id.vna_video_progress_container)
 		val title = menuView.findViewById<TextView>(R.id.vna_text_url_preview_title)
 		val videoServiceType = menuView.findViewById<TextView>(R.id.vna_player_type)
-		val closeVideo = menuView.findViewById<TextView>(R.id.vna_close_video)
-		val openVideoIn = menuView.findViewById<TextView>(R.id.vna_open_video_in)
-		val copyLink = menuView.findViewById<AppCompatImageButton>(R.id.vna_copy_video_link)
+		val leftButton = menuView.findViewById<TextView>(R.id.vna_left_button)
+		val rightButton = menuView.findViewById<TextView>(R.id.vna_right_button)
+		val centerButton = menuView.findViewById<AppCompatImageButton>(R.id.vna_center_button)
 		val controlPanelOutline = menuView.findViewById<View>(R.id.vna_control_panel_outline)
+		val controlPanel = menuView.findViewById<View>(R.id.vna_bottom_control_panel)
+
+		controlPanel.visibility = if (isBottomControlPanelVisible) View.VISIBLE else View.GONE
 
 		title.apply {
 			this.setTextColor(ContextCompat.getColor(this.context, titleColor))
@@ -98,16 +117,18 @@ class BottomVideoController private constructor(
 			this.text = hostText
 		}
 
-		closeVideo.apply {
-			this.setTextColor(textColorInt)
+		leftButton.apply {
+			this.setTextColor(ContextCompat.getColor(context, leftButtonTextColor))
+			this.setText(leftButtonText)
 
 			this.setOnClickListener {
 				bottomSheetDialog.dismiss()
 			}
 		}
 
-		openVideoIn.apply {
-			this.setTextColor(textColorInt)
+		rightButton.apply {
+			this.setTextColor(ContextCompat.getColor(context, rightButtonTextColor))
+			this.setText(rightButtonText)
 
 			this.setOnClickListener {
 				listener?.openLinkIn(url)
@@ -116,16 +137,17 @@ class BottomVideoController private constructor(
 			}
 		}
 
-		copyLink.apply {
-			setOnClickListener {
+		centerButton.apply {
+			this.setImageResource(centerButtonIcon)
+			this.setColorFilter(ContextCompat.getColor(context, centerButtonIconTint), PorterDuff.Mode.SRC_IN)
+
+			this.setOnClickListener {
 				listener?.copyLink(url)
 			}
-
-			this.setColorFilter(textColorInt, PorterDuff.Mode.SRC_IN)
 		}
 
 		menuContainer.apply {
-			setBackgroundColor(ContextCompat.getColor(this.context, backgroundColor))
+			this.setBackgroundColor(ContextCompat.getColor(this.context, backgroundColor))
 		}
 
 		val outlineColor = ColorUtils.setAlphaComponent(textColorInt, (255 * .1).toInt())
@@ -147,6 +169,8 @@ class BottomVideoController private constructor(
 		}
 
 		videoView.apply {
+			setBackgroundColor(ContextCompat.getColor(this.context, backgroundColor))
+
 			layoutParams.apply {
 				this.width = videoViewWidth
 				this.height = videoViewHeight
@@ -227,6 +251,9 @@ class BottomVideoController private constructor(
 		var backgroundColor = android.R.color.white
 			private set
 
+		var isBottomControlPanelVisible: Boolean = true
+			private set
+
 		var url: String? = null
 			private set
 
@@ -245,6 +272,30 @@ class BottomVideoController private constructor(
 		var progressView: View? = null
 			private set
 
+		@DrawableRes
+		var centerButtonIcon = R.drawable.ic_vna_content_copy
+			private set
+
+		@ColorRes
+		var centerButtonIconTint = R.color.vna_color_video_title_text
+			private set
+
+		@ColorRes
+		var rightButtonTextColor = R.color.vna_color_video_title_text
+			private set
+
+		@ColorRes
+		var leftButtonTextColor = R.color.vna_color_video_title_text
+			private set
+
+		@StringRes
+		var rightButtonText = R.string.vna_open_in
+			private set
+
+		@StringRes
+		var leftButtonText = R.string.vna_close
+			private set
+
 		fun setVideoUrl(url: String?) = apply { this.url = url }
 		fun setTitle(title: String?) = apply { this.titleText = title }
 		fun setHostText(host: String?) = apply { this.hostText = host }
@@ -253,12 +304,22 @@ class BottomVideoController private constructor(
 		fun setProgressView(view: View) = apply { this.progressView = view }
 
 		fun setListener(listener: Listener) = apply { this.listener = listener }
+
+		//Theme
 		fun setTitleColor(@ColorRes color: Int) = apply { this.titleColor = color }
 		fun setTextColor(@ColorRes color: Int) = apply { this.textColor = color }
+		fun setLeftButtonTextColor(@ColorRes color: Int) = apply { this.leftButtonTextColor = color }
+		fun setRightButtonTextColor(@ColorRes color: Int) = apply { this.rightButtonTextColor = color }
 		fun setBackgroundColor(@ColorRes color: Int) = apply { this.backgroundColor = color }
+		fun setCenterButtonIconTint(@ColorRes color: Int) = apply { this.centerButtonIconTint = color }
+
+		fun setCenterButtonIcon(@DrawableRes resource: Int) = apply { this.centerButtonIcon = resource }
+		fun setLeftButtonText(@StringRes resource: Int) = apply { this.leftButtonText = resource }
+		fun setRightButtonText(@StringRes resource: Int) = apply { this.rightButtonText = resource }
+		fun setBottomControlPanelVisible(isVisible: Boolean) = apply { this.isBottomControlPanelVisible = isVisible }
 
 		fun build() = BottomVideoController(this)
 
-		fun show() = BottomVideoController(this).showBottomPopupMenu()
+		fun show() = BottomVideoController(this).show()
 	}
 }

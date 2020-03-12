@@ -1,6 +1,7 @@
 package com.gapps.library.api
 
 import android.content.Context
+import android.util.Log
 import com.gapps.library.api.models.api.base.VideoInfoModel
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
@@ -20,7 +21,8 @@ import kotlin.coroutines.CoroutineContext
 internal class VideoLoadHelper(
 		private val context: Context?,
 		private val client: OkHttpClient,
-		private val isCacheEnabled: Boolean
+		private val isCacheEnabled: Boolean,
+		val isLogEnabled: Boolean
 ) : CoroutineScope {
 	private val job = Job()
 	override val coroutineContext: CoroutineContext
@@ -30,6 +32,7 @@ internal class VideoLoadHelper(
 
 	private var gson = GsonBuilder()
 			.setLenient()
+			.setPrettyPrinting()
 			.create()
 
 	fun getVideoInfo(
@@ -69,13 +72,17 @@ internal class VideoLoadHelper(
 			try {
 				val jsonBody = makeCallGetBody(client, finalUrl)
 
+				if (isLogEnabled) {
+					Log.i(VideoService.TAG, "a response from $originalUrl:\n${gson.toJson(jsonBody)}")
+				}
+
 				if (jsonBody == null) {
 					onSuccess.invoke(VideoPreviewModel.error(originalUrl, "$ERROR_2 \n---> Response is null"))
 
 					return@launch
 				}
 
-				val result = fromJson(jsonBody, videoInfoModel.type)
+				val result = (gson.fromJson(jsonBody, videoInfoModel.type) as BaseVideoResponse)
 						.toPreview(originalUrl, playLink, videoInfoModel.hostingName, videoId)
 
 				onSuccess.invoke(result)

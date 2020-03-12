@@ -18,6 +18,8 @@ class VideoService(
 		private val customModels: List<VideoInfoModel<out BaseVideoResponse>>
 ) {
 	companion object {
+		const val TAG = "VideoService"
+
 		val videoInfoModelsList = mutableListOf(
 				CoubVideoInfoModel(),
 				DailymotionVideoInfoModel(),
@@ -30,7 +32,8 @@ class VideoService(
 				VzaarVideoInfoModel(),
 				WistiaVideoInfoModel(),
 				YoutubeMusicVideoInfoModel(),
-				YoutubeVideoInfoModel()
+				YoutubeVideoInfoModel(),
+				UltimediaVideoInfoModel()
 		)
 
 		inline fun build(block: Builder.() -> Unit) = Builder().apply(block).build()
@@ -51,7 +54,7 @@ class VideoService(
 		videoInfoModelsList.addAll(customModels)
 	}
 
-	private val videoHelper = VideoLoadHelper(context, client, isCacheEnabled)
+	private val videoHelper = VideoLoadHelper(context, client, isCacheEnabled, isLogEnabled)
 
 	fun loadVideoPreview(
 			url: String,
@@ -59,7 +62,7 @@ class VideoService(
 			onError: ((String, String) -> Unit)? = null
 	) {
 		if (isLogEnabled) {
-			Log.i("VideoService", "loading url: $url")
+			Log.i(TAG, "loading url: $url")
 		}
 
 		val callback: (VideoPreviewModel) -> Unit = { model: VideoPreviewModel ->

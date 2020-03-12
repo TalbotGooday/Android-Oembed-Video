@@ -36,11 +36,11 @@ class MainActivity : BaseActivity() {
 			"https://vzaar.com/videos/401431",
 			"http://www.hulu.com/w/154323",
 			"https://ustream.tv/channel/6540154",
+			"https://ustream.tv/recorded/101541339",
 			"https://www.ted.com/talks/jill_bolte_taylor_my_stroke_of_insight",
 			"https://coub.com/view/um0um0",
-			"https://ustream.tv/recorded/101541339",
-			"https://asdasdasdasd.tv/recorded/101541339",
-			"https://www.ultimedia.com/default/index/videogeneric/id/pzkk35/"
+			"https://www.ultimedia.com/default/index/videogeneric/id/pzkk35/",
+			"https://notAVideoHost.tv/recorded/101541339"
 	)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,8 +65,8 @@ class MainActivity : BaseActivity() {
 		videoService = VideoService.build {
 			with(this@MainActivity)
 			httpClient(okHttpClient)
-			enableCache(false)
-			enableLog(true)
+			enableCache(true)
+			enableLog(false)
 			withCustomVideoInfoModels(UltimediaVideoInfoModel(), MyYoutubeVideoInfoModel())
 		}
 	}
