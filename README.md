@@ -6,19 +6,19 @@ A simple library for parsing and playing links from YouTube, YouTube Music, Vime
 
 ## Supported Video Hostings
 
-* <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1200px-YouTube_full-color_icon_%282017%29.svg.png" width=18px/>    YouTube
+* <img src="https://github.com/TalbotGooday/Android-Oembed-Video/blob/master/app/src/main/res/drawable-xxhdpi/youtube.png" width=18px/>    YouTube
 
-* <img src="https://icon-library.net/images/youtube-music-icon/youtube-music-icon-17.jpg" width=18px/> YouTube Music
+* <img src="https://github.com/TalbotGooday/Android-Oembed-Video/blob/master/app/src/main/res/drawable-xxhdpi/youtube_music.png" width=18px/> YouTube Music
 
-* <img src="https://icon-library.net/images/vimeo-icon-vector/vimeo-icon-vector-4.jpg" width=18px/> Vimeo
+* <img src="https://github.com/TalbotGooday/Android-Oembed-Video/blob/master/app/src/main/res/drawable-xxhdpi/vimeo.png" width=18px/> Vimeo
 
-* <img src="https://www.softrew.ru/uploads/posts/2016-12/1482058583_kak-skachat-video-s-rutuba.jpg" width=18px/> Rutube
+* <img src="https://github.com/TalbotGooday/Android-Oembed-Video/blob/master/app/src/main/res/drawable-xxhdpi/rutube.png" width=18px/> Rutube
 
 * <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Facebook_icon_2013.svg/1024px-Facebook_icon_2013.svg.png" width=18px/> Facebook (the thumbnail is not available due to api restrictions)
-* <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Logo_dailymotion.png" width=18px/> Dailymotion
+* <img src="https://github.com/TalbotGooday/Android-Oembed-Video/blob/master/app/src/main/res/drawable-xxhdpi/dailymotion.png" width=18px/> Dailymotion
 * <img src="https://www.saashub.com/images/app/service_logos/25/1a1b2c9e8acc/large.png?1547934029" width=18px/> Wistia
 * <img src="https://static.crozdesk.com/web_app_library/providers/logos/000/003/720/original/vzaar-1559230945-logo.png?1559230945" width=18px/> Vzaar
-* <img src="https://www.hulu.com/static/favicon.ico.png" width=18px/> Hulu
+* <img src="https://github.com/TalbotGooday/Android-Oembed-Video/blob/master/app/src/main/res/drawable-xxhdpi/hulu.png" width=18px/> Hulu
 * <img src="https://blog.video.ibm.com/wp-content/uploads/2014/10/U_logo_blue-2.png" width=18px/> Ustream
 * <img src="https://github.com/TalbotGooday/Android-Oembed-Video/blob/master/app/src/main/res/drawable-xxhdpi/ted_talks.png" width=18px/> Ted Talks
 * <img src="https://cdn.iconscout.com/icon/free/png-512/coub-1693601-1442642.png" width=18px/> Coub
@@ -63,22 +63,22 @@ val videoService = VideoService.build{
 ```kotlin
 videoService.loadVideoPreview(
 	url,
-	{ video ->
+	onSuccess = { video ->
 		//handle a video model
 	},
-	{ url, error ->
+	onError = { url, error ->
 		//handle an error
 	})
 ```
 3. Enable/disable caching
 ```kotlin
-val videoService = VideoService.build{
+val videoService = VideoService.build {
 	enableCache(true)
 }
 ```
 4. Enable/disable logging
 ```kotlin
-val videoService = VideoService.build{
+val videoService = VideoService.build {
 	enableLog(BuildConfig.DEBUG)
 }
 ```
