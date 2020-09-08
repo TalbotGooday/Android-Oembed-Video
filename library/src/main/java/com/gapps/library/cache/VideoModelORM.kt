@@ -54,10 +54,10 @@ const val SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
 
 const val SQL_DROP_TABLE = "DROP TABLE IF EXISTS $TABLE_NAME"
 
-fun insertModel(context: Context?, post: VideoPreviewModel) {
+fun insertModel(context: Context?, model: VideoPreviewModel) {
 	val databaseWrapper = DatabaseWrapper(context)
 	val database = databaseWrapper.writableDatabase
-	val values = modelToContentValues(post)
+	val values = modelToContentValues(model)
 	val modelId = database.replace(TABLE_NAME, "null", values)
 	Log.i(TAG, "Inserted new VideoPreviewModel with ID: $modelId")
 	database.close()
@@ -85,20 +85,23 @@ private fun modelToContentValues(videoModel: VideoPreviewModel): ContentValues {
 fun getCachedVideoModel(context: Context?, linkToPlay: String): VideoPreviewModel? {
 	val databaseWrapper = DatabaseWrapper(context)
 	val database = databaseWrapper.readableDatabase
+	val columnId = linkToPlay.toMD5()
+
 	val cursor = database.rawQuery(
-			"SELECT * FROM " + TABLE_NAME
-					+ " WHERE " + COLUMN_ID + "='" + linkToPlay.toMD5()
-					+ "' " + "LIMIT 1",
-			null)
+			"SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID ='$columnId' LIMIT 1",
+			null
+	)
+
 	var model: VideoPreviewModel? = null
 	if (cursor.count > 0) {
 		cursor.moveToFirst()
 		while (!cursor.isAfterLast) {
-			model = cursorToPost(cursor)
+			model = cursorToVideoModel(cursor)
 			cursor.moveToNext()
 		}
 		Log.i(TAG, "VideoModel loaded successfully.")
 	}
+
 	database.close()
 
 	return model
@@ -109,18 +112,17 @@ fun getCachedVideoModels(context: Context?): List<VideoPreviewModel> {
 	val database = databaseWrapper.readableDatabase
 	val cursor = database.rawQuery("SELECT * FROM $TABLE_NAME", null)
 	Log.i(TAG, "Loaded " + cursor.count + " VideoModels...")
-	val postList: MutableList<VideoPreviewModel> = ArrayList()
+	val videoList: MutableList<VideoPreviewModel> = ArrayList()
 	if (cursor.count > 0) {
 		cursor.moveToFirst()
 		while (!cursor.isAfterLast) {
-			val post = cursorToPost(cursor)
-			postList.add(post)
+			videoList.add(cursorToVideoModel(cursor))
 			cursor.moveToNext()
 		}
 		Log.i(TAG, "VideoModels loaded successfully.")
 	}
 	database.close()
-	return postList
+	return videoList
 }
 
 /**
@@ -129,16 +131,16 @@ fun getCachedVideoModels(context: Context?): List<VideoPreviewModel> {
  * @param cursor
  * @return
  */
-private fun cursorToPost(cursor: Cursor): VideoPreviewModel {
-	val post = VideoPreviewModel()
+private fun cursorToVideoModel(cursor: Cursor): VideoPreviewModel {
+	val model = VideoPreviewModel()
 
-	post.url = cursor.getString(cursor.getColumnIndex(COLUMN_URL))
-	post.videoTitle = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE))
-	post.thumbnailUrl = cursor.getString(cursor.getColumnIndex(COLUMN_THUMBNAIL))
-	post.videoHosting = cursor.getString(cursor.getColumnIndex(COLUMN_VIDEO_HOSTING))
-	post.videoId = cursor.getString(cursor.getColumnIndex(COLUMN_VIDEO_ID))
-	post.linkToPlay = cursor.getString(cursor.getColumnIndex(COLUMN_PLAY_LINK))
-	post.width = cursor.getInt(cursor.getColumnIndex(COLUMN_WIDTH))
-	post.height = cursor.getInt(cursor.getColumnIndex(COLUMN_HEIGHT))
-	return post
+	model.url = cursor.getString(cursor.getColumnIndex(COLUMN_URL))
+	model.videoTitle = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE))
+	model.thumbnailUrl = cursor.getString(cursor.getColumnIndex(COLUMN_THUMBNAIL))
+	model.videoHosting = cursor.getString(cursor.getColumnIndex(COLUMN_VIDEO_HOSTING))
+	model.videoId = cursor.getString(cursor.getColumnIndex(COLUMN_VIDEO_ID))
+	model.linkToPlay = cursor.getString(cursor.getColumnIndex(COLUMN_PLAY_LINK))
+	model.width = cursor.getInt(cursor.getColumnIndex(COLUMN_WIDTH))
+	model.height = cursor.getInt(cursor.getColumnIndex(COLUMN_HEIGHT))
+	return model
 }

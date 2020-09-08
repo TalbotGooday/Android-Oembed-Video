@@ -7,7 +7,6 @@ import com.gapps.library.api.models.video.streamable.StreamableResponse
 class StreamableVideoInfoModel:VideoInfoModel<StreamableResponse>() {
     override val baseUrl: String
         get() = "https://api.streamable.com"
-    //https://regex101.com/r/2AsrOc/1
     override val pattern: String
         get() = "(?:http[s]?:\\/\\/)?(?:www)?\\.?streamable\\.com\\/([_a-zA-Z0-9]+)\\S*"
     override val idPattern: String

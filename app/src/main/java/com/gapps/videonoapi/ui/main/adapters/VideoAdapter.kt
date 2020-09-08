@@ -173,6 +173,7 @@ class VideoAdapter(private val context: Context, private val videoService: Video
 				"Ted Talks" -> R.drawable.ted_talks
 				"Coub" -> R.drawable.ic_coub
 				"Ultimedia" -> R.drawable.ultimedia
+				"Streamable" -> R.drawable.streamable
 				else -> R.drawable.ic_video
 			}
 

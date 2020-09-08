@@ -41,27 +41,24 @@
 		android:layout_marginBottom="@dimen/vna_large_text_space"
 		android:orientation="vertical">
 
-		<TextView
+		<androidx.appcompat.widget.AppCompatTextView
 			android:id="@+id/vna_text_url_preview_title"
+			style="@style/VNAText.Title"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="end"
-			android:ellipsize="end"
-			android:maxLines="1"
-			android:textColor="@color/vna_color_video_title_text"
 			android:textSize="@dimen/vna_title_text_size"
 			android:textStyle="bold"
 			tools:text="Title will be\n here." />
 
-		<TextView
+		<androidx.appcompat.widget.AppCompatTextView
 			android:id="@+id/vna_player_type"
+			style="@style/VNAText.Hosting"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="3dp"
 			android:ellipsize="end"
-			android:maxLines="1"
 			android:textColor="@color/vna_black_p50"
-			android:textSize="@dimen/vna_host_text_size"
 			tools:text="Youtube"
 			tools:visibility="visible" />
 	</LinearLayout>
@@ -70,8 +67,7 @@
 		android:id="@+id/vna_bottom_control_panel"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/vna_control_panel_height"
-		android:orientation="vertical"
-		>
+		android:orientation="vertical">
 
 		<View
 			android:id="@+id/vna_control_panel_outline"

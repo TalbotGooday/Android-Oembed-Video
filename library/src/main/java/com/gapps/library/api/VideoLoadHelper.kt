@@ -30,7 +30,7 @@ internal class VideoLoadHelper(
 
 	private val databaseContext = job + Dispatchers.IO
 
-	private var gson = GsonBuilder()
+	private val gson = GsonBuilder()
 			.setLenient()
 			.setPrettyPrinting()
 			.create()
@@ -82,8 +82,13 @@ internal class VideoLoadHelper(
 					return@launch
 				}
 
-				val result = (gson.fromJson(jsonBody, videoInfoModel.type) as BaseVideoResponse)
-						.toPreview(originalUrl, playLink, videoInfoModel.hostingName, videoId)
+				val result = fromJson(jsonBody, videoInfoModel.type)
+						.toPreview(
+								url = originalUrl,
+								linkToPlay = playLink,
+								hostingName = videoInfoModel.hostingName,
+								videoId = videoId
+						)
 
 				onSuccess.invoke(result)
 
@@ -102,17 +107,15 @@ internal class VideoLoadHelper(
 		}
 	}
 
-	private suspend fun makeCallGetBody(client: OkHttpClient, url: String): JsonElement? {
-		return withContext(Dispatchers.IO) {
-			val response = client.newCall(Request.Builder().url(url).build()).execute()
-			val stringBody = response.body()?.string() ?: return@withContext null
-			val jsonObject = parseString(stringBody)
+	private suspend fun makeCallGetBody(client: OkHttpClient, url: String) = withContext(Dispatchers.IO) {
+		val response = client.newCall(Request.Builder().url(url).build()).execute()
+		val stringBody = response.body?.string() ?: return@withContext null
+		val jsonObject = parseString(stringBody)
 
-			return@withContext if (jsonObject.isJsonArray) {
-				jsonObject.asJsonArray[0]
-			} else {
-				jsonObject
-			}
+		return@withContext if (jsonObject.isJsonArray) {
+			jsonObject.asJsonArray[0]
+		} else {
+			jsonObject
 		}
 	}
 
