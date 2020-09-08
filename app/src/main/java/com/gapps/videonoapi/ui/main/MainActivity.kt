@@ -28,6 +28,7 @@ class MainActivity : BaseActivity() {
 	private val videoUrls = listOf(
 			"https://www.youtube.com/watch?v=M4BSGZ07NNA",
 			"https://music.youtube.com/watch?v=lFMOYjVCLUo",
+			"https://streamable.com/s0phr",
 			"https://vimeo.com/259411563",
 			"https://rutube.ru/video/d70e62b44b8893e98e3e90a6e2c9fcd4/?pl_type=source&amp;pl_id=18265",
 			"https://www.facebook.com/kinodizi/videos/965220097161488",

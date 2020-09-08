@@ -33,7 +33,8 @@ class VideoService(
 				WistiaVideoInfoModel(),
 				YoutubeMusicVideoInfoModel(),
 				YoutubeVideoInfoModel(),
-				UltimediaVideoInfoModel()
+				UltimediaVideoInfoModel(),
+				StreamableVideoInfoModel()
 		)
 
 		inline fun build(block: Builder.() -> Unit) = Builder().apply(block).build()

@@ -27,6 +27,7 @@ class TextActivity : BaseActivity() {
 	private val textString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, https://www.youtube.com/watch?v=M4BSGZ07NNA,\n" +
 			"https://music.youtube.com/watch?v=lFMOYjVCLUo," +
 			"https://vimeo.com/333257472," +
+			"https://streamable.com/s0phr," +
 			"https://rutube.ru/video/d70e62b44b8893e98e3e90a6e2c9fcd4/?pl_type=source&amp;pl_id=18265,\n" +
 			"https://www.facebook.com/UFC/videos/410056389868335/,\n" +
 			"https://www.dailymotion.com/video/x5sxbmb,\n" +
