@@ -22,6 +22,7 @@ A simple library for parsing and playing links from YouTube, YouTube Music, Vime
 * <img src="https://blog.video.ibm.com/wp-content/uploads/2014/10/U_logo_blue-2.png" width=18px/> Ustream
 * <img src="https://github.com/TalbotGooday/Android-Oembed-Video/blob/master/app/src/main/res/drawable-xxhdpi/ted_talks.png" width=18px/> Ted Talks
 * <img src="https://cdn.iconscout.com/icon/free/png-512/coub-1693601-1442642.png" width=18px/> Coub
+* <img src="https://cdn.embed.ly/providers/logos/streamable.png" width=18px/> Streamable
 ## Screenshots
 
 <img src="/screenshots/device-2020-02-06-232720.png" width=32%/> <img src="/screenshots/device-2020-02-06-232746.png" width=32%/> <img src="/screenshots/device-2020-02-06-232924.png" width=32%/>
