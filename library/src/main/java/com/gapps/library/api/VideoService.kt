@@ -21,6 +21,7 @@ class VideoService(
 		const val TAG = "VideoService"
 
 		val videoInfoModelsList = mutableListOf(
+				LoomVideoInfoModel(),
 				CoubVideoInfoModel(),
 				DailymotionVideoInfoModel(),
 				FacebookVideoInfoModel(),

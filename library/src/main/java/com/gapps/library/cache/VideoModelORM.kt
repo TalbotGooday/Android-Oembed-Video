@@ -6,7 +6,9 @@ import android.database.Cursor
 import android.util.Log
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.utils.toMD5
-import java.util.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.withContext
 
 
 private const val TAG = "VideoServiceORM"
@@ -40,6 +42,10 @@ private const val COLUMN_WIDTH = "width"
 private const val COLUMN_HEIGHT_TYPE = "INTEGER"
 private const val COLUMN_HEIGHT = "height"
 
+private val job = Job()
+
+private val databaseContext = job + Dispatchers.IO
+
 const val SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
 		COLUMN_VIDEO_ID + " " + COLUMN_VIDEO_ID_TYPE + COMMA_SEP +
 		COLUMN_URL + " " + COLUMN_URL_TYPE + COMMA_SEP +
@@ -54,7 +60,7 @@ const val SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
 
 const val SQL_DROP_TABLE = "DROP TABLE IF EXISTS $TABLE_NAME"
 
-fun insertModel(context: Context?, model: VideoPreviewModel) {
+suspend fun insertModel(context: Context?, model: VideoPreviewModel) = withContext(databaseContext) {
 	val databaseWrapper = DatabaseWrapper(context)
 	val database = databaseWrapper.writableDatabase
 	val values = modelToContentValues(model)
@@ -82,7 +88,7 @@ private fun modelToContentValues(videoModel: VideoPreviewModel): ContentValues {
 	return values
 }
 
-fun getCachedVideoModel(context: Context?, linkToPlay: String): VideoPreviewModel? {
+suspend fun getCachedVideoModel(context: Context?, linkToPlay: String) = withContext(databaseContext) {
 	val databaseWrapper = DatabaseWrapper(context)
 	val database = databaseWrapper.readableDatabase
 	val columnId = linkToPlay.toMD5()
@@ -104,25 +110,7 @@ fun getCachedVideoModel(context: Context?, linkToPlay: String): VideoPreviewMode
 
 	database.close()
 
-	return model
-}
-
-fun getCachedVideoModels(context: Context?): List<VideoPreviewModel> {
-	val databaseWrapper = DatabaseWrapper(context)
-	val database = databaseWrapper.readableDatabase
-	val cursor = database.rawQuery("SELECT * FROM $TABLE_NAME", null)
-	Log.i(TAG, "Loaded " + cursor.count + " VideoModels...")
-	val videoList: MutableList<VideoPreviewModel> = ArrayList()
-	if (cursor.count > 0) {
-		cursor.moveToFirst()
-		while (!cursor.isAfterLast) {
-			videoList.add(cursorToVideoModel(cursor))
-			cursor.moveToNext()
-		}
-		Log.i(TAG, "VideoModels loaded successfully.")
-	}
-	database.close()
-	return videoList
+	model
 }
 
 /**

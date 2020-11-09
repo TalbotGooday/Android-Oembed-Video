@@ -16,6 +16,11 @@ class BottomSheetDialogFixed : BottomSheetDialog {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
+		window?.run {
+			findViewById<View>(R.id.container)?.fitsSystemWindows = false
+			findViewById<View>(R.id.coordinator)?.fitsSystemWindows = false
+		}
+
 		findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)?.let {
 			val dialogWidth = context.resources.getDimensionPixelSize(R.dimen.vna_bv_dialog_width)
 			it.layoutParams = it.layoutParams.apply {

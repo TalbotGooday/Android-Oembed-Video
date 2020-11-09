@@ -41,7 +41,8 @@ class MainActivity : BaseActivity() {
 			"https://www.ted.com/talks/jill_bolte_taylor_my_stroke_of_insight",
 			"https://coub.com/view/um0um0",
 			"https://www.ultimedia.com/default/index/videogeneric/id/pzkk35/",
-			"https://notAVideoHost.tv/recorded/101541339"
+			"https://loom.com/share/0281766fa2d04bb788eaf19e65135184",
+			"https://notAVideoHost.tv/recorded/101541339",
 	)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +82,7 @@ class MainActivity : BaseActivity() {
 				}
 			})
 			adapter = videoAdapter.apply {
-				swapData(videoUrls.filter { it.isVideoUrl() })
+				swapData(getValidUrls())
 			}
 
 			addOnScrollListener(ScrollListener(convertDpToPx(100f)) {
@@ -100,8 +101,10 @@ class MainActivity : BaseActivity() {
 		}
 
 		swiperefresh.setOnRefreshListener {
-			(videos_list.adapter as VideoAdapter).swapData(videoUrls)
+			(videos_list.adapter as VideoAdapter).swapData(getValidUrls())
 			swiperefresh.isRefreshing = false
 		}
 	}
+
+	private fun getValidUrls() = videoUrls.filter { it.isVideoUrl() }
 }

@@ -22,13 +22,10 @@ internal class VideoLoadHelper(
 		private val context: Context?,
 		private val client: OkHttpClient,
 		private val isCacheEnabled: Boolean,
-		val isLogEnabled: Boolean
+		val isLogEnabled: Boolean,
 ) : CoroutineScope {
-	private val job = Job()
 	override val coroutineContext: CoroutineContext
-		get() = job + Dispatchers.Main
-
-	private val databaseContext = job + Dispatchers.IO
+		get() = SupervisorJob() + Dispatchers.Main
 
 	private val gson = GsonBuilder()
 			.setLenient()
@@ -39,7 +36,7 @@ internal class VideoLoadHelper(
 			originalUrl: String?,
 			videoInfoModel: VideoInfoModel<*>,
 			onSuccess: (VideoPreviewModel) -> Unit,
-			onError: (String, String) -> Unit
+			onError: (String, String) -> Unit,
 	) {
 		val finalUrl = videoInfoModel.getInfoUrl(originalUrl)
 		val videoId = videoInfoModel.parseVideoId(originalUrl)
@@ -56,9 +53,7 @@ internal class VideoLoadHelper(
 			if (isCacheEnabled) {
 				if (context != null) {
 					try {
-						val model = withContext(databaseContext) {
-							getCachedVideoModel(context, playLink)
-						}
+						val model = getCachedVideoModel(context, playLink)
 
 						if (model != null) {
 							onSuccess.invoke(model)
@@ -94,19 +89,19 @@ internal class VideoLoadHelper(
 
 				try {
 					if (context != null && isCacheEnabled) {
-						withContext(databaseContext) {
-							insertModel(context, result)
-						}
+						insertModel(context, result)
 					}
 				} catch (e: Exception) {
-					e.printStackTrace()
+					onError.invoke(originalUrl
+							?: "null url", "$ERROR_2\n---> ${e.localizedMessage}")
 				}
 			} catch (e: Exception) {
-				onError.invoke(originalUrl ?: "null url", "$ERROR_2 \n---> ${e.localizedMessage}")
+				onError.invoke(originalUrl ?: "null url", "$ERROR_2  !!! \n---> ${e.localizedMessage}")
 			}
 		}
 	}
 
+	@Suppress("BlockingMethodInNonBlockingContext")
 	private suspend fun makeCallGetBody(client: OkHttpClient, url: String) = withContext(Dispatchers.IO) {
 		val response = client.newCall(Request.Builder().url(url).build()).execute()
 		val stringBody = response.body?.string() ?: return@withContext null

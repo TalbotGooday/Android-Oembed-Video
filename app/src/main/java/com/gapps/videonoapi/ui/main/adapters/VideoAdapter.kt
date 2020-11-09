@@ -41,8 +41,6 @@ class VideoAdapter(private val context: Context, private val videoService: Video
 	}
 
 	override fun getBottomMargin(position: Int): Int {
-		Log.d("MarginItemDecoration", "bottom: position: $position, itemCount: $itemCount")
-
 		return if (position == itemCount - 1) {
 			context.convertDpToPx(75f).toInt()
 		} else {
@@ -174,6 +172,7 @@ class VideoAdapter(private val context: Context, private val videoService: Video
 				"Coub" -> R.drawable.ic_coub
 				"Ultimedia" -> R.drawable.ultimedia
 				"Streamable" -> R.drawable.streamable
+				"Loom" -> R.drawable.loom
 				else -> R.drawable.ic_video
 			}
 

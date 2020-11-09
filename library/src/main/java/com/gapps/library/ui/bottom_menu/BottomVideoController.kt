@@ -25,6 +25,8 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.ViewCompat
+import androidx.core.view.updatePadding
 import com.gapps.library.R
 import com.gapps.library.ui.bottom_dialog.BottomSheetDialogFixed
 import com.gapps.library.utils.getHeightFromWidth
@@ -212,7 +214,9 @@ class BottomVideoController private constructor(
 			}
 		}
 
-		videoView.loadUrl(playLink)
+		if (playLink != null) {
+			videoView.loadUrl(playLink)
+		}
 
 		bottomSheetDialog.apply {
 			setContentView(menuView)
@@ -227,6 +231,15 @@ class BottomVideoController private constructor(
 				isVisible = false
 			}
 			show()
+		}
+
+
+		ViewCompat.setOnApplyWindowInsetsListener(menuContainer) { view, insets ->
+			view?.apply {
+				setPadding(paddingLeft, paddingTop, paddingRight, insets.systemWindowInsetBottom)
+			}
+
+			insets
 		}
 	}
 

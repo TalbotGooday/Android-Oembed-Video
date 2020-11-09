@@ -43,7 +43,7 @@ data class HuluResponse(
 		@SerializedName("embed_url")
 		val embedUrl: String = "",
 		@SerializedName("author_name")
-		val authorName: String = ""
+		val authorName: String = "",
 ) : BaseVideoResponse {
 	override fun toPreview(url: String?, linkToPlay: String, hostingName: String, videoId: String): VideoPreviewModel {
 		return VideoPreviewModel(url, linkToPlay, hostingName, videoId).apply {
