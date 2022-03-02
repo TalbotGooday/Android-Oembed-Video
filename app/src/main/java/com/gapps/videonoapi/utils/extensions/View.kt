@@ -9,32 +9,32 @@ import android.view.animation.LinearInterpolator
  * @param visible
  */
 fun View.visibleOrGone(visible: Boolean) {
-	visibility = if (visible) View.VISIBLE else View.GONE
+    visibility = if (visible) View.VISIBLE else View.GONE
 }
 
 /**
  * Set the visibility state of this view to [View.GONE]
  */
 fun View.gone() {
-	if (visibility != View.GONE) {
-		visibility = View.GONE
-	}
+    if (visibility != View.GONE) {
+        visibility = View.GONE
+    }
 }
 
 /**
  * Set the visibility state of this view to [View.VISIBLE]
  */
 fun View.visible() {
-	if (visibility != View.VISIBLE) {
-		visibility = View.VISIBLE
-	}
+    if (visibility != View.VISIBLE) {
+        visibility = View.VISIBLE
+    }
 }
 
 fun View.alphaSmooth(value: Float) {
-	this.animate().apply {
-		interpolator = LinearInterpolator()
-		duration = 200
-		alpha(value)
-		start()
-	}
+    this.animate().apply {
+        interpolator = LinearInterpolator()
+        duration = 200
+        alpha(value)
+        start()
+    }
 }

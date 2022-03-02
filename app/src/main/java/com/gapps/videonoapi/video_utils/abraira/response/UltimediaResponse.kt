@@ -32,8 +32,13 @@ data class UltimediaResponse(
     val providerUrl: String = "",
     @SerializedName("author_name")
     val authorName: String = ""
-): BaseVideoResponse{
-    override fun toPreview(url: String?, linkToPlay: String, hostingName: String, videoId: String): VideoPreviewModel {
+) : BaseVideoResponse {
+    override fun toPreview(
+        url: String?,
+        linkToPlay: String,
+        hostingName: String,
+        videoId: String
+    ): VideoPreviewModel {
         return VideoPreviewModel(url, linkToPlay, hostingName, videoId).apply {
             this.thumbnailUrl = this@UltimediaResponse.thumbnailUrl
             this.videoTitle = this@UltimediaResponse.authorName
