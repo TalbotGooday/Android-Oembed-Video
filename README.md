@@ -17,7 +17,7 @@ A simple library for parsing and playing links from YouTube, YouTube Music, Vime
 * <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Facebook_icon_2013.svg/1024px-Facebook_icon_2013.svg.png" width=18px/> Facebook (the thumbnail is not available due to api restrictions)
 * <img src="https://github.com/TalbotGooday/Android-Oembed-Video/blob/master/app/src/main/res/drawable-xxhdpi/dailymotion.png" width=18px/> Dailymotion
 * <img src="https://www.saashub.com/images/app/service_logos/25/1a1b2c9e8acc/large.png?1547934029" width=18px/> Wistia
-* <img src="https://static.crozdesk.com/web_app_library/providers/logos/000/003/720/original/vzaar-1559230945-logo.png?1559230945" width=18px/> Vzaar
+* <img src="https://static.crozdesk.com/web_app_library/providers/logos/000/003/720/original/vzaar-1559230945-logo.png?1559230945" width=18px/> ~~Vzaar~~ (it's Dacast now) 
 * <img src="https://github.com/TalbotGooday/Android-Oembed-Video/blob/master/app/src/main/res/drawable-xxhdpi/hulu.png" width=18px/> Hulu
 * <img src="https://blog.video.ibm.com/wp-content/uploads/2014/10/U_logo_blue-2.png" width=18px/> Ustream
 * <img src="https://github.com/TalbotGooday/Android-Oembed-Video/blob/master/app/src/main/res/drawable-xxhdpi/ted_talks.png" width=18px/> Ted Talks
