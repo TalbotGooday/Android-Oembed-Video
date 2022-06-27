@@ -122,7 +122,7 @@ suspend fun getCachedVideoModel(context: Context?, linkToPlay: String) =
  * @return
  */
 private fun cursorToVideoModel(cursor: Cursor): VideoPreviewModel {
-    val model = VideoPreviewModel()
+    val model = VideoPreviewModel.Builder().build()
 
     model.url = cursor.getString(cursor.getColumnIndex(COLUMN_URL))
     model.videoTitle = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE))

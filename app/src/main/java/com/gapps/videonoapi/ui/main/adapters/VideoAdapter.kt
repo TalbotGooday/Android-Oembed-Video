@@ -7,15 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.gapps.library.api.VideoService
 import com.gapps.library.api.models.video.VideoPreviewModel
-import com.gapps.library.utils.getWidth
 import com.gapps.videonoapi.R
-import com.gapps.videonoapi.utils.extensions.*
-import com.gapps.videonoapi.utils.picasso.FitThumbnailTransformation
+import com.gapps.videonoapi.utils.extensions.collapse
+import com.gapps.videonoapi.utils.extensions.convertDpToPx
+import com.gapps.videonoapi.utils.extensions.expand
+import com.gapps.videonoapi.utils.extensions.toggleArrow
 import com.gapps.videonoapi.utils.recycler_view.MarginItemDecoration
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_video.view.*
 
 
@@ -80,27 +82,33 @@ class VideoAdapter(
 
             video_link.text = item
 
-            progress.visibleOrGone(isNeedToLoadData)
-            icon_drop_down.visibleOrGone(isNeedToLoadData.not())
-            video_preview_container.visibleOrGone(isVideoDataVisible)
-            text_preview.visibleOrGone(loadedDataItem?.videoTitle != null)
+            progress.isVisible = isNeedToLoadData
+            icon_drop_down.isVisible = isNeedToLoadData.not()
+            video_preview_container.isVisible = isVideoDataVisible
+            text_preview.isVisible = loadedDataItem?.videoTitle != null
 
             icon_drop_down.toggleArrow(isVideoDataVisible, 0)
 
             if (loadedDataItem == null) {
-                videoService.loadVideoPreview(item,
-                    { video ->
-                        loadedData.put(adapterPosition, video)
+                videoService.loadVideoPreview(
+                    url = item,
+                    onSuccess = { video ->
+                        loadedData.put(bindingAdapterPosition, video)
                         loadedDataItem = video
 
                         initVideoView(video)
                     },
-                    { url, error ->
-                        Log.e("MainActivity", "$error \n $url")
+                    onError = { url, errorMessage ->
+                        Log.e("MainActivity", "$errorMessage \n $url")
 
-                        val video = VideoPreviewModel.error(url, error)
+                        val video = VideoPreviewModel.Builder()
+                            .setUrl(url)
+                            .setVideoTitle("Not found")
+                            .setErrorMessage(errorMessage)
+                            .setThumbnailUrl("https://c.tenor.com/IHdlTRsmcS4AAAAM/404.gif")
+                            .build()
 
-                        loadedData.put(adapterPosition, video)
+                        loadedData.put(bindingAdapterPosition, video)
                         loadedDataItem = video
 
                         initVideoView(video)
@@ -113,45 +121,44 @@ class VideoAdapter(
                 loadedDataItem ?: return@setOnClickListener
 
                 val isExpanded = toggleLayoutExpand(
-                    (dataExpanded[adapterPosition] ?: false).not(),
+                    (dataExpanded[bindingAdapterPosition] ?: false).not(),
                     icon_drop_down,
                     video_preview_container
                 )
 
-                dataExpanded.put(adapterPosition, isExpanded)
-            }
-
-            video_preview_container.setOnClickListener {
-                val model = loadedDataItem ?: return@setOnClickListener
-
-                listener.onItemClick(model)
+                dataExpanded.put(bindingAdapterPosition, isExpanded)
             }
         }
 
         private fun initVideoView(video: VideoPreviewModel?) = with(itemView) {
             video ?: return
 
-            progress.gone()
-            icon_drop_down.visible()
-            text_preview.visibleOrGone(video.videoTitle.isNullOrBlank().not())
+            val isError = video.errorMessage.isNullOrBlank().not()
 
-            Picasso.get()
-                .load(video.thumbnailUrl)
-                .error(R.drawable.image_shop_1)
-                .transform(
-                    FitThumbnailTransformation(
-                        context.getWidth(
-                            context.resources.getDimensionPixelSize(
-                                com.gapps.library.R.dimen.vna_bv_dialog_width
-                            )
-                        )
-                    )
-                )
-                .into(image_preview)
+            progress.isVisible = false
+            icon_drop_down.isVisible = true
+            text_preview.isVisible = video.videoTitle.isNullOrBlank().not()
+
+            image_preview.load(video.thumbnailUrl) {
+                placeholder(R.drawable.image_shop_1)
+                error(R.drawable.image_shop_1)
+            }
 
             text_preview.text = video.videoTitle
 
+            image_play.isVisible = isError.not()
+
             setVideoHostingLogo(video_host_logo, video.videoHosting)
+
+            if (isError) {
+                video_preview_container.setOnClickListener(null)
+            } else {
+                video_preview_container.setOnClickListener {
+                    val model = loadedDataItem ?: return@setOnClickListener
+
+                    listener.onItemClick(model)
+                }
+            }
         }
 
         private fun toggleLayoutExpand(show: Boolean, arrowView: View, layout: View): Boolean {

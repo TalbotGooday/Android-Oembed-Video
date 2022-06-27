@@ -12,7 +12,7 @@ import com.gapps.library.api.VideoService
 import com.gapps.library.utils.patterns.PatternVideoLinksBuilder
 import com.gapps.library.utils.findVideos
 import com.gapps.videonoapi.R
-import com.gapps.videonoapi.video_utils.abraira.UltimediaVideoInfoModel
+import com.gapps.videonoapi.video_utils.ultimedia.UltimediaVideoInfoModel
 import com.gapps.videonoapi.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_text.*
 import okhttp3.OkHttpClient

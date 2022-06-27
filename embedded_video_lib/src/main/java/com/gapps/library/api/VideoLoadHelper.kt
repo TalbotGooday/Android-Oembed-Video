@@ -2,11 +2,12 @@ package com.gapps.library.api
 
 import android.content.Context
 import android.util.Log
-import com.gapps.library.api.models.api.base.VideoInfoModel
+import com.gapps.library.api.models.api.builder.EmbeddingRequest
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.api.models.video.base.BaseVideoResponse
 import com.gapps.library.cache.getCachedVideoModel
 import com.gapps.library.cache.insertModel
+import com.gapps.library.utils.errors.ERROR_1
 import com.gapps.library.utils.errors.ERROR_2
 import com.gapps.library.utils.errors.ERROR_3
 import com.google.gson.GsonBuilder
@@ -22,8 +23,9 @@ internal class VideoLoadHelper(
     private val context: Context?,
     private val client: OkHttpClient,
     private val isCacheEnabled: Boolean,
-    private val isLogEnabled: Boolean,
+    private val isLogEnabled: Boolean
 ) : CoroutineScope {
+
     override val coroutineContext: CoroutineContext
         get() = SupervisorJob() + Dispatchers.Main
 
@@ -33,16 +35,24 @@ internal class VideoLoadHelper(
         .create()
 
     fun getVideoInfo(
-        originalUrl: String?,
-        videoInfoModel: VideoInfoModel<*>,
-        onSuccess: (VideoPreviewModel) -> Unit,
-        onError: (String, String) -> Unit,
+        requestModel: EmbeddingRequest,
+        onSuccess: (resultModel: VideoPreviewModel) -> Unit,
+        onError: (url: String, message: String) -> Unit,
     ) {
+        val videoInfoModel = requestModel.videoInfoModel
+        val originalUrl = requestModel.originalUrl
+
+        if (videoInfoModel == null) {
+            onError(originalUrl, ERROR_1)
+
+            return
+        }
+
         val finalUrl = videoInfoModel.getInfoUrl(originalUrl)
         val videoId = videoInfoModel.parseVideoId(originalUrl)
 
         if (finalUrl == null || videoId == null) {
-            onError.invoke(originalUrl ?: "null url", ERROR_3)
+            onError(originalUrl, ERROR_3)
 
             return
         }
@@ -50,22 +60,21 @@ internal class VideoLoadHelper(
         val playLink = videoInfoModel.getPlayLink(videoId)
 
         launch {
-            if (isCacheEnabled) {
-                if (context != null) {
-                    try {
+            try {
+                if (isCacheEnabled) {
+                    if (context != null) {
                         val model = getCachedVideoModel(context, playLink)
 
                         if (model != null) {
-                            onSuccess.invoke(model)
+                            onSuccess(model)
                             return@launch
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
                     }
                 }
-            }
-            try {
-                val jsonBody = makeCallGetBody(client, finalUrl)
+
+                val jsonBody = withContext(Dispatchers.IO) {
+                    makeCallGetBody(client, finalUrl)
+                }
 
                 if (isLogEnabled) {
                     Log.i(
@@ -75,12 +84,7 @@ internal class VideoLoadHelper(
                 }
 
                 if (jsonBody == null) {
-                    onSuccess.invoke(
-                        VideoPreviewModel.error(
-                            originalUrl,
-                            "$ERROR_2 \n---> Response is null"
-                        )
-                    )
+                    onError(originalUrl, "$ERROR_2 \n---> Response is null")
 
                     return@launch
                 }
@@ -93,35 +97,28 @@ internal class VideoLoadHelper(
                         videoId = videoId
                     )
 
-                onSuccess.invoke(result)
+                onSuccess(result)
 
                 try {
                     if (context != null && isCacheEnabled) {
                         insertModel(context, result)
                     }
                 } catch (e: Exception) {
-                    onError.invoke(
-                        originalUrl
-                            ?: "null url", "$ERROR_2\n---> ${e.localizedMessage}"
-                    )
+                    onError(originalUrl, "$ERROR_2\n---> ${e.localizedMessage}")
                 }
             } catch (e: Exception) {
-                onError.invoke(
-                    originalUrl ?: "null url",
-                    "$ERROR_2  !!! \n---> ${e.localizedMessage}"
-                )
+                onError(originalUrl, ERROR_3)
             }
         }
     }
 
-    @Suppress("BlockingMethodInNonBlockingContext")
-    private suspend fun makeCallGetBody(client: OkHttpClient, url: String) =
-        withContext(Dispatchers.IO) {
+    private fun makeCallGetBody(client: OkHttpClient, url: String): JsonElement? =
+        runBlocking {
             val response = client.newCall(Request.Builder().url(url).build()).execute()
-            val stringBody = response.body?.string() ?: return@withContext null
+            val stringBody = response.body?.string() ?: return@runBlocking null
             val jsonObject = parseString(stringBody)
 
-            return@withContext if (jsonObject.isJsonArray) {
+            return@runBlocking if (jsonObject.isJsonArray) {
                 jsonObject.asJsonArray[0]
             } else {
                 jsonObject

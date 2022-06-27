@@ -1,6 +1,6 @@
 package com.gapps.library.api.models.video
 
-class VideoPreviewModel() {
+class VideoPreviewModel private constructor() {
     var url: String? = null
     var videoTitle: String? = null
     var thumbnailUrl: String? = null
@@ -18,14 +18,28 @@ class VideoPreviewModel() {
         this.linkToPlay = linkToPlay
     }
 
-    companion object {
-        const val ERROR_404 = "Not found"
+    class Builder(private val model: VideoPreviewModel = VideoPreviewModel()) {
 
-        fun error(url: String?, message: String? = null) = VideoPreviewModel().apply {
-            this.url = url
+        fun setUrl(url: String) = apply { model.url = url }
+        fun setVideoTitle(videoTitle: String) = apply { model.videoTitle = videoTitle }
+        fun setThumbnailUrl(thumbnailUrl: String) = apply { model.thumbnailUrl = thumbnailUrl }
+        fun setVideoHosting(videoHosting: String) = apply { model.videoHosting = videoHosting }
+        fun setVideoId(videoId: String) = apply { model.videoId = videoId }
+        fun setLinkToPlay(linkToPlay: String) = apply { model.linkToPlay = linkToPlay }
+        fun setWidth(width: Int) = apply { model.width = width }
+        fun setHeight(height: Int) = apply { model.height = height }
+        fun setErrorMessage(errorMessage: String) = apply { model.errorMessage = errorMessage }
+
+        fun build(): VideoPreviewModel {
+            return model
+        }
+    }
+
+    companion object {
+        private const val ERROR_404 = "Not found"
+
+        fun error() = VideoPreviewModel().apply {
             this.videoTitle = ERROR_404
-            this.thumbnailUrl = "http://euonthemove.eu/wp-content/uploads/2017/05/no-video.jpg"
-            this.errorMessage = message
         }
     }
 }

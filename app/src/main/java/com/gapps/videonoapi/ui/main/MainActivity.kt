@@ -1,20 +1,20 @@
 package com.gapps.videonoapi.ui.main
 
-import android.content.*
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gapps.library.api.VideoService
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.utils.isVideoUrl
 import com.gapps.videonoapi.R
-import com.gapps.videonoapi.ui.text.TextActivity
-import com.gapps.videonoapi.ui.main.adapters.VideoAdapter
-import com.gapps.videonoapi.video_utils.abraira.UltimediaVideoInfoModel
 import com.gapps.videonoapi.ui.base.BaseActivity
-import com.gapps.videonoapi.utils.recycler_view.MarginItemDecoration
-import com.gapps.videonoapi.utils.scroll.ScrollListener
+import com.gapps.videonoapi.ui.main.adapters.VideoAdapter
+import com.gapps.videonoapi.ui.text.TextActivity
 import com.gapps.videonoapi.utils.extensions.alphaSmooth
 import com.gapps.videonoapi.utils.extensions.convertDpToPx
+import com.gapps.videonoapi.utils.recycler_view.MarginItemDecoration
+import com.gapps.videonoapi.utils.scroll.ScrollListener
+import com.gapps.videonoapi.video_utils.ultimedia.UltimediaVideoInfoModel
 import com.gapps.videonoapi.video_utils.youtube.MyYoutubeVideoInfoModel
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
@@ -67,8 +67,8 @@ class MainActivity : BaseActivity() {
         videoService = VideoService.build {
             with(this@MainActivity)
             httpClient(okHttpClient)
-            enableCache(true)
-            enableLog(false)
+            enableCache(false)
+            enableLog(true)
             withCustomVideoInfoModels(UltimediaVideoInfoModel(), MyYoutubeVideoInfoModel())
         }
     }
@@ -77,11 +77,16 @@ class MainActivity : BaseActivity() {
         videos_list.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             val videoAdapter =
-                VideoAdapter(this@MainActivity, videoService, object : VideoAdapter.Listener {
-                    override fun onItemClick(item: VideoPreviewModel) {
-                        showVideo(item)
+                VideoAdapter(
+                    context = this@MainActivity,
+                    videoService = videoService,
+                    listener = object : VideoAdapter.Listener {
+                        override fun onItemClick(item: VideoPreviewModel) {
+                            showVideo(item)
+                        }
                     }
-                })
+                )
+
             adapter = videoAdapter.apply {
                 swapData(getValidUrls())
             }
@@ -90,7 +95,7 @@ class MainActivity : BaseActivity() {
                 buttons_container.alphaSmooth(if (it) .1f else 1f)
             })
 
-            addItemDecoration(MarginItemDecoration(videoAdapter, top = false, bottom = true))
+//            addItemDecoration(MarginItemDecoration(videoAdapter, top = false, bottom = true))
         }
 
         text_test.setOnClickListener {

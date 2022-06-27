@@ -54,9 +54,11 @@
             android:id="@+id/image_preview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:background="#A6000000" />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_play"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
