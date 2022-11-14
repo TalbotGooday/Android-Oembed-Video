@@ -8,13 +8,13 @@ class StreamableVideoInfoModel : VideoInfoModel<StreamableResponse>() {
     override val baseUrl: String
         get() = "https://api.streamable.com"
     override val pattern: String
-        get() = "(?:http[s]?:\\/\\/)?(?:www)?\\.?streamable\\.com\\/([_a-zA-Z0-9]+)\\S*"
+        get() = STREAMABLE_PATTERN
     override val idPattern: String
         get() = pattern
     override val type: Class<StreamableResponse>
         get() = StreamableResponse::class.java
     override val hostingName: String
-        get() = "Streamable"
+        get() = STREAMABLE_HOST_NAME
 
     override fun getInfoUrl(incomingUrl: String?): String? {
         return "$baseUrl/oembed.json?$URL=$incomingUrl"

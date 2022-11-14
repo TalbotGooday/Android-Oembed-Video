@@ -2,10 +2,7 @@ package com.gapps.library.ui.bottom_menu
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
+import android.graphics.*
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,7 +16,7 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.ColorRes
+import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
@@ -35,9 +32,9 @@ import com.gapps.library.utils.getWidth
 class BottomVideoController private constructor(
     private val context: Context?,
     private val listener: Listener?,
-    @ColorRes private val titleColor: Int,
-    @ColorRes private val textColor: Int,
-    @ColorRes private val backgroundColor: Int,
+    @ColorInt private val titleColor: Int,
+    @ColorInt private val textColor: Int,
+    @ColorInt private val backgroundColor: Int,
     private val url: String?,
     private val titleText: String?,
     private val hostText: String?,
@@ -48,9 +45,9 @@ class BottomVideoController private constructor(
     @DrawableRes private val centerButtonIcon: Int,
     @StringRes private val leftButtonText: Int,
     @StringRes private val rightButtonText: Int,
-    @ColorRes private val leftButtonTextColor: Int,
-    @ColorRes private val rightButtonTextColor: Int,
-    @ColorRes private val centerButtonIconTint: Int
+    @ColorInt private val leftButtonTextColor: Int,
+    @ColorInt private val rightButtonTextColor: Int,
+    @ColorInt private val centerButtonIconTint: Int
 ) {
     companion object {
         var isVisible = false
@@ -110,19 +107,17 @@ class BottomVideoController private constructor(
         controlPanel.visibility = if (isBottomControlPanelVisible) View.VISIBLE else View.GONE
 
         title.apply {
-            this.setTextColor(ContextCompat.getColor(this.context, titleColor))
+            this.setTextColor(titleColor)
             this.text = titleText
         }
 
-        val textColorInt = ContextCompat.getColor(this.context, textColor)
-
         videoServiceType.apply {
-            this.setTextColor(textColorInt)
+            this.setTextColor(textColor)
             this.text = hostText
         }
 
         leftButton.apply {
-            this.setTextColor(ContextCompat.getColor(context, leftButtonTextColor))
+            this.setTextColor(leftButtonTextColor)
             this.setText(leftButtonText)
 
             this.setOnClickListener {
@@ -131,7 +126,7 @@ class BottomVideoController private constructor(
         }
 
         rightButton.apply {
-            this.setTextColor(ContextCompat.getColor(context, rightButtonTextColor))
+            this.setTextColor(rightButtonTextColor)
             this.setText(rightButtonText)
 
             this.setOnClickListener {
@@ -144,7 +139,7 @@ class BottomVideoController private constructor(
         centerButton.apply {
             this.setImageResource(centerButtonIcon)
             this.setColorFilter(
-                ContextCompat.getColor(context, centerButtonIconTint),
+                centerButtonIconTint,
                 PorterDuff.Mode.SRC_IN
             )
 
@@ -154,10 +149,10 @@ class BottomVideoController private constructor(
         }
 
         menuContainer.apply {
-            this.setBackgroundColor(ContextCompat.getColor(this.context, backgroundColor))
+            this.setBackgroundColor(backgroundColor)
         }
 
-        val outlineColor = ColorUtils.setAlphaComponent(textColorInt, (255 * .1).toInt())
+        val outlineColor = ColorUtils.setAlphaComponent(textColor, (255 * .1).toInt())
         controlPanelOutline.background.colorFilter =
             PorterDuffColorFilter(outlineColor, PorterDuff.Mode.SRC_IN)
 
@@ -178,7 +173,7 @@ class BottomVideoController private constructor(
         }
 
         videoView.apply {
-            setBackgroundColor(ContextCompat.getColor(this.context, backgroundColor))
+            setBackgroundColor(backgroundColor)
 
             layoutParams.apply {
                 this.width = videoViewWidth
@@ -265,16 +260,16 @@ class BottomVideoController private constructor(
         var listener: Listener? = null
             private set
 
-        @ColorRes
-        var titleColor = R.color.vna_color_video_title_text
+        @ColorInt
+        var titleColor = 0x1d1d26
             private set
 
-        @ColorRes
-        var textColor = R.color.vna_color_video_title_text
+        @ColorInt
+        var textColor = Color.parseColor("#80000000")
             private set
 
-        @ColorRes
-        var backgroundColor = android.R.color.white
+        @ColorInt
+        var backgroundColor = Color.WHITE
             private set
 
         var isBottomControlPanelVisible: Boolean = true
@@ -302,16 +297,16 @@ class BottomVideoController private constructor(
         var centerButtonIcon = R.drawable.ic_vna_content_copy
             private set
 
-        @ColorRes
-        var centerButtonIconTint = R.color.vna_color_video_title_text
+        @ColorInt
+        var centerButtonIconTint = 0x1d1d26
             private set
 
-        @ColorRes
-        var rightButtonTextColor = R.color.vna_color_video_title_text
+        @ColorInt
+        var rightButtonTextColor = 0x1d1d26
             private set
 
-        @ColorRes
-        var leftButtonTextColor = R.color.vna_color_video_title_text
+        @ColorInt
+        var leftButtonTextColor = 0x1d1d26
             private set
 
         @StringRes
@@ -334,16 +329,16 @@ class BottomVideoController private constructor(
         fun setListener(listener: Listener) = apply { this.listener = listener }
 
         //Theme
-        fun setTitleColor(@ColorRes color: Int) = apply { this.titleColor = color }
-        fun setTextColor(@ColorRes color: Int) = apply { this.textColor = color }
-        fun setLeftButtonTextColor(@ColorRes color: Int) =
+        fun setTitleColor(@ColorInt color: Int) = apply { this.titleColor = color }
+        fun setTextColor(@ColorInt color: Int) = apply { this.textColor = color }
+        fun setLeftButtonTextColor(@ColorInt color: Int) =
             apply { this.leftButtonTextColor = color }
 
-        fun setRightButtonTextColor(@ColorRes color: Int) =
+        fun setRightButtonTextColor(@ColorInt color: Int) =
             apply { this.rightButtonTextColor = color }
 
-        fun setBackgroundColor(@ColorRes color: Int) = apply { this.backgroundColor = color }
-        fun setCenterButtonIconTint(@ColorRes color: Int) =
+        fun setBackgroundColor(@ColorInt color: Int) = apply { this.backgroundColor = color }
+        fun setCenterButtonIconTint(@ColorInt color: Int) =
             apply { this.centerButtonIconTint = color }
 
         fun setCenterButtonIcon(@DrawableRes resource: Int) =

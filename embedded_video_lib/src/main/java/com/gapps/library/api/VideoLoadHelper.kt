@@ -41,6 +41,7 @@ internal class VideoLoadHelper(
     ) {
         val videoInfoModel = requestModel.videoInfoModel
         val originalUrl = requestModel.originalUrl
+        val headers = requestModel.requestHeaders
 
         if (videoInfoModel == null) {
             onError(originalUrl, ERROR_1)
@@ -73,7 +74,7 @@ internal class VideoLoadHelper(
                 }
 
                 val jsonBody = withContext(Dispatchers.IO) {
-                    makeCallGetBody(client, finalUrl)
+                    makeCallGetBody(client, finalUrl, headers)
                 }
 
                 if (isLogEnabled) {
@@ -112,9 +113,19 @@ internal class VideoLoadHelper(
         }
     }
 
-    private fun makeCallGetBody(client: OkHttpClient, url: String): JsonElement? =
+    private fun makeCallGetBody(
+        client: OkHttpClient,
+        url: String,
+        headers: Map<String, String>
+    ): JsonElement? =
         runBlocking {
-            val response = client.newCall(Request.Builder().url(url).build()).execute()
+            val requestBuilder = Request.Builder().url(url)
+
+            headers.entries.forEach { header ->
+                requestBuilder.addHeader(header.key, header.value)
+            }
+
+            val response = client.newCall(requestBuilder.build()).execute()
             val stringBody = response.body?.string() ?: return@runBlocking null
             val jsonObject = parseString(stringBody)
 

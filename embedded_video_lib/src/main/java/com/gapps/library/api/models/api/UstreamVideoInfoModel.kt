@@ -11,13 +11,13 @@ open class UstreamVideoInfoModel : VideoInfoModel<UstreamResponse>() {
 
     //https://regex101.com/r/E0PMAV/2
     override val pattern: String
-        get() = "(?:http[s]?:\\/\\/)?(?:www\\.)?ustream.(?:com|tv)\\/(?:recorded|embed|channel)\\/?(?:([0-9]+)|(\\S+))[^,;\\s]*"
+        get() = USTREAM_PATTERN
     override val idPattern: String
         get() = pattern
     override val type: Class<UstreamResponse>
         get() = UstreamResponse::class.java
     override val hostingName: String
-        get() = "Ustream"
+        get() = USTREAM_HOST_NAME
 
     override fun getInfoUrl(incomingUrl: String?): String? {
         incomingUrl ?: return null

@@ -13,13 +13,13 @@ open class LoomVideoInfoModel : VideoInfoModel<LoomResponse>() {
 
     //https://regex101.com/r/0TwCJy/1
     override val pattern: String
-        get() = "(?:http[s]?:\\/\\/)?(?:www)?\\.?(?:use)?loom\\.com\\/(?:share|default|api)\\/([_a-zA-Z0-9]+)\\S*"
+        get() = LOOM_PATTERN
     override val idPattern: String
         get() = pattern
     override val type: Class<LoomResponse>
         get() = LoomResponse::class.java
     override val hostingName: String
-        get() = "Loom"
+        get() = LOOM_HOST_NAME
 
     override fun getInfoUrl(incomingUrl: String?): String? {
         return "$baseUrl/v1/oembed?$FORMAT=$FORMAT_JSON&$URL=$incomingUrl"

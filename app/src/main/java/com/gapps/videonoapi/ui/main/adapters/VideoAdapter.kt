@@ -11,6 +11,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.gapps.library.api.VideoService
+import com.gapps.library.api.models.api.*
+import com.gapps.library.api.models.api.builder.EmbeddingRequest
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.videonoapi.R
 import com.gapps.videonoapi.utils.extensions.collapse
@@ -91,7 +93,7 @@ class VideoAdapter(
 
             if (loadedDataItem == null) {
                 videoService.loadVideoPreview(
-                    url = item,
+                    request = createRequestBuilder(item),
                     onSuccess = { video ->
                         loadedData.put(bindingAdapterPosition, video)
                         loadedDataItem = video
@@ -177,21 +179,21 @@ class VideoAdapter(
             type ?: return
 
             val icon = when (type) {
-                "YouTube" -> R.drawable.youtube
-                "YouTube Music" -> R.drawable.youtube_music
-                "Vimeo" -> R.drawable.vimeo
-                "Rutube" -> R.drawable.rutube
-                "Facebook" -> R.drawable.ic_fb
-                "Dailymotion" -> R.drawable.dailymotion
-                "Wistia" -> R.drawable.ic_wistia
-                "Vzaar" -> R.drawable.ic_vzaar
-                "Hulu" -> R.drawable.hulu
-                "Ustream" -> R.drawable.ibm
-                "Ted Talks" -> R.drawable.ted_talks
-                "Coub" -> R.drawable.ic_coub
-                "Ultimedia" -> R.drawable.ultimedia
-                "Streamable" -> R.drawable.streamable
-                "Loom" -> R.drawable.loom
+                YOUTUBE_HOST_NAME -> R.drawable.youtube
+                YOUTUBE_MUSIC_HOST_NAME -> R.drawable.youtube_music
+                VIMEO_HOST_NAME -> R.drawable.vimeo
+                RUTUBE_HOST_NAME -> R.drawable.rutube
+                FACEBOOK_HOST_NAME -> R.drawable.ic_fb
+                DAILYMOTION_HOST_NAME -> R.drawable.dailymotion
+                WISTIA_HOST_NAME -> R.drawable.ic_wistia
+                VZAAR_HOST_NAME -> R.drawable.ic_vzaar
+                HULU_HOST_NAME -> R.drawable.hulu
+                USTREAM_HOST_NAME -> R.drawable.ibm
+                TED_TALKS_HOST_NAME -> R.drawable.ted_talks
+                COUB_HOST_NAME -> R.drawable.ic_coub
+                ULTIMEDIA_HOST_NAME -> R.drawable.ultimedia
+                STREAMABLE_HOST_NAME -> R.drawable.streamable
+                LOOM_HOST_NAME -> R.drawable.loom
                 else -> R.drawable.ic_video
             }
 
@@ -201,5 +203,15 @@ class VideoAdapter(
 
     interface Listener {
         fun onItemClick(item: VideoPreviewModel)
+    }
+}
+
+fun createRequestBuilder(url: String) = EmbeddingRequest.build {
+    setUrl(url)
+    headers {
+        host(FACEBOOK_HOST_NAME) {
+            add("access_token", "2940857442908969|0733ab34586cc8a92080dc1b1d1e6971")
+            addAll(mapOf())
+        }
     }
 }

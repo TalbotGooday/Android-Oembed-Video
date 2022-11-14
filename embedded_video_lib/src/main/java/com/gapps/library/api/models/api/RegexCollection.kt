@@ -1,0 +1,18 @@
+package com.gapps.library.api.models.api
+
+const val COUB_PATTERN = "(?:http[s]?:\\/\\/)?(?:www)?\\.?coub\\.com\\/(?:embed|view|api)\\/([_a-zA-Z0-9]+)[^,;\\s]*"
+const val DAILYMOTION_PATTERN = "(?:http[s]?://)?(?:www\\.)?(?:(?:dailymotion\\.com(?:/embed)?/video)|dai\\.ly)/([a-zA-Z0-9]+)[^,;\\s]*"
+const val FACEBOOK_PATTERN = "(?:http[s]?:\\/\\/)?(?:www.|web.|m.)?(?:facebook|fb)?.com\\/(?:(?:video.php|watch)?\\?v=|.+\\/videos(?:\\/.+)?\\/)(\\d+)(?:\\S+)?"
+const val HULU_PATTERN = "(?:http[s]?:\\/\\/)?(?:www.)?hulu\\.(?:(?:com\\/\\S*(?:w(?:atch)?|eid)(?:\\/|=)?)|(?:tv\\/))?([a-zA-Z0-9]+)[^,;\\s]*"
+const val LOOM_PATTERN = "(?:http[s]?:\\/\\/)?(?:www)?\\.?(?:use)?loom\\.com\\/(?:share|default|api)\\/([_a-zA-Z0-9]+)\\S*"
+const val RUTUBE_PATTERN = "(?:http[s]?://)(?:w{3})?(?:player\\.)?rutube\\.ru/video/(?:embed/)?([A-Za-z0-9]+)[^,\\s]*"
+const val STREAMABLE_PATTERN = "(?:http[s]?:\\/\\/)?(?:www)?\\.?streamable\\.com\\/([_a-zA-Z0-9]+)\\S*"
+const val TED_TALKS_PATTERN = "(?:http[s]?:\\/\\/)?(?:www|embed)?\\.?ted\\.com\\/talks\\/([_a-zA-Z0-9]+)[^,;\\s]*"
+const val TIKTOK_PATTERN = "(?:http[s]?:\\/\\/)(?:www.)?(?:m.)?youtu(?:be|.be)?(?:\\.com)?(?:(?:\\w*.?:\\/\\/)?\\w*.?\\w*-?.?\\w*\\/(?:embed|e|v|watch|.*\\/)?\\??(?:feature=\\w*\\.?\\w*)?&?(?:v=)?\\/?)([\\w\\d_-]{11})[^,;\\s]*"
+const val ULTIMEDIA_PATTERN = "(?:http[s]?:\\/\\/)?(?:www)?\\.?ultimedia\\.com\\/(?:deliver|default|api)\\/.*\\/([_a-zA-Z0-9]+)\\S*"
+const val USTREAM_PATTERN = "(?:http[s]?:\\/\\/)?(?:www\\.)?ustream.(?:com|tv)\\/(?:recorded|embed|channel)\\/?(?:([0-9]+)|(\\S+))[^,;\\s]*"
+const val VIMEO_PATTERN = "(?:http[s]?://)(?:w{3})?(?:player\\.)?vimeo\\.com/(?:[a-z]*/)*([0-9]{6,11})[^,;\\s]*"
+const val VZAAR_PATTERN = "(?:http[s]?://)?(?:.+)?vzaar.com/?(?:videos/)?([0-9]+)[^,;\\s]*"
+const val WISTIA_PATTERN = "(?:http[s]?:\\/\\/)?(?:.+)?(?:wistia\\.(?:com|net)|wi\\.st)\\/(?:medias|embed|series)\\/(?:iframe\\/?)?(?:\\S+\\?\\S*wvideoid=)?([a-zA-Z0-9]+)[^,;\\s]*"
+const val YOUTUBE_MUSIC_PATTERN = "(?:http[s]?:\\/\\/)(?:www.)?(?:m.)?music.youtu(?:be|.be)?(?:\\.com)?(?:(?:\\w*.?:\\/\\/)?\\w*.?\\w*-?.?\\w*\\/(?:embed|e|v|watch|.*\\/)?\\??(?:feature=\\w*\\.?\\w*)?&?(?:v=)?\\/?)([\\w\\d_-]{11})[^,;\\s]*"
+const val YOUTUBE_PATTERN = "(?:http[s]?:\\/\\/)(?:www.)?(?:m.)?youtu(?:be|.be)?(?:\\.com)?(?:(?:\\w*.?:\\/\\/)?\\w*.?\\w*-?.?\\w*\\/(?:embed|e|v|watch|.*\\/)?\\??(?:feature=\\w*\\.?\\w*)?&?(?:v=)?\\/?)([\\w\\d_-]{11})[^,;\\s]*"

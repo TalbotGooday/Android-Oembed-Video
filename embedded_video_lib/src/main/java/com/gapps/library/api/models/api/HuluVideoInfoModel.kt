@@ -12,13 +12,13 @@ open class HuluVideoInfoModel : VideoInfoModel<HuluResponse>() {
 
     //https://regex101.com/r/LORZgZ/2
     override val pattern: String
-        get() = "(?:http[s]?:\\/\\/)?(?:www.)?hulu\\.(?:(?:com\\/\\S*(?:w(?:atch)?|eid)(?:\\/|=)?)|(?:tv\\/))?([a-zA-Z0-9]+)[^,;\\s]*"
+        get() = HULU_PATTERN
     override val idPattern: String
         get() = pattern
     override val type: Class<HuluResponse>
         get() = HuluResponse::class.java
     override val hostingName: String
-        get() = "Hulu"
+        get() = HULU_HOST_NAME
 
     override fun getInfoUrl(incomingUrl: String?): String? {
         val id = parseVideoId(incomingUrl)

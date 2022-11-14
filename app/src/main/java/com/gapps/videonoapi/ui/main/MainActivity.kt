@@ -31,7 +31,7 @@ class MainActivity : BaseActivity() {
         "https://streamable.com/s0phr",
         "https://vimeo.com/259411563",
         "https://rutube.ru/video/d70e62b44b8893e98e3e90a6e2c9fcd4/?pl_type=source&amp;pl_id=18265",
-        "https://www.facebook.com/kinodizi/videos/965220097161488",
+        "https://www.facebook.com/watch?v=795751214848051",
         "https://www.dailymotion.com/video/x5sxbmb",
         "https://dave.wistia.com/medias/0k5h1g1chs/",
         "https://vzaar.com/videos/401431",

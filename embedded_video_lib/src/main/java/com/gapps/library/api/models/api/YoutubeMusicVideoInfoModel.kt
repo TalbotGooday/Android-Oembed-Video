@@ -10,13 +10,13 @@ open class YoutubeMusicVideoInfoModel : VideoInfoModel<YoutubeResponse>() {
     override val baseUrl: String
         get() = "https://www.youtube.com"
     override val pattern: String
-        get() = "(?:http[s]?:\\/\\/)(?:www.)?(?:m.)?music.youtu(?:be|.be)?(?:\\.com)?(?:(?:\\w*.?:\\/\\/)?\\w*.?\\w*-?.?\\w*\\/(?:embed|e|v|watch|.*\\/)?\\??(?:feature=\\w*\\.?\\w*)?&?(?:v=)?\\/?)([\\w\\d_-]{11})[^,;\\s]*"
+        get() = YOUTUBE_MUSIC_PATTERN
     override val idPattern: String
         get() = pattern
     override val type: Class<YoutubeResponse>
         get() = YoutubeResponse::class.java
     override val hostingName: String
-        get() = "YouTube Music"
+        get() = YOUTUBE_MUSIC_HOST_NAME
 
     override fun getInfoUrl(incomingUrl: String?): String? {
         val id = parseVideoId(incomingUrl)

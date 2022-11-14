@@ -8,13 +8,13 @@ open class WistiaVideoInfoModel : VideoInfoModel<WistiaResponse>() {
     override val baseUrl: String
         get() = "https://fast.wistia.net"
     override val pattern: String
-        get() = "(?:http[s]?:\\/\\/)?(?:.+)?(?:wistia\\.(?:com|net)|wi\\.st)\\/(?:medias|embed|series)\\/(?:iframe\\/?)?(?:\\S+\\?\\S*wvideoid=)?([a-zA-Z0-9]+)[^,;\\s]*"
+        get() = WISTIA_PATTERN
     override val idPattern: String
         get() = pattern
     override val type: Class<WistiaResponse>
         get() = WistiaResponse::class.java
     override val hostingName: String
-        get() = "Wistia"
+        get() = WISTIA_HOST_NAME
 
     override fun getInfoUrl(incomingUrl: String?): String? {
         incomingUrl ?: return null

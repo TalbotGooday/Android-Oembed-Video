@@ -10,13 +10,13 @@ open class RutubeVideoInfoModel : VideoInfoModel<RutubeResponse>() {
     override val baseUrl: String
         get() = "http://rutube.ru"
     override val pattern: String
-        get() = "(?:http[s]?://)(?:w{3})?(?:player\\.)?rutube\\.ru/video/(?:embed/)?([A-Za-z0-9]+)[^,\\s]*"
+        get() = RUTUBE_PATTERN
     override val idPattern: String
         get() = pattern
     override val type: Class<RutubeResponse>
         get() = RutubeResponse::class.java
     override val hostingName: String
-        get() = "Rutube"
+        get() = RUTUBE_HOST_NAME
 
     override fun getInfoUrl(incomingUrl: String?): String? {
         val id = parseVideoId(incomingUrl) ?: return null

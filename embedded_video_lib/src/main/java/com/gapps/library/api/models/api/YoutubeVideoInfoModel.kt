@@ -12,13 +12,13 @@ open class YoutubeVideoInfoModel : VideoInfoModel<YoutubeResponse>() {
 
     //https://regex101.com/r/nJzgG0/1
     override val pattern: String
-        get() = "(?:http[s]?:\\/\\/)(?:www.)?(?:m.)?youtu(?:be|.be)?(?:\\.com)?(?:(?:\\w*.?:\\/\\/)?\\w*.?\\w*-?.?\\w*\\/(?:embed|e|v|watch|.*\\/)?\\??(?:feature=\\w*\\.?\\w*)?&?(?:v=)?\\/?)([\\w\\d_-]{11})[^,;\\s]*"
+        get() = YOUTUBE_PATTERN
     override val idPattern: String
         get() = pattern
     override val type: Class<YoutubeResponse>
         get() = YoutubeResponse::class.java
     override val hostingName: String
-        get() = "YouTube"
+        get() = YOUTUBE_HOST_NAME
 
     override fun getInfoUrl(incomingUrl: String?): String? {
         val id = parseVideoId(incomingUrl)

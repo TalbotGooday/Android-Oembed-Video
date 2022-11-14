@@ -8,13 +8,13 @@ open class VzaarVideoInfoModel : VideoInfoModel<VzaarResponse>() {
     override val baseUrl: String
         get() = "https://app.vzaar.com"
     override val pattern: String
-        get() = "(?:http[s]?://)?(?:.+)?vzaar.com/?(?:videos/)?([0-9]+)[^,;\\s]*"
+        get() = VZAAR_PATTERN
     override val idPattern: String
         get() = pattern
     override val type: Class<VzaarResponse>
         get() = VzaarResponse::class.java
     override val hostingName: String
-        get() = "Vzaar"
+        get() = VZAAR_HOST_NAME
 
     override fun getInfoUrl(incomingUrl: String?): String? {
         val id = parseVideoId(incomingUrl) ?: return null

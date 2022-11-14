@@ -12,13 +12,13 @@ class UltimediaVideoInfoModel : VideoInfoModel<UltimediaResponse>() {
 
     //https://regex101.com/r/2AsrOc/1
     override val pattern: String
-        get() = "(?:http[s]?:\\/\\/)?(?:www)?\\.?ultimedia\\.com\\/(?:deliver|default|api)\\/.*\\/([_a-zA-Z0-9]+)\\S*"
+        get() = ULTIMEDIA_PATTERN
     override val idPattern: String
         get() = pattern
     override val type: Class<UltimediaResponse>
         get() = UltimediaResponse::class.java
     override val hostingName: String
-        get() = "Ultimedia"
+        get() = ULTIMEDIA_HOST_NAME
 
     override fun getInfoUrl(incomingUrl: String?): String? {
         return "$baseUrl/api/search/oembed?$FORMAT=$FORMAT_JSON&$URL=$incomingUrl"

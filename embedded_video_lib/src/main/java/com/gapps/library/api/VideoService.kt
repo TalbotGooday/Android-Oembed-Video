@@ -41,6 +41,9 @@ class VideoService private constructor(
             StreamableVideoInfoModel()
         )
 
+        val videoPatterns
+            get() = videoInfoModelsList.map { it.pattern }
+
         inline fun build(block: Builder.() -> Unit) = Builder().apply(block).build()
     }
 

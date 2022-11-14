@@ -9,13 +9,13 @@ open class TedTalksVideoInfoModel : VideoInfoModel<TedTalksResponse>() {
     override val baseUrl: String
         get() = "https://www.ted.com"
     override val pattern: String
-        get() = "(?:http[s]?:\\/\\/)?(?:www|embed)?\\.?ted\\.com\\/talks\\/([_a-zA-Z0-9]+)[^,;\\s]*"
+        get() = TED_TALKS_PATTERN
     override val idPattern: String
         get() = pattern
     override val type: Class<TedTalksResponse>
         get() = TedTalksResponse::class.java
     override val hostingName: String
-        get() = "Ted Talks"
+        get() = TED_TALKS_HOST_NAME
 
     override fun getInfoUrl(incomingUrl: String?): String? {
         return "$baseUrl/services/v1/oembed.$FORMAT_JSON?$URL=$incomingUrl"

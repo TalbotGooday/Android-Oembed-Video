@@ -11,7 +11,7 @@ open class CoubVideoInfoModel : VideoInfoModel<CoubResponse>() {
 
     //https://regex101.com/r/ZoQVLa/1
     override val pattern: String
-        get() = "(?:http[s]?:\\/\\/)?(?:www)?\\.?coub\\.com\\/(?:embed|view|api)\\/([_a-zA-Z0-9]+)[^,;\\s]*"
+        get() = COUB_PATTERN
 
     override val idPattern: String
         get() = pattern
@@ -20,7 +20,7 @@ open class CoubVideoInfoModel : VideoInfoModel<CoubResponse>() {
         get() = CoubResponse::class.java
 
     override val hostingName: String
-        get() = "Coub"
+        get() = COUB_HOST_NAME
 
     override fun getInfoUrl(incomingUrl: String?): String? {
         incomingUrl ?: return null
