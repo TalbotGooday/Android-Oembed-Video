@@ -1,0 +1,3 @@
+rootProject.name='Video No Api'
+include ':app'
+include ':embedded_video_lib'

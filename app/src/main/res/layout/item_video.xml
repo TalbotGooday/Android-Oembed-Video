@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/video_data_container"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?selectableItemBackground"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/video_host_logo"
+            style="@style/ItemIcon"
+            app:srcCompat="@drawable/ic_video" />
+
+        <TextView
+            android:id="@+id/video_link"
+            style="@style/ItemText"
+            android:layout_weight="1"
+            tools:text="https://www.youtube.com/watch?v=M4BSGZ07NNA" />
+
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icon_drop_down"
+                style="@style/ItemIcon"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_arrow_drop" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/video_preview_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_height="175dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:background="#A6000000" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_play"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_action_button_image"
+            android:padding="10dp"
+            app:srcCompat="@drawable/ic_play" />
+
+        <TextView
+            android:id="@+id/text_preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#A6000000"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="2"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            tools:text="Title will be here."
+            tools:visibility="visible" />
+    </FrameLayout>
+</LinearLayout>

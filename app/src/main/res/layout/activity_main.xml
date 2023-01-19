@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".ui.main.MainActivity">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/videos_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_video" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <FrameLayout
+        android:id="@+id/buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:id="@+id/collapse_all"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_gravity="start"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_action_button_image"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="20dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/ItemIcon"
+                android:rotation="180"
+                android:tint="@android:color/white"
+                app:srcCompat="@drawable/ic_arrow_drop" />
+
+            <TextView
+                style="@style/ItemText"
+                android:text="@string/collapse_all"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/text_test"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_action_button_image"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="8dp">
+
+            <TextView
+                style="@style/ItemText"
+                android:text="@string/text_test"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                style="@style/ItemIcon"
+                app:srcCompat="@drawable/ic_arrow_forward" />
+
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>

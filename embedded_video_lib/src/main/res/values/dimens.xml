@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="vna_large_text_space">10dp</dimen>
+    <dimen name="vna_bv_dialog_width">0dp</dimen>
+    <dimen name="vna_control_panel_height">48dp</dimen>
+    <dimen name="vna_copy_icon_size">35dp</dimen>
+    <dimen name="vna_copy_icon_margin">18dp</dimen>
+    <dimen name="vna_host_text_size">14sp</dimen>
+    <dimen name="vna_title_text_size">16sp</dimen>
+    <dimen name="vna_web_view_default_height">195dp</dimen>
+</resources>

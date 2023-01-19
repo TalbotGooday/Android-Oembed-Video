@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="VNAText">
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textDirection">locale</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="VNAText.Title">
+        <item name="android:textSize">@dimen/vna_title_text_size</item>
+    </style>
+
+    <style name="VNAText.Hosting">
+        <item name="android:textSize">@dimen/vna_host_text_size</item>
+    </style>
+</resources>
