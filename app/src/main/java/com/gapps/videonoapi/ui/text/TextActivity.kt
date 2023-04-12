@@ -9,12 +9,11 @@ import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.Toast
 import com.gapps.library.api.VideoService
-import com.gapps.library.utils.patterns.PatternVideoLinksBuilder
 import com.gapps.library.utils.findVideos
-import com.gapps.videonoapi.R
-import com.gapps.videonoapi.video_utils.ultimedia.UltimediaVideoInfoModel
+import com.gapps.library.utils.patterns.PatternVideoLinksBuilder
+import com.gapps.videonoapi.databinding.ActivityTextBinding
 import com.gapps.videonoapi.ui.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_text.*
+import com.gapps.videonoapi.video_utils.ultimedia.UltimediaVideoInfoModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
@@ -22,6 +21,7 @@ import java.util.concurrent.TimeUnit
 
 class TextActivity : BaseActivity() {
 
+    private lateinit var binding: ActivityTextBinding
     private lateinit var videoService: VideoService
 
     private val textString =
@@ -37,7 +37,8 @@ class TextActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_text)
+        binding = ActivityTextBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initService()
 
@@ -66,7 +67,7 @@ class TextActivity : BaseActivity() {
     private fun initViews() {
         initTextView(false)
 
-        clearLinks.setOnCheckedChangeListener { _, isChecked ->
+        binding.clearLinks.setOnCheckedChangeListener { _, isChecked ->
             initTextView(isChecked)
         }
     }
@@ -87,9 +88,11 @@ class TextActivity : BaseActivity() {
             )
         }
 
-        text.text = spannableString
-        text.movementMethod = LinkMovementMethod.getInstance()
-        text.highlightColor = Color.TRANSPARENT
+        binding.text.run {
+            text = spannableString
+            movementMethod = LinkMovementMethod.getInstance()
+            highlightColor = Color.TRANSPARENT
+        }
     }
 
     private fun loadVideoInfo(url: String) {

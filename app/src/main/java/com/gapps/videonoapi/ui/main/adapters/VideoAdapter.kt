@@ -15,12 +15,12 @@ import com.gapps.library.api.models.api.*
 import com.gapps.library.api.models.api.builder.EmbeddingRequest
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.videonoapi.R
+import com.gapps.videonoapi.databinding.ItemVideoBinding
 import com.gapps.videonoapi.utils.extensions.collapse
 import com.gapps.videonoapi.utils.extensions.convertDpToPx
 import com.gapps.videonoapi.utils.extensions.expand
 import com.gapps.videonoapi.utils.extensions.toggleArrow
 import com.gapps.videonoapi.utils.recycler_view.MarginItemDecoration
-import kotlinx.android.synthetic.main.item_video.view.*
 
 
 class VideoAdapter(
@@ -33,10 +33,10 @@ class VideoAdapter(
     private var data: MutableList<String> = mutableListOf()
     private val dataExpanded: SparseArray<Boolean> = SparseArray()
     private val loadedData: SparseArray<VideoPreviewModel?> = SparseArray()
-    private val inflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(inflater.inflate(R.layout.item_video, parent, false))
+        val inflater = LayoutInflater.from(context)
+        return Holder(ItemVideoBinding.inflate(inflater, parent, false))
     }
 
     override fun getItemCount() = data.size
@@ -73,23 +73,24 @@ class VideoAdapter(
         this.notifyDataSetChanged()
     }
 
-    inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class Holder(private val binding: ItemVideoBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         private var loadedDataItem: VideoPreviewModel? = null
 
-        fun bind(item: String, listener: Listener) = with(itemView) {
+        fun bind(item: String, listener: Listener) = with(binding) {
             loadedDataItem = loadedData[adapterPosition]
 
             val isVideoDataVisible = dataExpanded[adapterPosition] ?: false
             val isNeedToLoadData = loadedDataItem == null
 
-            video_link.text = item
+            videoLink.text = item
 
             progress.isVisible = isNeedToLoadData
-            icon_drop_down.isVisible = isNeedToLoadData.not()
-            video_preview_container.isVisible = isVideoDataVisible
-            text_preview.isVisible = loadedDataItem?.videoTitle != null
+            iconDropDown.isVisible = isNeedToLoadData.not()
+            videoPreviewContainer.isVisible = isVideoDataVisible
+            textPreview.isVisible = loadedDataItem?.videoTitle != null
 
-            icon_drop_down.toggleArrow(isVideoDataVisible, 0)
+            iconDropDown.toggleArrow(isVideoDataVisible, 0)
 
             if (loadedDataItem == null) {
                 videoService.loadVideoPreview(
@@ -119,43 +120,43 @@ class VideoAdapter(
                 initVideoView(loadedDataItem)
             }
 
-            video_data_container.setOnClickListener {
+            videoDataContainer.setOnClickListener {
                 loadedDataItem ?: return@setOnClickListener
 
                 val isExpanded = toggleLayoutExpand(
                     (dataExpanded[bindingAdapterPosition] ?: false).not(),
-                    icon_drop_down,
-                    video_preview_container
+                    iconDropDown,
+                    videoPreviewContainer
                 )
 
                 dataExpanded.put(bindingAdapterPosition, isExpanded)
             }
         }
 
-        private fun initVideoView(video: VideoPreviewModel?) = with(itemView) {
-            video ?: return
+        private fun initVideoView(video: VideoPreviewModel?) = with(binding) {
+            video ?: return@with
 
             val isError = video.errorMessage.isNullOrBlank().not()
 
             progress.isVisible = false
-            icon_drop_down.isVisible = true
-            text_preview.isVisible = video.videoTitle.isNullOrBlank().not()
+            iconDropDown.isVisible = true
+            textPreview.isVisible = video.videoTitle.isNullOrBlank().not()
 
-            image_preview.load(video.thumbnailUrl) {
+            imagePreview.load(video.thumbnailUrl) {
                 placeholder(R.drawable.image_shop_1)
                 error(R.drawable.image_shop_1)
             }
 
-            text_preview.text = video.videoTitle
+            textPreview.text = video.videoTitle
 
-            image_play.isVisible = isError.not()
+            imagePlay.isVisible = isError.not()
 
-            setVideoHostingLogo(video_host_logo, video.videoHosting)
+            setVideoHostingLogo(videoHostLogo, video.videoHosting)
 
             if (isError) {
-                video_preview_container.setOnClickListener(null)
+                videoPreviewContainer.setOnClickListener(null)
             } else {
-                video_preview_container.setOnClickListener {
+                videoPreviewContainer.setOnClickListener {
                     val model = loadedDataItem ?: return@setOnClickListener
 
                     listener.onItemClick(model)

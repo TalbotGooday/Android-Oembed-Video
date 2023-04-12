@@ -7,6 +7,7 @@ import com.gapps.library.api.VideoService
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.utils.isVideoUrl
 import com.gapps.videonoapi.R
+import com.gapps.videonoapi.databinding.ActivityMainBinding
 import com.gapps.videonoapi.ui.base.BaseActivity
 import com.gapps.videonoapi.ui.main.adapters.VideoAdapter
 import com.gapps.videonoapi.ui.text.TextActivity
@@ -16,7 +17,6 @@ import com.gapps.videonoapi.utils.recycler_view.MarginItemDecoration
 import com.gapps.videonoapi.utils.scroll.ScrollListener
 import com.gapps.videonoapi.video_utils.ultimedia.UltimediaVideoInfoModel
 import com.gapps.videonoapi.video_utils.youtube.MyYoutubeVideoInfoModel
-import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
@@ -24,6 +24,8 @@ import java.util.concurrent.TimeUnit
 class MainActivity : BaseActivity() {
 
     private lateinit var videoService: VideoService
+
+    private lateinit var binding: ActivityMainBinding
 
     private val videoUrls = listOf(
         "https://www.youtube.com/watch?v=M4BSGZ07NNA",
@@ -47,7 +49,8 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initService()
 
@@ -73,8 +76,8 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun initViews() {
-        videos_list.apply {
+    private fun initViews() = with(binding) {
+        videosList.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             val videoAdapter =
                 VideoAdapter(
@@ -92,22 +95,20 @@ class MainActivity : BaseActivity() {
             }
 
             addOnScrollListener(ScrollListener(convertDpToPx(100f)) {
-                buttons_container.alphaSmooth(if (it) .1f else 1f)
+                buttonsContainer.alphaSmooth(if (it) .1f else 1f)
             })
-
-//            addItemDecoration(MarginItemDecoration(videoAdapter, top = false, bottom = true))
         }
 
-        text_test.setOnClickListener {
-            startActivity(Intent(this, TextActivity::class.java))
+        textTest.setOnClickListener {
+            startActivity(Intent(this@MainActivity, TextActivity::class.java))
         }
 
-        collapse_all.setOnClickListener {
-            (videos_list.adapter as VideoAdapter).collapseAll()
+        collapseAll.setOnClickListener {
+            (videosList.adapter as VideoAdapter).collapseAll()
         }
 
         swiperefresh.setOnRefreshListener {
-            (videos_list.adapter as VideoAdapter).swapData(getValidUrls())
+            (videosList.adapter as VideoAdapter).swapData(getValidUrls())
             swiperefresh.isRefreshing = false
         }
     }
