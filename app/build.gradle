@@ -1,20 +1,21 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+}
 
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.gapps.videonoapi"
+        compileSdk 34
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -24,21 +25,32 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    namespace "com.gapps.videonoapi"
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.12.0'
 
-    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
 
     //Gson
     implementation(project(':embedded_video_lib'))
 
-    implementation 'androidx.recyclerview:recyclerview:1.3.0'
-    implementation("io.coil-kt:coil:2.3.0")
-    implementation("io.coil-kt:coil-gif:2.3.0")
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation("io.coil-kt:coil:2.5.0")
+    implementation("io.coil-kt:coil-gif:2.4.0")
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }

@@ -58,7 +58,8 @@ abstract class BaseActivity : AppCompatActivity() {
                 )
             )
             setProgressView(TextView(this@BaseActivity).apply {
-                text = "Loading"; setTextColor(-1)
+                text = "Loading"
+                setTextColor(-1)
             })
             show()
         }

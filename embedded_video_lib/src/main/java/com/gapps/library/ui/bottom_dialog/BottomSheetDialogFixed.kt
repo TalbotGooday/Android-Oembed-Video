@@ -21,8 +21,8 @@ class BottomSheetDialogFixed : BottomSheetDialog {
         super.onCreate(savedInstanceState)
 
         window?.run {
-            findViewById<View>(R.id.container)?.fitsSystemWindows = false
-            findViewById<View>(R.id.coordinator)?.fitsSystemWindows = false
+            findViewById<View>(com.google.android.material.R.id.container)?.fitsSystemWindows = false
+            findViewById<View>(com.google.android.material.R.id.coordinator)?.fitsSystemWindows = false
         }
 
         findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)?.let {

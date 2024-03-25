@@ -23,6 +23,7 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import com.gapps.library.R
 import com.gapps.library.ui.bottom_dialog.BottomSheetDialogFixed
@@ -109,11 +110,13 @@ class BottomVideoController private constructor(
         title.apply {
             this.setTextColor(titleColor)
             this.text = titleText
+            this.isVisible = titleText?.isNotEmpty() == true
         }
 
         videoServiceType.apply {
             this.setTextColor(textColor)
             this.text = hostText
+            this.isVisible = hostText?.isNotEmpty() == true
         }
 
         leftButton.apply {
