@@ -2,18 +2,19 @@ package com.gapps.videonoapi.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gapps.library.api.VideoService
 import com.gapps.library.api.models.video.VideoPreviewModel
 import com.gapps.library.utils.isVideoUrl
-import com.gapps.videonoapi.R
 import com.gapps.videonoapi.databinding.ActivityMainBinding
 import com.gapps.videonoapi.ui.base.BaseActivity
 import com.gapps.videonoapi.ui.main.adapters.VideoAdapter
 import com.gapps.videonoapi.ui.text.TextActivity
 import com.gapps.videonoapi.utils.extensions.alphaSmooth
 import com.gapps.videonoapi.utils.extensions.convertDpToPx
-import com.gapps.videonoapi.utils.recycler_view.MarginItemDecoration
 import com.gapps.videonoapi.utils.scroll.ScrollListener
 import com.gapps.videonoapi.video_utils.ultimedia.UltimediaVideoInfoModel
 import com.gapps.videonoapi.video_utils.youtube.MyYoutubeVideoInfoModel
@@ -51,6 +52,23 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars =
+            true
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            v.setPadding(
+                insets.left,
+                insets.top,
+                insets.right,
+                insets.bottom
+            )
+
+            // Return CONSUMED to prevent further propagation of insets to child views
+            windowInsets
+        }
 
         initService()
 

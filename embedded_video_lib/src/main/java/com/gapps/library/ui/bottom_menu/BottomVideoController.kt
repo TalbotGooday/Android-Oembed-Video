@@ -2,13 +2,15 @@ package com.gapps.library.ui.bottom_menu
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
-import android.os.Build
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -20,11 +22,11 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.toColorInt
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.core.view.updatePadding
 import com.gapps.library.R
 import com.gapps.library.ui.bottom_dialog.BottomSheetDialogFixed
 import com.gapps.library.utils.getHeightFromWidth
@@ -232,9 +234,6 @@ class BottomVideoController private constructor(
         bottomSheetDialog.apply {
             setContentView(menuView)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                window?.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            }
             setOnShowListener {
                 isVisible = true
             }
@@ -245,12 +244,17 @@ class BottomVideoController private constructor(
         }
 
 
-        ViewCompat.setOnApplyWindowInsetsListener(menuContainer) { view, insets ->
-            view?.apply {
-                setPadding(paddingLeft, paddingTop, paddingRight, insets.systemWindowInsetBottom)
-            }
+        ViewCompat.setOnApplyWindowInsetsListener(menuContainer) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
-            insets
+            v.setPadding(
+                insets.left,
+                insets.top,
+                insets.right,
+                insets.bottom
+            )
+
+            windowInsets
         }
     }
 
@@ -268,7 +272,7 @@ class BottomVideoController private constructor(
             private set
 
         @ColorInt
-        var textColor = Color.parseColor("#80000000")
+        var textColor = "#80000000".toColorInt()
             private set
 
         @ColorInt

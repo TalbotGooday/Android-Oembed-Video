@@ -11,4 +11,5 @@
     <string name="refresh">Refresh</string>
     <string name="text_test">Text test</string>
     <string name="collapse_all">Collapse all</string>
+    <string name="clear_links">Clear links</string>
 </resources>

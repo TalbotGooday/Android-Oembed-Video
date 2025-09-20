@@ -23,7 +23,8 @@
             android:id="@+id/video_link"
             style="@style/ItemText"
             android:layout_weight="1"
-            tools:text="https://www.youtube.com/watch?v=M4BSGZ07NNA" />
+            tools:text="https://www.youtube.com/watch?v=M4BSGZ07NNA"
+            android:layout_width="0dp" />
 
         <FrameLayout
             android:layout_width="48dp"
